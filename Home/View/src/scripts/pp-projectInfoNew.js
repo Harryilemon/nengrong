@@ -184,8 +184,7 @@ $(function() {
    			"contacts_name": "required",
    			"contacts_phone": {
    				"required": true,
-				"mobile": true
-
+				"mobileOrPhone": true // 手机或座机
    			},
    			"contacts_email": {
    				"required": true,
@@ -317,7 +316,7 @@ $(function() {
 			"contacts_name": "请填写项目联系人",
 			"contacts_phone": {
    				"required": "请填写联系方式",
-				"mobile": "联系人手机号格式不对"
+				"mobileOrPhone": "联系方式格式不对"
    			},
    			"contacts_email": {
    				"required": "请填写联系人邮件地址",
