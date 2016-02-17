@@ -224,35 +224,35 @@ class UserController extends Controller
         }
     }
 
-    public function test1(){
-        $qianqiang = M('qian');
-        $data['id'] = NULL;
-        $data['int'] = "";
-        $data['double'] = "";
-        $data['varchar'] = NULL;
-        $data['datetime'] = "";
-        $qianqiang->add($data);
-        echo "sucess";
+    // public function test1(){
+    //     $qianqiang = M('qian');
+    //     $data['id'] = NULL;
+    //     $data['int'] = "";
+    //     $data['double'] = "";
+    //     $data['varchar'] = NULL;
+    //     $data['datetime'] = "";
+    //     $qianqiang->add($data);
+    //     echo "sucess";
 
-        // $investors = '123,456,789,';
-        // $newstr = substr($investors,0,strlen($investors)-1); 
-        // $investorList = explode(",",$newstr);
-        // dump($investorList);exit;
+    //     // $investors = '123,456,789,';
+    //     // $newstr = substr($investors,0,strlen($investors)-1); 
+    //     // $investorList = explode(",",$newstr);
+    //     // dump($investorList);exit;
 
-        // $area = D("Area", "Service");
-        // $res = $area->getAreaArrayByHighLevelId("130000");
-        // header('Content-Type: text/html; charset=utf-8');
-        // dump($res);
+    //     // $area = D("Area", "Service");
+    //     // $res = $area->getAreaArrayByHighLevelId("130000");
+    //     // header('Content-Type: text/html; charset=utf-8');
+    //     // dump($res);
         
-        // $User = M("User");
-        // $email = $User->where('id=3 and password=123')->getField('email');
-        // echo json_encode($email);
-        // $list = $User->getField('id,email');
-        // dump($list);
-        // echo json_encode(sizeof($list));
-        // $news = M('news');
-        // $new = $news->select(1);
-        // echo json_encode($new);
-    }
+    //     // $User = M("User");
+    //     // $email = $User->where('id=3 and password=123')->getField('email');
+    //     // echo json_encode($email);
+    //     // $list = $User->getField('id,email');
+    //     // dump($list);
+    //     // echo json_encode(sizeof($list));
+    //     // $news = M('news');
+    //     // $new = $news->select(1);
+    //     // echo json_encode($new);
+    // }
 
 }

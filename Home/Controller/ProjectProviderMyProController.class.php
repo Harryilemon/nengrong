@@ -448,7 +448,7 @@ class ProjectProviderMyProController extends Controller {
             }
 
             //最后项目提交后，更新成最后的编号，涉及到enf_project和enf_pushproject表
-            if($optype == "submit")
+            if($optype == "submit" || $optype == "save")
             {
                 $objUser  = D("User","Service");
                 $userInfo = $objUser->getUserINfoByEmail($email);

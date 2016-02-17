@@ -57,6 +57,11 @@
 	height: 24px;
 }
 
+.md .lb {
+	display: inline-block;
+	width: 110px;
+}
+
 .md button {
 	margin: 20px auto 20px auto;
 	border-radius: 5px;

@@ -60,14 +60,10 @@ class AdminController extends Controller
         if($_POST['rtype'] == 1 || $_GET['rtype'] == 1){
             isAdminLogin($_COOKIE['adminName'],$_COOKIE['mAdminName']);
 
-            $userName = $_COOKIE['userName'];
+            $userName = $_COOKIE['adminName'];
             $pwd = $_POST['password'];
             $newPwd = $_POST['newPwd'];
             $confirmNewPwd = $_POST['confirmNewPwd'];
-            // $userName = "admin1";
-            // $pwd = "admin1";
-            // $newPwd = "admin1";
-            // $confirmNewPwd = "admin1";
             if (empty($pwd) || empty($newPwd) || empty($confirmNewPwd)) {
                 echo '{"code":"-1","msg":"新旧密码为空"}';
                 exit;
