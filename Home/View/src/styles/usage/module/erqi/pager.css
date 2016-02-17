@@ -1,22 +1,65 @@
-.r-content .pager {
+@charset "utf-8";      
+/*.pagination a {
+    text-decoration: none;
+	border: 1px solid #AAE;
+	color: #15B;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 0.1em 0.4em;
+    margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.pagination .current {
+    background: #26B;
+    color: #fff;
+	border: 1px solid #AAE;
+}
+
+.pagination .current.prev, .pagination .current.next{
+	color:#999;
+	border-color:#999;
+	background:#fff;
+}*/
+
+/*********************************************************/
+
+.r-content .pagination {
+	display: none;
 	text-align: right;
 	padding: 20px 0 10px 0;
 }
 
-.r-content .pager span {
-	display: inline-block;
-	line-height: 30px;
+.r-content .pagination a, .r-content .pagination span {
+    display: inline-block;
+    line-height: 30px;
 	padding: 0 10px;
 	height: 30px;
 	text-align: center;
 	margin-left: 4px;
-	border: 1px solid #ccc;
-	color: #f67d00;
-	cursor: pointer;
 }
 
-.r-content .pager span.active {
+.r-content .pagination a {
+	border: 1px solid #ccc;
+	color: #f67d00;
+	text-decoration: none;
+	/*cursor: pointer;*/
+}
+
+.r-content .pagination a:hover {
+	text-decoration: underline;
+}
+
+.r-content .pagination .current {
 	color: #5A5757;
 	border: none;
 	cursor: default;
+}
+
+.r-content .pagination .current.prev, .pagination .current.next{
+	color: #999;
+	border-color:#999;
+	background:#fff;
 }
