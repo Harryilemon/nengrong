@@ -42,16 +42,21 @@ $(function() {
 	};
 	  
 	function beforeSubmit(formData, jqForm, options) {
+		$.loading("正在保存，请稍侯");
 	   	return true;
 	}
 
 	function successCallback(data) {
-		if(data.code == "0") {
-			alert("保存成功！");
-			location.href="?c=ProjectProviderMyPro&a=awaitingAssessment";
-		} else {
-			alert(data.msg || "保存失败！");
-		}
+		var takeTime = new Date().getTime() - $._loadingDialog.timeStamp;
+		setTimeout(function() {
+			$.closeLoading();
+			if(data.code == "0") {
+				alert("保存成功！");
+				location.href="?c=ProjectProviderMyPro&a=awaitingAssessment";
+			} else {
+				alert(data.msg || "保存失败！");
+			}
+		}, takeTime > 1000 ? 0 : 1000 - takeTime);
 	}
 
 	$form = $("#infoForm");
@@ -74,9 +79,9 @@ $(function() {
 			}
 		},
 		errorClass: 'validate-error',
-		focusInvalid: false,
+		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			$form.ajaxSubmit(options);

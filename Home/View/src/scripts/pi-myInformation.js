@@ -49,9 +49,9 @@ $(function() {
 			}
 		},
 		errorClass: 'validate-error',
-		focusInvalid: false,
+		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			$form.ajaxSubmit(options);
