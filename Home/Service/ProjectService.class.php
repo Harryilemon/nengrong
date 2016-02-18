@@ -317,9 +317,9 @@ class ProjectService extends Model{
         $condition["delete_flag"] = array('neq',9999);
         $pushPro = M('Pushproject');
         if($page == -1){
-            $pushProInfo = $pushPro->where($condition)->order('highlight_flag desc, push_time desc')->select();
+            $pushProInfo = $pushPro->where($condition)->order('highlight_flag desc, push_time desc, id asc')->select();
         }else{
-            $pushProInfo = $pushPro->where($condition)->order('highlight_flag desc, push_time desc')->page($page, 6)->select();
+            $pushProInfo = $pushPro->where($condition)->order('highlight_flag desc, push_time desc, id asc')->page($page, 6)->select();
         }
         $projectInfo = $this->getProTypeListFromPushPro($pushProInfo);
         $projectList = $this->formatProject($projectInfo);
@@ -349,7 +349,7 @@ class ProjectService extends Model{
 
     /**
     **@auth qianqiang
-    **@breif 将项目列表中的信息规范化显示,添加加密后的项目编码、中文状态、中文项目类型
+    **@breif 将项目列表中的信息规范化显示,添加加密后的项目编码、中文状态、中文项目类型、规范时间、规范位置、没有项目名称的补充项目名称
     **@date 2015.12.30
     **/ 
     public function formatProject($projectList){
@@ -412,7 +412,10 @@ class ProjectService extends Model{
                 $proDetails = $proObj->where($condition2)->find();
                 $areaObj = D('Area', 'Service');
                 $areaStr = $areaObj->getAreaById($proDetails['project_area']);
+                //项目位置
                 $projectList[$i]['area'] = $areaStr.$proDetails['project_address'];
+                //项目名称
+                $projectList[$i]['project_name'] = $proDetails['project_name'];
             }else{
                 $condition['project_id'] = $projectList[$i]['id'];
                 $condition['status'] = $projectList[$i]['status'];
@@ -420,7 +423,10 @@ class ProjectService extends Model{
                 $proDetails = $proObj->where($condition)->find();
                 $areaObj = D('Area', 'Service');
                 $areaStr = $areaObj->getAreaById($proDetails['project_area']);
+                //项目位置
                 $projectList[$i]['area'] = $areaStr.$proDetails['project_address'];
+                //项目名称
+                $projectList[$i]['project_name'] = $proDetails['project_name'];
             }
 
             $i += 1;
@@ -814,9 +820,9 @@ class ProjectService extends Model{
     public function getProjectsInfo($condition, $page=-1, $pageSize=6){
         $objProject = new \Home\Model\ProjectModel(); 
         if($page == -1){
-            $projectInfo = $objProject->where($condition)->order('highlight_flag desc, create_date desc')->select();
+            $projectInfo = $objProject->where($condition)->order('highlight_flag desc, create_date desc, id asc')->select();
         }else{
-            $projectInfo = $objProject->where($condition)->page($page, $pageSize)->order('highlight_flag desc, create_date desc')->select();
+            $projectInfo = $objProject->where($condition)->page($page, $pageSize)->order('highlight_flag desc, create_date desc, id asc')->select();
         }
         return $projectInfo;
     }
@@ -1024,13 +1030,13 @@ class ProjectService extends Model{
             $pageSize = 6;
             $start = ($page-1)*$pageSize;
             if($projectSql != ""){
-                $projectSql = $projectSql." order by highlight_flag desc, create_date desc"." limit ".$start.",".$pageSize;
+                $projectSql = $projectSql." order by highlight_flag desc, create_date desc, id asc"." limit ".$start.",".$pageSize;
             }
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." order by highlight_flag desc, create_date desc"." limit ".$start.",".$pageSize;
+                $housetopSql = $housetopSql." order by highlight_flag desc, create_date desc, id asc"." limit ".$start.",".$pageSize;
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." order by highlight_flag desc, create_date desc"." limit ".$start.",".$pageSize;
+                $groundSql = $groundSql." order by highlight_flag desc, create_date desc, id asc"." limit ".$start.",".$pageSize;
             }
         }
         

@@ -396,7 +396,7 @@ class UserService extends Model{
     **/
 	public function getAllCompanyName(){
 		$userObj = M('User');
-		$sql = "select distinct company_name from enf_user where company_name is not null and company_name != '' and user_type=3;";
+		$sql = "select distinct company_name from enf_user where company_name is not null and company_name != '' and user_type=3 and delete_flag=0;";
 		$companyName = $userObj->query($sql);
 		return $companyName;
 	}
