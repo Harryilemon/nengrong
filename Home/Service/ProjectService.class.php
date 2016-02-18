@@ -349,7 +349,7 @@ class ProjectService extends Model{
 
     /**
     **@auth qianqiang
-    **@breif 将项目列表中的信息规范化显示,添加加密后的项目编码、中文状态、中文项目类型
+    **@breif 将项目列表中的信息规范化显示,添加加密后的项目编码、中文状态、中文项目类型、规范时间、规范位置、没有项目名称的补充项目名称
     **@date 2015.12.30
     **/ 
     public function formatProject($projectList){
@@ -412,7 +412,10 @@ class ProjectService extends Model{
                 $proDetails = $proObj->where($condition2)->find();
                 $areaObj = D('Area', 'Service');
                 $areaStr = $areaObj->getAreaById($proDetails['project_area']);
+                //项目位置
                 $projectList[$i]['area'] = $areaStr.$proDetails['project_address'];
+                //项目名称
+                $projectList[$i]['project_name'] = $proDetails['project_name'];
             }else{
                 $condition['project_id'] = $projectList[$i]['id'];
                 $condition['status'] = $projectList[$i]['status'];
@@ -420,7 +423,10 @@ class ProjectService extends Model{
                 $proDetails = $proObj->where($condition)->find();
                 $areaObj = D('Area', 'Service');
                 $areaStr = $areaObj->getAreaById($proDetails['project_area']);
+                //项目位置
                 $projectList[$i]['area'] = $areaStr.$proDetails['project_address'];
+                //项目名称
+                $projectList[$i]['project_name'] = $proDetails['project_name'];
             }
 
             $i += 1;
