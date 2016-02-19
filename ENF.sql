@@ -27,6 +27,8 @@ drop table if exists enf_component;
 
 drop table if exists enf_inverter;
 
+drop table if exists enf_log;
+
 /*==============================================================*/
 /* Table: enf_Area                                              */
 /*==============================================================*/
@@ -126,10 +128,10 @@ create table enf_ground
    electricity_data     double default null comment '历史发电量',
    project_holder_type  int comment '项目支架类型（1地面固定式、2单轴、3双轴）',
    ground_project_type  int comment '项目类型（1地面、2农光互补、3鱼光互补）',
-   project_industry     varchar(10) default null comment '行业（X工业、C商业、A农业，R居民，F鱼光互补，X其他）',
+   project_industry     varchar(10) default null comment '行业（X工业、C商业、A农业，R居民，F鱼光互补，X其他）或 自发自用用电分类（I大工业,C一般工商业,A农业,R居民,X其他）',
    cooperation_type     varchar(30) default null comment '与能融网合作方式（1EPC、2申请融资、3推介项目、4转让）',
    plan_financing       double default null comment '拟融资金额',
-   financing_type       int comment '融资方式（1融资租赁（直租）、2融资租赁（回租）、3股权融资）',
+   financing_type       int comment '融资方式（0其他、1融资租赁（直租）、2融资租赁（回租）、3股权融资）',
    company_invest       double default null comment '单位投资',
    company_EPC          varchar(100) default null comment 'EPC厂家',
    capacity_level       varchar(50) default null comment '资质等级',
@@ -200,12 +202,12 @@ create table enf_housetop
    transformer_capacity double default null comment '上级变压器容量',
    voltage_level        double default null comment '并网电压等级',
    synchronize_type     int comment '并网方式（1全部自发自用、2全额上网、3自发自用，余额上网）',
-   project_industry     varchar(10) comment '行业（X工业、C商业、A农业，R居民，F鱼光互补，X其他）',
+   project_industry     varchar(10) comment '行业（X工业、C商业、A农业，R居民，F鱼光互补，X其他）或 自发自用用电分类（I大工业,C一般工商业,A农业,R居民,X其他）',
    electricity_distance double default null comment '电网接入点距离',
    plan_build_volume    double default null comment '拟建设容量',
    cooperation_type     varchar(30) comment '与能融网合作方式:1EPC、2申请融资、3推介项目、4转让',
    plan_financing       double default null comment '拟融资金额',
-   financing_type       int comment '融资方式（1融资租赁（直租）、2融资租赁（回租）、3股权融资）',
+   financing_type       int comment '融资方式（0其他、1融资租赁（直租）、2融资租赁（回租）、3股权融资）',
    company_invest       double default null comment '单位投资',
    company_EPC          varchar(100) default null comment 'EPC厂家',
    capacity_level       varchar(50) default null comment '资质等级',
@@ -335,7 +337,7 @@ create table enf_component
    project_id           bigint not null comment '项目id',
    component_company    varchar(100) comment '组件厂家',
    component_type       varchar(100) comment '组件规格型号',
-   component_count     int default 0 comment '组件数量',
+   component_count      int default 0 comment '组件数量',
    create_date          datetime comment '创建时间',
    change_date          datetime comment '修改时间',
    delete_flag int not null default 0 comment '删除标记：0正常、9999删除',
@@ -354,7 +356,7 @@ create table enf_inverter
    project_id           bigint not null comment '项目id',
    inverter_company     varchar(100) comment '逆变器厂家',
    inverter_type        varchar(100) comment '逆变器规格型号',
-   inverter_count     int default 0 comment '逆变器数量',
+   inverter_count       int default 0 comment '逆变器数量',
    create_date          datetime comment '创建时间',
    change_date          datetime comment '修改时间',
    delete_flag int not null default 0 comment '删除标记：0正常、9999删除',
@@ -363,4 +365,21 @@ create table enf_inverter
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 alter table enf_inverter comment '逆变器表';
+
+/*==============================================================*/
+/* Table: enf_log                                           */
+/*==============================================================*/
+create table enf_log
+(
+   id                   bigint not null auto_increment,
+   project_id           bigint not null comment '项目id',
+   user_id              bigint not null comment '用户id',
+   user_name            varchar(20) comment '操作员名称',
+   log_text             varchar(200) comment '操作内容',
+   create_date          datetime comment '创建时间',
+   primary key (id),
+   INDEX `log_project` (`project_id`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+alter table enf_log comment '日志表,记录业务员操作内容';
 

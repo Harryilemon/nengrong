@@ -1662,6 +1662,28 @@ class InnerStaffController extends Controller {
 
     /**
     **@auth qianqiang
+    **@breif 客服->日志操作
+    **@date 2016.2.19
+    **/
+    public function log(){
+        isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
+        authentication($_COOKIE['email'], 2);
+        $projectCode = $_POST['no'] ? $_POST['no']:$_GET['no'];
+        $mProjectCode = $_POST['token'] ? $_POST['token']:$_GET['token'];
+        isProjectCodeRight($projectCode, $mProjectCode);
+        $logObj = D("Log","Service");
+        $data = $logObj->getAllLogs($projectCode);
+        if($_GET['display']=="json"){
+            header('Content-Type: text/html; charset=utf-8');
+            dump($data);
+            exit;
+        }
+        $this->assign("arrData", $data);
+        $this->display("InnerStaff:log");
+    }
+
+    /**
+    **@auth qianqiang
     **@breif 客服->综合查询
     **@date 2016.1.8
     **/
@@ -1711,18 +1733,26 @@ class InnerStaffController extends Controller {
             }
         }else{
             $companyName = $_GET['company_name'];
+            $companyNameOther = $_GET['company_name_other'];//其他公司名称
+            $projectName = $_GET['project_name'];
+            $projectCode = $_GET['project_code'];
             $companyType = $_GET['project_type'];
-            $situation = $_GET['province'];
-            $startDate = $_GET['startDate'];
-            $endDate = $_GET['endDate'];
+            $projectIndustry = $_GET['project_industry'];//自发自用用电分类
+            $situation = $_GET['province'];//位置
+            $situationOther = $_GET['province_other'];//其他位置
+            $minVolume = $_GET['minVolume'];//项目规模
+            $maxVolume = $_GET['maxVolume'];//项目规模
+            $startDate = $_GET['startDate'];//提交时间
+            $endDate = $_GET['endDate'];//提交时间
+            $financingType = $_GET['financing_type'];//融资模式
             $status = $_GET['status'];
             $cooperationType = $_GET['cooperation_type'];
             $page = $_GET['page'];
             if(empty($page)) $page=1;
             $pageSize = 6;
 
-            $projectList = $projectObj->searchService($companyName, $companyType, $situation, $startDate, $endDate, $status, $cooperationType, $page);
-            $projectTotal = $projectObj->searchService($companyName, $companyType, $situation, $startDate, $endDate, $status, $cooperationType, -1);
+            $projectList = $projectObj->searchService($companyName, $companyNameOther, $projectName, $projectCode, $companyType, $projectIndustry, $situation, $situationOther, $minVolume, $maxVolume, $startDate, $endDate, $financingType, $status, $cooperationType, $page);
+            $projectTotal = $projectObj->searchService($companyName, $companyNameOther, $projectName, $projectCode, $companyType, $projectIndustry, $situation, $situationOther, $minVolume, $maxVolume, $startDate, $endDate, $financingType, $status, $cooperationType, -1);
 
             $companyNameList = $userObj->getAllCompanyName();
             $data = array();

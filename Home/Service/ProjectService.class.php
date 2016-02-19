@@ -913,19 +913,28 @@ class ProjectService extends Model{
     **@auth qianqiang
     **@breif 综合查询
     **@param companyName 公司名称
+    **@param companyNameOther 其他公司名称
+    **@param projectName 项目名称
+    **@param projectCode 项目编码
     **@param companyType 项目类型（类型及建设状态）
+    **@param projectIndustry 自发自用用电分类
     **@param situation 位置
+    **@param situationOther 其他位置
+    **@param minVolume 项目规模（左界）
+    **@param maxVolume 项目规模（右界）
     **@param startDate 起始时间
     **@param endDate 终止时间
+    **@param financingType 融资模式
     **@param status 状态
     **@param cooperationType 合作方式
     **@param page 第几页
-    **@date 2016.1.8
+    **@date 2016.2.18
     **/
-    public function searchService($companyName, $companyType, $situation, $startDate, $endDate, $status, $cooperationType, $page){
+    public function searchService($companyName, $companyNameOther, $projectName, $projectCode, $companyType, $projectIndustry, $situation, $situationOther, $minVolume, $maxVolume, $startDate, $endDate, $financingType, $status, $cooperationType, $page){
         $housetopSql = "";
         $groundSql = "";
         $projectSql = "";
+        //项目类型
         if($companyType == null || $companyType == 'all'){
             $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11";
             $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11";
@@ -953,32 +962,126 @@ class ProjectService extends Model{
                 exit;
             }
         }
-        // dump($companyType);exit;
+        //公司名称
         if(!($companyName == null || $companyName == 'all')){
-            if($housetopSql != ""){
-                $housetopSql = $housetopSql." and u.company_name='".$companyName."'";
-            }
-            if($groundSql != ""){
-                $groundSql = $groundSql." and u.company_name='".$companyName."'";
+            if($companyName == 'other'){
+                if($companyNameOther != null && $companyNameOther != ""){
+                    if($housetopSql != ""){
+                        $housetopSql = $housetopSql." and u.company_name='".$companyNameOther."'";
+                    }
+                    if($groundSql != ""){
+                        $groundSql = $groundSql." and u.company_name='".$companyNameOther."'";
+                    }
+                }
+            }else{
+                if($housetopSql != ""){
+                    $housetopSql = $housetopSql." and u.company_name='".$companyName."'";
+                }
+                if($groundSql != ""){
+                    $groundSql = $groundSql." and u.company_name='".$companyName."'";
+                }
             }
         }
+        //项目名称
+        if(!($projectName == null || $projectName == 'all')){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.project_name='".$projectName."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.project_name='".$projectName."'";
+            }
+        }
+        //项目编码
+        if(!($projectCode == null || $projectCode == 'all')){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and p.project_code='".$projectCode."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and p.project_code='".$projectCode."'";
+            }
+        }
+        //自发自用用电分类
+        if(!($projectIndustry == null || $projectIndustry == 'all')){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.project_industry='".$projectIndustry."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.project_industry='".$projectIndustry."'";
+            }
+        }
+        //位置
         if(!($situation == null || $situation == 'all')){
-            $areaObj = D('Area', 'Service');
-            $areaList = $areaObj->getAreaArrayByHighLevelId($situation);
-            $areaStr = "";
-            $i = 0;
-            while($areaList[$i]){
-                $areaStr = $areaStr."'".$areaList[$i]."',";
-                $i += 1;
-            }
-            $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
-            if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.project_area in (".$areaStr.")";
-            }
-            if($groundSql != ""){
-                $groundSql = $groundSql." and g.project_area in (".$areaStr.")";
+            if($situation == "other"){
+                if($situationOther != null && $situationOther != ""){
+                    $areaObj = D('Area', 'Service');
+                    $areaList = $areaObj->getAreaArrayByHighLevelId($situationOther);
+                    $areaStr = "";
+                    $i = 0;
+                    while($areaList[$i]){
+                        $areaStr = $areaStr."'".$areaList[$i]."',";
+                        $i += 1;
+                    }
+                    $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                    if($housetopSql != ""){
+                        $housetopSql = $housetopSql." and h.project_area in (".$areaStr.")";
+                    }
+                    if($groundSql != ""){
+                        $groundSql = $groundSql." and g.project_area in (".$areaStr.")";
+                    }
+                }
+            }else{
+                $areaObj = D('Area', 'Service');
+                $areaList = $areaObj->getAreaArrayByHighLevelId($situation);
+                $areaStr = "";
+                $i = 0;
+                while($areaList[$i]){
+                    $areaStr = $areaStr."'".$areaList[$i]."',";
+                    $i += 1;
+                }
+                $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                if($housetopSql != ""){
+                    $housetopSql = $housetopSql." and h.project_area in (".$areaStr.")";
+                }
+                if($groundSql != ""){
+                    $groundSql = $groundSql." and g.project_area in (".$areaStr.")";
+                }
             }
         }
+        //项目规模
+        if($minVolume != null && $minVolume != "" && $maxVolume != null && $maxVolume != ""){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.plan_build_volume>'".$minVolume."' and h.plan_build_volume<'".$maxVolume."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.plan_build_volume>'".$minVolume."' and g.plan_build_volume<'".$maxVolume."'";
+            }
+        }
+        //融资模式
+        if(!($financingType == null || $financingType == 'all')){
+            if($housetopSql != ""){
+                if($financingType == "1"){
+                    $housetopSql = $housetopSql." and h.financing_type=1";
+                }elseif($financingType == "2"){
+                    $housetopSql = $housetopSql." and h.financing_type=2";
+                }elseif($financingType == "3"){
+                    $housetopSql = $housetopSql." and h.financing_type=3";
+                }elseif($financingType == "0"){
+                    $housetopSql = $housetopSql." and h.financing_type=0";
+                }
+            }
+            if($groundSql != ""){
+                if($financingType == "1"){
+                    $groundSql = $groundSql." and g.financing_type=1";
+                }elseif($financingType == "2"){
+                    $groundSql = $groundSql." and g.financing_type=2";
+                }elseif($financingType == "3"){
+                    $groundSql = $groundSql." and g.financing_type=3";
+                }elseif($financingType == "0"){
+                    $groundSql = $groundSql." and g.financing_type=0";
+                }
+            }
+        }
+        //状态
         if(!($status == null || $status == 'all')){
             if($housetopSql != ""){
                 if($status == "11"){
@@ -1007,6 +1110,7 @@ class ProjectService extends Model{
                 }
             }
         }
+        //合作方式
         if(!($cooperationType == null || $cooperationType == 'all')){
             if($housetopSql != ""){
                 $housetopSql = $housetopSql." and h.cooperation_type like '%".$cooperationType."%'";
@@ -1015,6 +1119,7 @@ class ProjectService extends Model{
                 $groundSql = $groundSql." and g.cooperation_type like '%".$cooperationType."%'";
             }
         }
+        //起止时间
         if($startDate != null && $endDate != null){
             if($housetopSql != ""){
                 $housetopSql = $housetopSql." and h.create_date>=date('".$startDate."') and h.create_date<=date('".$endDate."')";
