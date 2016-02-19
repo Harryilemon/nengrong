@@ -1,10 +1,12 @@
-#1. userName,userType种cookie
-#2. 异常页面
-#3. 我的资料前端校验
-#4. 导出按钮
-5. 租赁资金有两个
-#6. 网站备案号添加
-7.上传附件允许格式：
+1.上传附件允许格式：
 	1、所有图片格式，包括 .jpg .jpeg .gif .png .bmp .psd等；所有文档格式
 	2、所有文档格式，包括.doc .docx .xls .xlsx .ppt .pptx .txt .pdf
 	3、所有压缩格式，包括rar,zip,tar,7-zip,gzip,bz2等
+
+2.MAC 发布步骤
+	1、tar cvfJ nengrong.tar.xz Home Runtime Common
+	2、scp -P 2022 nengrong.tar.xz ubuntu@119.254.102.101:/home/ubuntu/enetfPlatform/nengrong
+	3、ssh -p 2022 ubuntu@119.254.102.101
+	4、cd enetfPlatform/nengrong
+	5、sudo rm -rf Home Runtime Common
+	6、tar xvfJmp nengrong.tar.xz

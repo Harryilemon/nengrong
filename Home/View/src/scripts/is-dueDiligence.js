@@ -117,7 +117,7 @@ rar,arj,gz,z,tar,7z,bz2,psd,xz',
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
-	   	timeout: 6000               //限制请求的时间，当请求大于3秒后，跳出请求
+	   	timeout: 121000             //限制请求的时间，当请求大于121秒后，跳出请求
 	};
 	  
 	function beforeSubmit(formData, jqForm, options) {

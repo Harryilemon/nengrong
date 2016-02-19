@@ -38,20 +38,25 @@ $(function() {
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
-	   	timeout: 6000               //限制请求的时间，当请求大于3秒后，跳出请求
+	   	timeout: 121000             //限制请求的时间，当请求大于121秒后，跳出请求
 	};
 	  
 	function beforeSubmit(formData, jqForm, options) {
+		$.loading("正在保存，请稍侯");
 	   	return true;
 	}
 
 	function successCallback(data) {
-		if(data.code == "0") {
-			alert("保存成功！");
-			location.href="?c=ProjectProviderMyPro&a=awaitingAssessment";
-		} else {
-			alert(data.msg || "保存失败！");
-		}
+		var takeTime = new Date().getTime() - $._loadingDialog.timeStamp;
+		setTimeout(function() {
+			$.closeLoading();
+			if(data.code == "0") {
+				alert("保存成功！");
+				location.href="?c=ProjectProviderMyPro&a=awaitingAssessment";
+			} else {
+				alert(data.msg || "保存失败！");
+			}
+		}, takeTime > 1000 ? 0 : 1000 - takeTime);
 	}
 
 	$form = $("#infoForm");
@@ -74,9 +79,9 @@ $(function() {
 			}
 		},
 		errorClass: 'validate-error',
-		focusInvalid: false,
+		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			$form.ajaxSubmit(options);
