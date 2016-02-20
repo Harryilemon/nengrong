@@ -1090,11 +1090,13 @@ class InnerStaffController extends Controller {
         $objProject  = D("Project","Service");
         $objProject->cancelProjectHighlight($projectCode, 2);
         $projectInfo = $objProject->getProjectInfo($projectCode);
-        if($rtype == 1){
+        if($rtype == 1){//保存备注
             $proData['comment'] = $_POST['comment'];
-            // $proData['comment'] = "sldfjiofnosdkfj是的发生的";
             $res = $objProject->saveProjectDetail($projectCode, $projectInfo['project_type'], $proData);
             if($res > 0){
+                $objLog  = D("Log","Service");
+                $logText = "填写备注信息";
+                $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
                 header('Content-Type: text/html; charset=utf-8');
                 echo '{"code":"0","msg":"保存成功"}';
             }else{
@@ -1376,6 +1378,9 @@ class InnerStaffController extends Controller {
             	$objEvaluation = D("Evaluation", "Service");
             	$res = $objEvaluation->saveEvaluationInfo($evaData);
             	if($res == true){
+                    $objLog  = D("Log","Service");
+                    $logText = "编辑尽职调查";
+                    $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
             		echo '{"code":"0","msg":"success"}';
             	}else{
             		echo '{"code":"-1","msg":"Evaluation更新失败！"}';
@@ -1459,6 +1464,9 @@ class InnerStaffController extends Controller {
             	$objEvaluation = D("Evaluation", "Service");
             	$res = $objEvaluation->submitEvaluationInfo($evaData);
             	if($res == true){
+                    $objLog  = D("Log","Service");
+                    $logText = "提交尽职调查";
+                    $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
             		echo '{"code":"0","msg":"success"}';
             	}else{
             		echo '{"code":"-1","msg":"Evaluation更新失败！"}';
@@ -1571,10 +1579,14 @@ class InnerStaffController extends Controller {
             $project = D("Project", "Service");
             //echo $projectCode;echo jj;exit;
             $result = $project->saveIntent($projectCode, $intentText);
-            if($result === true)
+            if($result === true){
+                $objLog  = D("Log","Service");
+                $logText = "编辑意向书";
+                $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
                 echo '{"code":"0","msg":"save success"}';
-            else
+            }else{
                 echo '{"code":"-1","msg":"save error"}';
+            }
         }elseif($optype == "submit" && $rtype == 1){
             $intentText = $_POST["yixiangshu"];
             if($intentText == "" || $intentText == null){
@@ -1583,10 +1595,14 @@ class InnerStaffController extends Controller {
             }
             $project = D("Project", "Service");
             $result = $project->submitIntent($projectCode, $intentText);
-            if($result === true)
-                echo '{"code":"0","msg":"save success"}';
-            else
-                echo '{"code":"-1","msg":"save error"}';
+            if($result === true){
+                $objLog  = D("Log","Service");
+                $logText = "提交意向书";
+                $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
+                echo '{"code":"0","msg":"submit success"}';
+            }else{
+                echo '{"code":"-1","msg":"submit error"}';
+            }
         }elseif($rtype != 1){
             $project = D("Project", "Service");
             $projectInfo = $project->getIntent($projectCode);
@@ -1624,7 +1640,7 @@ class InnerStaffController extends Controller {
         $investorStr = substr($investors, 0, strlen($investors)-1);
         $investorList = explode(",",$investorStr);
         if($rtype == 1){
-            $result = $projectObj->pushProject($projectCode, $investorList);
+            $result = $projectObj->pushProject($projectCode, $investorList, $_COOKIE['email']);
             if($result === true)
                 echo '{"code":"0","msg":"push project success"}';
             else
@@ -1725,6 +1741,11 @@ class InnerStaffController extends Controller {
             }
             $res = $projectObj->changeProjectStatus($projectCode, $oldStatus, $newStatus);
             if($res === true){
+                $common = D("Common","Service");
+                $statusStr = $common->getStatusStr($newStatus);
+                $objLog = D("Log","Service");
+                $logText = '更改项目状态为"'.$statusStr.'"';
+                $objLog->addLog($projectCode, $_COOKIE['email'], $logText);
                 header('Content-Type: text/html; charset=utf-8');
                 echo '{"code":"0","msg":"修改成功！"}';
             }else{

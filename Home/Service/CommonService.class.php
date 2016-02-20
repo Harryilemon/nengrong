@@ -330,4 +330,27 @@ class CommonService{
 		}
 		return $str;
 	}
+
+	/**
+    **@auth qianqiang
+    **@breif 获取项目状态
+    **@date 2016.2.20
+	**/
+	public function getStatusStr($no){
+		if($no == null){
+			return null;
+		}
+		if(11 == $no){
+			$statusStr = '未提交';
+		}elseif(12 == $no){
+			$statusStr = '已提交';
+		}elseif(22 == $no){
+			$statusStr = '已尽职调查';
+		}elseif(23 == $no){
+			$statusStr = '已签意向书';
+		}elseif(31 == $no){
+			$statusStr = '已签融资合同';
+		}
+		return $statusStr;
+	}
 }

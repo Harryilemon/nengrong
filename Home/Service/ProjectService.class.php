@@ -710,7 +710,7 @@ class ProjectService extends Model{
     **@breif 推送项目
     **@date 2015.12.30
     **/ 
-    public function pushProject($projectCode, $investorList){
+    public function pushProject($projectCode, $investorList, $email=null){
         if($this->isPushProject($projectCode) == false){
             echo '{"code":"-1","msg":"请先完成意向书签署"}';
             exit;
@@ -727,6 +727,13 @@ class ProjectService extends Model{
                 $data['investor_id'] = $investorList[$i];
                 $res = $pushProject->add($data);
                 if($res === false) return false;
+                //记录推送日志
+                $objUser = M("User");
+                $condition["id"] = $investorList[$i];
+                $userInfo = $objUser->where($condition)->find();
+                $objLog = D("Log","Service");
+                $logText = '推送该项目给"'.$userInfo['company_name'].'"';
+                $objLog->addLog($projectCode, $email, $logText);
             }
             $i += 1;
         }
@@ -1386,7 +1393,7 @@ class ProjectService extends Model{
 
     /**
     **@auth qianqiang
-    **@breif 真删除项目，删除project、housetop、ground、evaluation、component、inverter、pushProject
+    **@breif 真删除项目，删除project、housetop、ground、evaluation、component、inverter、pushProject、log
     **@param id:项目id
     **@date 2016.1.16
     **/
@@ -1457,6 +1464,15 @@ class ProjectService extends Model{
             $res = $pushProjectObj->where("project_code='".$objProject['project_code']."'")->delete();
             if(!$res){
                 echo '{"code":"-1","msg":"pushProject drop error!"}';
+                exit;
+            }
+        }
+        $logObj = M('Log');
+        $logInfo = $logObj->where("project_id='".$id."'")->select();
+        if(!empty($logInfo)){
+            $res = $logObj->where("project_id='".$id."'")->delete();
+            if(!$res){
+                echo '{"code":"-1","msg":"log drop error!"}';
                 exit;
             }
         }
