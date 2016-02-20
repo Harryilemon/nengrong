@@ -1190,7 +1190,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['business_license']['img_file_rename'] = $docData['business_license']['file_rename'];
         }else{
-            $docData['business_license']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['business_license']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
         
         $condition['id'] = $userInfo[0]['organization_code'];
@@ -1203,7 +1203,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['organization_code']['img_file_rename'] = $docData['organization_code']['file_rename'];
         }else{
-            $docData['organization_code']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['organization_code']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
         
         $condition['id'] = $userInfo[0]['national_tax_certificate'];
@@ -1216,7 +1216,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['national_tax_certificate']['img_file_rename'] = $docData['national_tax_certificate']['file_rename'];
         }else{
-            $docData['national_tax_certificate']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['national_tax_certificate']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
         
         $condition['id'] = $userInfo[0]['local_tax_certificate'];
@@ -1229,7 +1229,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['local_tax_certificate']['img_file_rename'] = $docData['local_tax_certificate']['file_rename'];
         }else{
-            $docData['local_tax_certificate']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['local_tax_certificate']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
 
         $condition['id'] = $userInfo[0]['identity_card_front'];
@@ -1242,7 +1242,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['identity_card_front']['img_file_rename'] = $docData['identity_card_front']['file_rename'];
         }else{
-            $docData['identity_card_front']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['identity_card_front']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
 
         $condition['id'] = $userInfo[0]['identity_card_back'];
@@ -1255,7 +1255,7 @@ class InnerStaffController extends Controller {
         if($docFileInfo[1] == "" || $docFileInfo[1] == "jpg" || $docFileInfo[1] == "jpeg" || $docFileInfo[1] == "png" || $docFileInfo[1] == "gif" || $docFileInfo[1] == "bmp" || $docFileInfo[1] == "ico"){
             $docData['identity_card_back']['img_file_rename'] = $docData['identity_card_back']['file_rename'];
         }else{
-            $docData['identity_card_back']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[1].".png";
+            $docData['identity_card_back']['img_file_rename'] = "/EnergyFe/img/".$docFileInfo[sizeof($docFileInfo)-1].".png";
         }
 
         $condition['id'] = $userInfo[0]['financial_audit'];

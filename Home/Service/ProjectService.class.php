@@ -992,19 +992,19 @@ class ProjectService extends Model{
         //项目名称
         if(!($projectName == null || $projectName == 'all')){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.project_name='".$projectName."'";
+                $housetopSql = $housetopSql." and h.project_name like '%".$projectName."%'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.project_name='".$projectName."'";
+                $groundSql = $groundSql." and g.project_name like '%".$projectName."%'";
             }
         }
         //项目编码
         if(!($projectCode == null || $projectCode == 'all')){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and p.project_code='".$projectCode."'";
+                $housetopSql = $housetopSql." and p.project_code like '%".$projectCode."%'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and p.project_code='".$projectCode."'";
+                $groundSql = $groundSql." and p.project_code like '%".$projectCode."%'";
             }
         }
         //自发自用用电分类
@@ -1082,19 +1082,19 @@ class ProjectService extends Model{
         //项目规模（下限）
         if($minVolume != null && $minVolume != ""){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.plan_build_volume>'".$minVolume."'";
+                $housetopSql = $housetopSql." and h.plan_build_volume>='".$minVolume."'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.plan_build_volume>'".$minVolume."'";
+                $groundSql = $groundSql." and g.plan_build_volume>='".$minVolume."'";
             }
         }
         //项目规模（上限）
         if($maxVolume != null && $maxVolume != ""){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.plan_build_volume<'".$maxVolume."'";
+                $housetopSql = $housetopSql." and h.plan_build_volume<='".$maxVolume."'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.plan_build_volume<'".$maxVolume."'";
+                $groundSql = $groundSql." and g.plan_build_volume<='".$maxVolume."'";
             }
         }
         //融资模式
@@ -1170,12 +1170,12 @@ class ProjectService extends Model{
             }
         }
         //终止时间
-        if($startDate != null && $endDate != null){
+        if($endDate != null){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.create_date<=date('".$endDate."')";
+                $housetopSql = $housetopSql." and h.create_date<date('".$endDate."')";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.create_date<=date('".$endDate."')";
+                $groundSql = $groundSql." and g.create_date<date('".$endDate."')";
             }
         }
         if($housetopSql != "" && $groundSql != ""){
