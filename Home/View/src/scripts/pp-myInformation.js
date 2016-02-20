@@ -16,7 +16,10 @@ $(function() {
 		bg_url: "upload.png",
 		uploadType: "image",
 		width: "120px",
-		height: "120px"
+		height: "120px",
+		fileSizeLimit: {
+			size: 10*1024*1024
+		}
 	});
 
 	// 上传文件
@@ -24,7 +27,10 @@ $(function() {
 		content: "+",
 		uploadType: "file",
 		width: "20px",
-		height: "38px"
+		height: "38px",
+		fileSizeLimit: {
+			size: 10*1024*1024
+		}
 	});
 
 	// 保存资料
@@ -35,6 +41,7 @@ $(function() {
 	   	// target: '#output',          //把服务器返回的内容放入id为output的元素中      
 	   	beforeSubmit: beforeSubmit, //提交前的回调函数  
 	   	success: successCallback,  	//提交后的回调函数
+	   	error: failCallback,		//服务器出错的回调函数
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
@@ -55,6 +62,18 @@ $(function() {
 				location.href="?c=ProjectProviderMyPro&a=awaitingAssessment";
 			} else {
 				alert(data.msg || "保存失败！");
+			}
+		}, takeTime > 1000 ? 0 : 1000 - takeTime);
+	}
+
+	function failCallback(xhr, status, error, $form) {
+		var takeTime = new Date().getTime() - $._loadingDialog.timeStamp;
+		setTimeout(function() {
+			$.closeLoading();
+			if(xhr.status === 413) {
+				alert("本次提交的附件太大，请尽量上传小附件，或者分批保存再提交！");
+			} else {
+				alert("操作失败,请稍后再试！");
 			}
 		}, takeTime > 1000 ? 0 : 1000 - takeTime);
 	}

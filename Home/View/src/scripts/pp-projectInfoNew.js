@@ -53,6 +53,9 @@ $(function() {
 						uploadType: "image",
 						width: "120px",
 						height: "120px",
+						fileSizeLimit: {
+							size: 10*1024*1024
+						},
 						callback: uploadCallback
 					});
 				}
@@ -70,6 +73,9 @@ $(function() {
 						uploadType: "image",
 						width: "120px",
 						height: "120px",
+						fileSizeLimit: {
+							size: 10*1024*1024
+						},
 						callback: uploadCallback
 					});
 				}
@@ -670,7 +676,7 @@ $(function() {
 				if(optype === "save") {
 					location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm;
 				} else {
-					location.href = "?c=ProjectProviderMyPro&a=awaitingAssessment";
+					location.href = "?c=ProjectProviderMyPro&a=awaitingAssessment&filter=committed";
 				}
 			} else {
 				// $form.find('[data-type="mul"]').each(function() {

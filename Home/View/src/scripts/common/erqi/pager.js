@@ -23,14 +23,14 @@ $(function($) {
 				// }
 				return false;
 	        },
-	        prev_text: "上一页",
+	        prev_text: "<i>&lt;</i> 上一页",
 	        prev_show_always: false,
-	        next_text: "下一页",
+	        next_text: "下一页 <i>&gt;</i>",
 	        next_show_always: false,
 	        items_per_page: ITEMS_PER_PAGE, // 每页的数据个数
-	        num_display_entries: 6, // 连续分页主体部分显示的分页条目数
+	        num_display_entries: 4, // 连续分页主体部分显示的分页条目数
 	        current_page: current_page - 1,   // 当前页码
-	        num_edge_entries: 5, // 两侧显示的首尾分页的条目数
+	        num_edge_entries: 4, // 两侧显示的首尾分页的条目数
 	        link_to: "__id__"
 	    });
 
