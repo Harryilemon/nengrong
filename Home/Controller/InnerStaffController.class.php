@@ -1665,7 +1665,7 @@ class InnerStaffController extends Controller {
     **@breif 客服->日志操作
     **@date 2016.2.19
     **/
-    public function log(){
+    public function operationLog(){
         isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
         authentication($_COOKIE['email'], 2);
         $projectCode = $_POST['no'] ? $_POST['no']:$_GET['no'];
@@ -1679,7 +1679,7 @@ class InnerStaffController extends Controller {
             exit;
         }
         $this->assign("arrData", $data);
-        $this->display("InnerStaff:log");
+        $this->display("InnerStaff:operationLog");
     }
 
     /**
