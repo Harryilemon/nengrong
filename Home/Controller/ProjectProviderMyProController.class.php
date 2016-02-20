@@ -378,8 +378,13 @@ class ProjectProviderMyProController extends Controller {
                 $objUser  = D("User","Service");
                 $userInfo = $objUser->getUserINfoByEmail($email);
                 $arrProInfo["provider_id"] = $userInfo[0]['id'];//之后需要加一下项目提供方的id
+                $area = $_POST['county'];
+                if(empty($_POST['county']))
+                {
+                    $area = $_POST['city'];
+                }
                 $getProjectCode = getProjectCode($_POST['project_type'], 
-                     $_POST['financing_type'], $_POST['county'],$_POST['project_industry'],$_POST['plan_build_volume'],$arrProInfo["provider_id"]);
+                     $_POST['financing_type'], $area,$_POST['project_industry'],$_POST['plan_build_volume'],$arrProInfo["provider_id"]);
                 $arrProInfo["project_code"] = $getProjectCode;
                 //$arrProInfo["project_code"] = '2323DDDDDDDDDDd'.time();  //之后需要加一下这个生成项目id的功能
 
@@ -453,8 +458,13 @@ class ProjectProviderMyProController extends Controller {
                 $objUser  = D("User","Service");
                 $userInfo = $objUser->getUserINfoByEmail($email);
                 $arrProInfo["provider_id"] = $userInfo[0]['id'];//之后需要加一下项目提供方的id
+                $area = $_POST['county'];
+                if(empty($_POST['county']))
+                {
+                    $area = $_POST['city'];
+                }
                 $getNewProjectCode = getProjectCode($_POST['project_type'], 
-                     $_POST['financing_type'], $_POST['county'],$_POST['project_industry'],$_POST['plan_build_volume'],$arrProInfo["provider_id"]);
+                     $_POST['financing_type'], $area,$_POST['project_industry'],$_POST['plan_build_volume'],$arrProInfo["provider_id"]);
                 $ret = $objProject->updateProjectCode($arrProInfo['project_code'], $getNewProjectCode);
                 $arrProInfo["project_code"] = $getNewProjectCode;
             }
