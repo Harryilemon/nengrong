@@ -1170,12 +1170,12 @@ class ProjectService extends Model{
             }
         }
         //终止时间
-        if($startDate != null && $endDate != null){
+        if($endDate != null){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.create_date<=date('".$endDate."')";
+                $housetopSql = $housetopSql." and h.create_date<date('".$endDate."')";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.create_date<=date('".$endDate."')";
+                $groundSql = $groundSql." and g.create_date<date('".$endDate."')";
             }
         }
         if($housetopSql != "" && $groundSql != ""){
