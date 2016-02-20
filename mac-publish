@@ -1,0 +1,9 @@
+cd Home/View
+fekit min
+cd ../..
+tar cvfJ nengrong.tar.xz --exclude=Home/View/src/ --exclude=.DS_Store Home Common
+scp -P 2022 nengrong.tar.xz ubuntu@119.254.102.101:/home/ubuntu/enetfPlatform/nengrong
+ssh -p 2022 ubuntu@119.254.102.101
+# cd enetfPlatform/nengrong
+# sudo rm -rf Home Common
+# tar xvfJmp nengrong.tar.xz

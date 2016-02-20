@@ -134,3 +134,8 @@
 .layer .status-list {
 	margin-left: 40px;
 }
+
+.ui-datepicker-current {
+	display: none;
+}
+
