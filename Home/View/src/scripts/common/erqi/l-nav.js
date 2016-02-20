@@ -37,5 +37,10 @@ $(function() {
 			$(this).attr("href", $(this).attr("href")+"&no="+param.no+"&token="+param.token);
 		}
 	});
+
+	if(param.a=="operationLog" && param.c=="InnerStaff") {
+		$(".btn.export").hide();
+	}
+	
 });
 
