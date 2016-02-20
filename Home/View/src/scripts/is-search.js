@@ -20,6 +20,18 @@ $(function() {
 		return false;
 	});
 
+	// 其他（可填写）
+	$("select").filter(function(){
+		return $(this).data("withOther");
+	}).change(function(e) {
+		var value = this.value;
+		if(value === "0") { // 其他
+			$(this).siblings(".other").show();
+		} else {
+			$(this).siblings(".other").hide().val("");
+		}
+	}).change();
+
 	// 默认跳转到项目信息页
 	$(".list .bd a").click(function(e) {
 		var data = $(this).parent().parent().data();

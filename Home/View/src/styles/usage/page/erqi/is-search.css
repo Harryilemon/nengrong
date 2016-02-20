@@ -23,28 +23,43 @@
 .search .condition .item > span {
 	width: 64px;
 	display: inline-block;
-	margin-right: 5px;
-	text-align: right;
+	margin-left: 5px;
 }
 
-.search .condition .item > span.op {
+.search .condition .item > span.medium {
 	width: 115px;
 }
 
-.search .condition .item select {
+.search .condition .item input, .search .condition .item select {
 	width: 205px;
 	height: 22px;
 }
 
-.search .condition .item select.op {
+.search .condition .item select.medium {
 	width: 154px;
 }
 
-.search .condition .item input {
+.search .condition .item select.short {
+	width: 75px;
+}
+
+.search .condition .item input[data-type="date"] {
 	height: 22px;
 	cursor: pointer;
-	width: 90px;
 	padding-left: 6px;
+}
+
+.search .condition .item input.medium {
+	width: 120px;
+}
+
+.search .condition .item input.short {
+	width: 90px;
+}
+
+.search .condition .item input.min-short {
+	width: 69px;
+    margin-right: 2px;
 }
 
 .search .operator {
