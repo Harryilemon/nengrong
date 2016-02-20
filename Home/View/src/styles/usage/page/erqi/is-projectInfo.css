@@ -6,28 +6,61 @@
 	margin-top: 60px;
 }
 
-.r-content  .remark {
+.r-content .remarkall{
 	position: fixed;
 	top: 120px;
-	right: 15px;
-	width: 250px;
+	right:25px;
 	height: 350px;
+	overflow: hidden;
 }
 
-.r-content  .remark textarea{
-	width: 100%;
-	height: 90%;
+.r-content .remarkall .remark {
+	position: relative;
+	z-index: -1;
+	width: 250px;
+	height: 100%;
+	display: inline-block;
+	transform: translateX(0);
+	-moz-transition: all 0.3s ease-in;
+    -webkit-transition: all 0.3s ease-in;
+    -o-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
 }
 
-.r-content  .remark button {
+.r-content .remarkall .remark.move {
+	transform: translateX(254px);
+}
+.r-content .remarkall .remarkbutton {
+	vertical-align: top;
+	width: 38px;
+	height: 100%;
+	display: inline-block;
+	background-color: #fff;
+}
+
+.r-content .remarkall .remarkbutton #remarkbtn{
+	width: 38px;
+	height:88%;
 	border-radius: 5px;
 	color: #fff;
-	font-size: 15px;
+	font-size: 20px;
 	background-color: #ffa500;
-	width:30%;
-	height:8%;
+}
+.r-content .remarkall .remark textarea{
+	width: 100%;
+	height: 88%;
+}
+
+.r-content .remarkall .remark button {
+	border-radius: 5px;
+	color: #fff;
+	font-size: 18px;
+	background-color: #ffa500;
+	width:50%;
+	height:10%;
 	border-width:0; 
-	margin: 0 auto 0 150px;
+	display: block;
+	margin: 3px auto 0 auto;
 	
 }
 
