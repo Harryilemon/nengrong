@@ -1079,13 +1079,22 @@ class ProjectService extends Model{
                 }
             }
         }
-        //项目规模
-        if($minVolume != null && $minVolume != "" && $maxVolume != null && $maxVolume != ""){
+        //项目规模（下限）
+        if($minVolume != null && $minVolume != ""){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.plan_build_volume>'".$minVolume."' and h.plan_build_volume<'".$maxVolume."'";
+                $housetopSql = $housetopSql." and h.plan_build_volume>'".$minVolume."'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.plan_build_volume>'".$minVolume."' and g.plan_build_volume<'".$maxVolume."'";
+                $groundSql = $groundSql." and g.plan_build_volume>'".$minVolume."'";
+            }
+        }
+        //项目规模（上限）
+        if($maxVolume != null && $maxVolume != ""){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.plan_build_volume<'".$maxVolume."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.plan_build_volume<'".$maxVolume."'";
             }
         }
         //融资模式
@@ -1151,13 +1160,22 @@ class ProjectService extends Model{
                 $groundSql = $groundSql." and g.cooperation_type like '%".$cooperationType."%'";
             }
         }
-        //起止时间
-        if($startDate != null && $endDate != null){
+        //起始时间
+        if($startDate != null){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.create_date>=date('".$startDate."') and h.create_date<=date('".$endDate."')";
+                $housetopSql = $housetopSql." and h.create_date>=date('".$startDate."')";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.create_date>=date('".$startDate."') and g.create_date<=date('".$endDate."')";
+                $groundSql = $groundSql." and g.create_date>=date('".$startDate."')";
+            }
+        }
+        //终止时间
+        if($startDate != null && $endDate != null){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.create_date<=date('".$endDate."')";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.create_date<=date('".$endDate."')";
             }
         }
         if($housetopSql != "" && $groundSql != ""){
