@@ -26,9 +26,9 @@ $(function() {
 	}).change(function(e) {
 		var value = this.value;
 		if(value === "0") { // 其他
-			$(this).siblings(".other").show();
+			$(this).siblings(".other").prop("disabled", false).removeClass("disabled");
 		} else {
-			$(this).siblings(".other").hide().val("");
+			$(this).siblings(".other").prop("disabled", true).val("").addClass("disabled");
 		}
 	}).change();
 
