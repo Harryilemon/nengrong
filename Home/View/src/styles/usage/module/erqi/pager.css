@@ -14,11 +14,14 @@
 	margin-left: 4px;
 }
 
+.r-content .pagination a i {
+	font-family: arial;
+}
+
 .r-content .pagination a {
 	border: 1px solid #ccc;
 	color: #f67d00;
 	text-decoration: none;
-	/*cursor: pointer;*/
 }
 
 .r-content .pagination a:hover {

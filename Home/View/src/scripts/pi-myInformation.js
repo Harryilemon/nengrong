@@ -12,6 +12,7 @@ $(function() {
 	   	// target: '#output',          //把服务器返回的内容放入id为output的元素中      
 	   	beforeSubmit: beforeSubmit, //提交前的回调函数  
 	   	success: successCallback,  	//提交后的回调函数
+	   	error: failCallback,		//服务器出错的回调函数
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
@@ -29,6 +30,10 @@ $(function() {
 		} else {
 			alert(data.msg || "保存失败！");
 		}
+	}
+
+	function failCallback(xhr, status, error, $form) {
+		alert("保存失败！");
 	}
 
 	$form = $("#infoForm");
