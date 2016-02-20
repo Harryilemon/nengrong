@@ -8,7 +8,7 @@ $(function(){
 			$(".remark").show();
 			setTimeout(function(){
 				$(".remark").removeClass("move");
-			}, 0);
+			}, 20);
 			// $(".remark").show().removeClass("move");
 			// $(this).parent().parent().css({
 			// 	width:"38px"
