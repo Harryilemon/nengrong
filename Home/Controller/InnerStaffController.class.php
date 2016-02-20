@@ -1687,8 +1687,18 @@ class InnerStaffController extends Controller {
         $projectCode = $_POST['no'] ? $_POST['no']:$_GET['no'];
         $mProjectCode = $_POST['token'] ? $_POST['token']:$_GET['token'];
         isProjectCodeRight($projectCode, $mProjectCode);
+        $page = $_GET['page'];
+        if(empty($page)) $page=1;
+        $pageSize = 6;
         $logObj = D("Log","Service");
-        $data = $logObj->getAllLogs($projectCode);
+        $logList = $logObj->getAllLogs($projectCode, $page);
+        $logTotal = $logObj->getAllLogs($projectCode, -1);
+        $data = array();
+        $data["list"] = $logList;
+        $data["page"] = $page;
+        $data["count"] = sizeof($logTotal);
+        $data["totalPage"] = ceil($data["count"]/$pageSize+1);
+        $data["endPage"] = ceil($data["count"]/$pageSize);
         if($_GET['display']=="json"){
             header('Content-Type: text/html; charset=utf-8');
             dump($data);

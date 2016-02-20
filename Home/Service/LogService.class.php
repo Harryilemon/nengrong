@@ -10,14 +10,18 @@ class LogService extends Model{
     **@param projectCode 项目编码
     **@date 2016.2.19
     **/
-	public function getAllLogs($projectCode){
+	public function getAllLogs($projectCode, $page, $pageSize=6){
 		$objProject = M("Project");
         $condition["project_code"] = $projectCode;
         $condition["delete_flag"] = 0;
         $projectInfo = $objProject->where($condition)->find();
         $objLog = M("Log");
         $condition2["project_id"] = $projectInfo["id"];
-        $logList = $objLog->where($condition2)->select();
+        if($page == -1){
+            $logList = $objLog->where($condition2)->order('create_date desc, id asc')->select();
+        }else{
+            $logList = $objLog->where($condition2)->page($page, $pageSize)->order('create_date desc, id asc')->select();
+        }
         return $logList;
 	}
 
