@@ -971,13 +971,13 @@ class ProjectService extends Model{
         }
         //公司名称
         if(!($companyName == null || $companyName == 'all')){
-            if($companyName == 'other'){
+            if($companyName == 0){
                 if($companyNameOther != null && $companyNameOther != ""){
                     if($housetopSql != ""){
-                        $housetopSql = $housetopSql." and u.company_name='".$companyNameOther."'";
+                        $housetopSql = $housetopSql." and u.company_name like '%".$companyNameOther."%'";
                     }
                     if($groundSql != ""){
-                        $groundSql = $groundSql." and u.company_name='".$companyNameOther."'";
+                        $groundSql = $groundSql." and u.company_name like '%".$companyNameOther."%'";
                     }
                 }
             }else{
@@ -1018,23 +1018,48 @@ class ProjectService extends Model{
         }
         //位置
         if(!($situation == null || $situation == 'all')){
-            if($situation == "other"){
+            if($situation == 0){
                 if($situationOther != null && $situationOther != ""){
+                    //1.模糊查询项目地区
                     $areaObj = D('Area', 'Service');
-                    $areaList = $areaObj->getAreaArrayByHighLevelId($situationOther);
+                    $map['area'] = array('like','%'.$situationOther.'%');
+                    $areaTextList = $areaObj->where($map)->select();
                     $areaStr = "";
-                    $i = 0;
-                    while($areaList[$i]){
-                        $areaStr = $areaStr."'".$areaList[$i]."',";
-                        $i += 1;
+                    $j = 0;
+                    while($areaTextList[$j]){
+                        $areaList = $areaObj->getAreaArrayByHighLevelId($areaTextList[$j]['id']);
+                        $i = 0;
+                        while($areaList[$i]){
+                            $areaStr = $areaStr."'".$areaList[$i]."',";
+                            $i += 1;
+                        }
+                        $j += 1;
                     }
-                    $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                    if($areaStr != ""){
+                        $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                        if($housetopSql != ""){
+                            $housetopSql = $housetopSql." and ( h.project_area in (".$areaStr.")";
+                        }
+                        if($groundSql != ""){
+                            $groundSql = $groundSql." and ( g.project_area in (".$areaStr.")";
+                        }
+                    }
+                    //2.模糊查询项目详细地址
                     if($housetopSql != ""){
-                        $housetopSql = $housetopSql." and h.project_area in (".$areaStr.")";
+                        if($areaStr != ""){
+                            $housetopSql = $housetopSql." or h.project_address like '%".$situationOther."%')";
+                        }else{
+                            $housetopSql = $housetopSql." and h.project_address like '%".$situationOther."%'";
+                        }
                     }
                     if($groundSql != ""){
-                        $groundSql = $groundSql." and g.project_area in (".$areaStr.")";
+                        if($areaStr != ""){
+                            $groundSql = $groundSql." or g.project_address like '%".$situationOther."%')";
+                        }else{
+                            $groundSql = $groundSql." and g.project_address like '%".$situationOther."%'";
+                        }
                     }
+
                 }
             }else{
                 $areaObj = D('Area', 'Service');
@@ -1093,13 +1118,13 @@ class ProjectService extends Model{
             if($housetopSql != ""){
                 if($status == "11"){
                     $housetopSql = $housetopSql." and p.status=11";
-                }elseif($status == "12"){
-                    $housetopSql = $housetopSql." and (p.status>=12 and p.status<=13)";
-                }elseif($status == "20"){
-                    $housetopSql = $housetopSql." and (p.status>=21 and p.status<=22)";
-                }elseif($status == "50"){
-                    $housetopSql = $housetopSql." and p.status=22";
-                }elseif($status == "30"){
+                }elseif($status == "12"){//已提交
+                    $housetopSql = $housetopSql." and p.status=12";
+                }elseif($status == "20"){//已签意向书
+                    $housetopSql = $housetopSql." and p.status=23";
+                }elseif($status == "50"){//已尽职调查
+                    $housetopSql = $housetopSql." and (p.status=22 or p.status=13)";
+                }elseif($status == "30"){//已签融资合同
                     $housetopSql = $housetopSql." and p.status=31";
                 }
             }
@@ -1107,11 +1132,11 @@ class ProjectService extends Model{
                 if($status == "11"){
                     $groundSql = $groundSql." and p.status=11";
                 }elseif($status == "12"){
-                    $groundSql = $groundSql." and (p.status>=12 and p.status<=13)";
+                    $groundSql = $groundSql." and p.status=12";
                 }elseif($status == "20"){
-                    $groundSql = $groundSql." and (p.status>=21 and p.status<=22)";
+                    $groundSql = $groundSql." and p.status=23";
                 }elseif($status == "50"){
-                    $groundSql = $groundSql." and p.status=22";
+                    $groundSql = $groundSql." and (p.status=22 or p.status=13)";
                 }elseif($status == "30"){
                     $groundSql = $groundSql." and p.status=31";
                 }
@@ -1153,7 +1178,7 @@ class ProjectService extends Model{
         }
         
         // header('Content-Type: text/html; charset=utf-8');
-        // dump($projectSql);
+        // dump($groundSql);
         // echo jj ;
         // exit;
 

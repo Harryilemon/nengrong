@@ -45,7 +45,7 @@
 					<span>公司名称</span>
 					<select name="company_name" data-with-other="true" class="short">
 						<option value="all">全部</option>
-						<option value="0" <if condition='$arrData[searchInfo][companyType] eq "0"'>selected="selected"</if>>其他</option>
+						<option value="0" <if condition='$arrData[searchInfo][companyName] eq "0"'>selected="selected"</if>>其他</option>
 						<foreach name="arrData.campanyName" item="campany">
 							<option value="{$campany[company_name]}" <if condition='$arrData[searchInfo][companyName] eq $campany[company_name]'>selected="selected"</if>>{$campany[company_name]}</option>
 						</foreach>

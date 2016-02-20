@@ -1794,10 +1794,18 @@ class InnerStaffController extends Controller {
             $data["totalPage"] = ceil($data["count"]/$pageSize+1);
             $data["endPage"] = ceil($data["count"]/$pageSize);
             $data["searchInfo"]["companyName"] = $companyName;
+            $data["searchInfo"]["company_name_other"] = $companyNameOther;
+            $data["searchInfo"]["project_name"] = $projectName;
+            $data["searchInfo"]["project_code"] = $projectCode;
             $data["searchInfo"]["companyType"] = $companyType;
+            $data["searchInfo"]["project_industry"] = $projectIndustry;
             $data["searchInfo"]["province"] = $situation;
+            $data["searchInfo"]["province_other"] = $situationOther;
+            $data["searchInfo"]["minVolume"] = $minVolume;
+            $data["searchInfo"]["maxVolume"] = $maxVolume;
             $data["searchInfo"]["startDate"] = $startDate;
             $data["searchInfo"]["endDate"] = $endDate;
+            $data["searchInfo"]["financing_type"] = $financingType;
             $data["searchInfo"]["status"] = $status;
             $data["searchInfo"]["cooperationType"] = $cooperationType;
             if($_GET['display']=="json"){
