@@ -374,7 +374,9 @@ function isProjectCodeRight($pc, $mpc){
     $condition['delete_flag'] = 0;
     $res = $projectObj->where($condition)->select();
     if(empty($res)){
-        echo "<script type='text/javascript'>location.href='?c=User&a=login'</script>";
+        header('Content-Type: text/html; charset=utf-8');
+        echo '{"code":"-1","msg":"项目信息验证错误,项目编号未查询到"}';
+        exit;
     }
     return true;
 }
