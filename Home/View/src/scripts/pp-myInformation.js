@@ -15,6 +15,7 @@ $(function() {
 	$(".detail.part2 .item input[type=file]").customUpload({
 		bg_url: "upload.png",
 		uploadType: "image",
+		accept: acceptType.myinfo,
 		width: "120px",
 		height: "120px",
 		fileSizeLimit: {
@@ -26,6 +27,7 @@ $(function() {
 	$(".detail.part2 .finance input[type=file]").customUpload({
 		content: "+",
 		uploadType: "file",
+		accept: acceptType.all,
 		width: "20px",
 		height: "38px",
 		fileSizeLimit: {
@@ -87,6 +89,19 @@ $(function() {
 			"company_contacts_phone": {
 				"required": true,
 				"mobile": true
+			},
+			"company_capital": {
+   				"number": true,
+   				"min": 0
+   			},
+   			"company_fax": {
+				"phone": true
+   			},
+   			"company_telephone": {
+				"mobile": true
+			},
+			"company_phone": {
+				"phone": true
 			}
 		},
 		messages: {
@@ -95,7 +110,20 @@ $(function() {
 			"company_contacts_phone": {
 				"required": "请填写联系人手机",
 				"mobile": "手机号格式不对"
-			}
+			},
+			"company_capital": {
+				"number": "企业注册资本应为非负数字",
+				"min": "企业注册资本应为非负数字"
+			},
+			"company_fax": {
+				"phone": "公司传真格式不对"
+   			},
+   			"company_telephone": {
+				"mobile": "其他手机格式不对"
+			},
+			"company_phone": {
+				"phone": "座机格式不对"
+   			}
 		},
 		errorClass: 'validate-error',
 		focusInvalid: true,

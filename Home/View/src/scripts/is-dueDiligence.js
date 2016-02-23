@@ -62,12 +62,7 @@ $(function() {
 <div class="progress"><div class="progress-bar"></div></div>\
 </div>',
 
-        'fileType' : 'image/*,\
-application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,\
-.docx,xlsx,pptx,\
-text/plain,application/pdf,\
-application/zip,application/x-zip-compressed,\
-rar,arj,gz,z,tar,7z,bz2,psd,xz',
+        'fileType' : acceptType.all,
 
         overrideEvents: ['onUploadComplete'],
 
@@ -179,9 +174,9 @@ rar,arj,gz,z,tar,7z,bz2,psd,xz',
 			},
 			"LCOE": {
 				"required": true,
-   				"number": true,
-   				"min": 0,
-   				"max": 1
+   				"number": true
+   				// "min": 0,
+   				// "max": 1
 			},
 			"npv": {
 				"required": true,
@@ -245,7 +240,8 @@ rar,arj,gz,z,tar,7z,bz2,psd,xz',
    			"document_review": "required",
    			"project_quality_situation": "required",
    			"project_invest_situation": "required",
-   			"project_earnings_situation": "required"
+   			"project_earnings_situation": "required",
+   			"duty_person": "required"
 		},
 		messages: {
 			"IRR": {
@@ -265,9 +261,10 @@ rar,arj,gz,z,tar,7z,bz2,psd,xz',
 			},
 			"LCOE": {
 				"required": "请填写LCOE",
-   				"number": "LCOE应为[0,1]之间的数字",
-   				"min": "LCOE应为[0,1]之间的数字",
-   				"max": "LCOE应为[0,1]之间的数字"
+   				"number": "LCOE应为数字",
+   				// "number": "LCOE应为[0,1]之间的数字",
+   				// "min": "LCOE应为[0,1]之间的数字",
+   				// "max": "LCOE应为[0,1]之间的数字"
 			},
 			"npv": {
 				"required": "请填写净现值npv",
@@ -317,12 +314,13 @@ rar,arj,gz,z,tar,7z,bz2,psd,xz',
    			"document_review": "请填写文件审查",
    			"project_quality_situation": "请填写工程建设可行性",
    			"project_invest_situation": "请填写项目建设投资情况",
-   			"project_earnings_situation": "请填写项目经济收益情况"
+   			"project_earnings_situation": "请填写项目经济收益情况",
+   			"duty_person": "请填写项目责任人"
 		},
 		errorClass: 'validate-error',
-   		focusInvalid: false,
+   		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			// 二次拦截校验

@@ -40,18 +40,26 @@ $(function() {
 	$form.validate({
 		ignore: ':hidden',
 		rules: {
+			"company_name": "required",
 			"company_contacts": "required",
 			"company_contacts_phone": {
 				"required": true,
 				"mobile": true
+			},
+			"company_phone": {
+				"phone": true
 			}
 		},
 		messages: {
+			"company_name": "请填写企业名称",
 			"company_contacts": "请填写联系人",
 			"company_contacts_phone": {
 				"required": "请填写联系人手机",
 				"mobile": "手机号格式不对"
-			}
+			},
+			"company_phone": {
+				"phone": "座机格式不对"
+   			}
 		},
 		errorClass: 'validate-error',
 		focusInvalid: true,

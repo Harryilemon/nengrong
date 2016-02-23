@@ -230,7 +230,7 @@ function getProjectCode($projectType, $financingType, $area, $projectIndustry,$p
     else
     {
         $planBuildVolume = floor($planBuildVolume/1);
-        $planBuildVolume = '0000'.strval($planBuildVolume);
+        $planBuildVolume = '0000'.strval($planBuildVolume).'0';
         $planBuildVolume = substr($planBuildVolume,-4).'K';
     }
     $projectScale = $planBuildVolume;
