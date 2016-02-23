@@ -98,6 +98,7 @@ $(function() {
 		img_url: "attachment.png",
 		content: "上传附件",
 		uploadType: "file",
+		accept: acceptType.all,
 		width: "80px",
 		height: "20px",
 		fileSizeLimit: {
