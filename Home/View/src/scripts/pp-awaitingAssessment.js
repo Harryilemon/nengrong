@@ -10,9 +10,9 @@ $(function() {
 	$(".list .bd a").click(function(e) {
 		var data = $(this).data();
 		if(data.status == 11) {
-			location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm;
+			window.open("?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm);
 		} else {
-			location.href = "?c=ProjectProviderMyPro&a=projectInfoView&no=" + data.id + "&token=" + data.idm;
+			window.open("?c=ProjectProviderMyPro&a=projectInfoView&no=" + data.id + "&token=" + data.idm);
 		}
 		return false;
 	});

@@ -4,6 +4,8 @@ $(function() {
 
 	$(".l-nav").find(".pushProject").addClass("active")
 		.children("a").attr("href", "javascript:;");
+
+	require("common/erqi/pager.js");
 	  
 	var all_select=0;
 
@@ -105,16 +107,6 @@ $(function() {
 			}).fail(function() {
 			});
 
-		}
-		return false;
-	});
-
-
-	/* 分页 */
-	$(".pager span").click(function() {
-		var $this = $(this);
-		if(!$this.hasClass("active")) {
-			location.href = "?c=InnerStaff&a=pushProject&page="+$this.data("page-index");
 		}
 		return false;
 	});
