@@ -1359,7 +1359,11 @@ class InnerStaffController extends Controller {
             $evaData = array();
             $evaData['project_id'] = $projectId;
             $evaData['IRR'] = $_POST['IRR']==""?null:$_POST['IRR'];
-            $evaData['evaluation_result'] = $_POST['evaluation_result'].",".$_POST['evaluation_result_text'];
+            if($_POST['evaluation_result_text'] == null || $_POST['evaluation_result_text'] == ""){
+                $evaData['evaluation_result'] = $_POST['evaluation_result'];
+            }else{
+                $evaData['evaluation_result'] = $_POST['evaluation_result'].",".$_POST['evaluation_result_text'];
+            }
             $evaData['static_payback_time'] = $_POST['static_payback_time']==""?null:$_POST['static_payback_time'];
             $evaData['dynamic_payback_time'] = $_POST['dynamic_payback_time']==""?null:$_POST['dynamic_payback_time'];
             $evaData['LCOE'] = $_POST['LCOE']==""?null:$_POST['LCOE'];
@@ -1439,7 +1443,11 @@ class InnerStaffController extends Controller {
             $evaData = array();
             $evaData['project_id'] = $projectId;
             $evaData['IRR'] = $_POST['IRR']==""?null:$_POST['IRR'];
-            $evaData['evaluation_result'] = $_POST['evaluation_result'].",".$_POST['evaluation_result_text'];
+            if($_POST['evaluation_result_text'] == null || $_POST['evaluation_result_text'] == ""){
+                $evaData['evaluation_result'] = $_POST['evaluation_result'];
+            }else{
+                $evaData['evaluation_result'] = $_POST['evaluation_result'].",".$_POST['evaluation_result_text'];
+            }
             $evaData['static_payback_time'] = $_POST['static_payback_time']==""?null:$_POST['static_payback_time'];
             $evaData['dynamic_payback_time'] = $_POST['dynamic_payback_time']==""?null:$_POST['dynamic_payback_time'];
             $evaData['LCOE'] = $_POST['LCOE']==""?null:$_POST['LCOE'];
@@ -1510,6 +1518,7 @@ class InnerStaffController extends Controller {
 			
 			$objEvaluation = D("Evaluation", "Service");
 			$evaluationInfo = $objEvaluation->getEvaluation($projectId);
+            $evaluationInfo['evaluationResult'] = $evaluationInfo['evaluation_result'];
             $evaluationResult = explode(',', $evaluationInfo['evaluation_result']);
             $evaluationInfo['evaluation_result'] = $evaluationResult[0];
             $evaluationInfo['evaluation_result_text'] = $evaluationResult[1];

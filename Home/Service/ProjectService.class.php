@@ -971,7 +971,7 @@ class ProjectService extends Model{
         }
         //公司名称
         if(!($companyName == null || $companyName == 'all')){
-            if($companyName == 0){
+            if($companyName == "0"){
                 if($companyNameOther != null && $companyNameOther != ""){
                     if($housetopSql != ""){
                         $housetopSql = $housetopSql." and u.company_name like '%".$companyNameOther."%'";
@@ -1018,7 +1018,7 @@ class ProjectService extends Model{
         }
         //位置
         if(!($situation == null || $situation == 'all')){
-            if($situation == 0){
+            if($situation == "0"){
                 if($situationOther != null && $situationOther != ""){
                     //1.模糊查询项目地区
                     $areaObj = D('Area', 'Service');
