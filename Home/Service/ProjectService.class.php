@@ -1369,6 +1369,7 @@ class ProjectService extends Model{
         $data['delete_flag'] = 9999;
         $data['change_date'] = date("Y-m-d H:i:s",time());
         $res = $project->where("id='".$id."'")->save($data);
+
         if(!$res){
             echo '{"code":"-1","msg":"project delete error!"}';
             exit;
@@ -1525,7 +1526,7 @@ class ProjectService extends Model{
 
     /**
     **@auth qianqiang
-    **@breif 还原项目，还原project、housetop、ground、evaluation、component、inverter、pushProject
+    **@breif 还原项目，还原project、housetop、ground、evaluation、component、inverter、pushProject,如果该项目的提供方被删掉了，恢复该项目提供方
     **@param id:项目id
     **@date 2016.1.18
     **/
@@ -1536,8 +1537,15 @@ class ProjectService extends Model{
             echo '{"code":"-1","msg":"项目不可进行恢复操作"}';
             exit;
         }
+
         $data['delete_flag'] = 0;
         $data['change_date'] = date("Y-m-d H:i:s",time());
+        //如果项目提供方被删掉了，恢复项目提供方
+        $user = M('User');
+        $objUser = $user->where("id='".$objProject['provider_id']."' and delete_flag=9999")->find();
+        if(!empty($objUser)){
+            $user->where("id='".$objProject['provider_id']."' and delete_flag=9999")->save($data);
+        }
         $res = $project->where("id='".$id."'")->save($data);
         if(!$res){
             echo '{"code":"-1","msg":"project recovery error!"}';
