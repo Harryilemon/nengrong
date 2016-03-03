@@ -359,14 +359,14 @@ function isProjectCodeRight($pc, $mpc){
     // return true;
     if(empty($pc) || empty($mpc)){
         header('Content-Type: text/html; charset=utf-8');
-        echo '{"code":"-1","msg":"项目信息验证错误"}';
-        // echo "<script type='text/javascript'>alert('项目错误，重新登录');location.href='?c=User&a=login'</script>";
+        // echo '{"code":"-1","msg":"项目信息验证错误"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误');location.href='?c=User&a=login'</script>";
         exit;
     }
     if(!($mpc == MD5(addToken($pc)))){
         header('Content-Type: text/html; charset=utf-8');
-        echo '{"code":"-1","msg":"项目信息验证错误"}';
-        // echo "<script type='text/javascript'>alert('项目错误，重新登录');location.href='?c=User&a=login'</script>";
+        // echo '{"code":"-1","msg":"项目信息验证错误"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误');location.href='?c=User&a=login'</script>";
         exit;
     }
     $projectObj = M('Project');
@@ -375,7 +375,8 @@ function isProjectCodeRight($pc, $mpc){
     $res = $projectObj->where($condition)->select();
     if(empty($res)){
         header('Content-Type: text/html; charset=utf-8');
-        echo '{"code":"-1","msg":"项目信息验证错误,项目编号未查询到"}';
+        // echo '{"code":"-1","msg":"项目信息验证错误,项目编号未查询到"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误,项目编号未查询到');location.href='?c=User&a=login'</script>";
         exit;
     }
     return true;
