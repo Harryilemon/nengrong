@@ -24,3 +24,9 @@
 .btn.export:hover {
 	background: #F1920C;
 }
+
+.r-content .pp-ct .state, .r-content .pp-ct .title {
+	padding-left: 0;
+	font-size: 18px;
+	color: black;
+}

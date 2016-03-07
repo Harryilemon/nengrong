@@ -10,5 +10,5 @@ $.validator.addMethod("phone", function(value, element) {
 
 $.validator.addMethod("mobileOrPhone", function(value, element) {
 	value = value && $.trim(value) || "";
-	return !value && ( /^1[\d]{10}$/.test(value) || /^\+?[\d\s-]+$/.test(value) );
+	return !value || /^1[\d]{10}$/.test(value) || /^\+?[\d\s-]+$/.test(value);
 });

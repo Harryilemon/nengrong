@@ -32,6 +32,8 @@ $(function() {
 		changeMonth: true,
       	changeYear: true,
       	closeText: '清除',
+      	// minDate: new Date(),
+      	// minDate: "2016-02-27",
       	beforeShow: function (input, inst) {
       		startDateInput = null;
       		endDateInput = input;
