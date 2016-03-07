@@ -675,7 +675,7 @@ $(function() {
 			if(data.code == "0") {
 				var optype = $form.find("[name=optype]").val();
 				if(optype === "save") {
-					location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm;
+					location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm + "&from=save";
 				} else {
 					location.href = "?c=ProjectProviderMyPro&a=awaitingAssessment&filter=committed";
 				}
@@ -741,5 +741,10 @@ $(function() {
 	});
 
 	// $form.ajaxForm(options);
+
+	var p = $.parseQueryParam();
+	if(p.from === "save") {
+		$(window).scrollTop($(document).height());
+	}
 
 });
