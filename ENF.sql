@@ -5,352 +5,380 @@
 create database nengrongweb;
 use nengrongweb;
 
-drop table if exists ENF_Area;
+drop table if exists enf_area;
 
-drop table if exists ENF_Doc;
+drop table if exists enf_doc;
 
-drop table if exists ENF_Evaluation;
+drop table if exists enf_evaluation;
 
-drop table if exists ENF_Ground;
+drop table if exists enf_ground;
 
-drop table if exists ENF_Housetop;
+drop table if exists enf_housetop;
 
-drop table if exists ENF_Project;
+drop table if exists enf_project;
 
-drop table if exists ENF_PushProject;
+drop table if exists enf_pushproject;
 
-drop table if exists ENF_User;
+drop table if exists enf_user;
 
-drop table if exists ENF_Admin;
+drop table if exists enf_admin;
 
-drop table if exists ENF_Component;
+drop table if exists enf_component;
 
-drop table if exists ENF_Inverter;
+drop table if exists enf_inverter;
+
+drop table if exists enf_log;
 
 /*==============================================================*/
-/* Table: ENF_Area                                              */
+/* Table: enf_Area                                              */
 /*==============================================================*/
-create table ENF_Area
+create table enf_area
 (
    id                   varchar(10) not null comment 'id',
-   area                 varchar(50) not null comment 'µØÇøÃèÊö',
-   parent_id            varchar(10) not null comment '¸¸¼¶id',
+   area                 varchar(50) not null comment 'åœ°åŒºæè¿°',
+   parent_id            varchar(10) not null comment 'çˆ¶çº§id',
    primary key (id)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Area comment 'µØÇø±í';
+alter table enf_area comment 'åœ°åŒºè¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Doc                                               */
+/* Table: enf_Doc                                               */
 /*==============================================================*/
-create table ENF_Doc
+create table enf_doc
 (
    id                   bigint not null auto_increment,
-   file_name            varchar(100) not null comment 'ÎÄ¼şÃû³Æ',
-   file_rename          varchar(100) not null comment 'ÎÄ¼şÖØ¶¨ÏòÃû³Æurl',
-   file_size            double not null comment 'ÎÄ¼ş´óĞ¡bit',
-   update_date          datetime not null comment 'ÉÏ´«Ê±¼ä',
+   file_name            varchar(100) not null comment 'æ–‡ä»¶åç§°',
+   file_rename          varchar(100) not null comment 'æ–‡ä»¶é‡å®šå‘åç§°url',
+   file_size            double not null comment 'æ–‡ä»¶å¤§å°bit',
+   update_date          datetime not null comment 'ä¸Šä¼ æ—¶é—´',
    primary key (id)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Doc comment '¸½¼ş±í';
+alter table enf_doc comment 'é™„ä»¶è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Evaluation                                        */
+/* Table: enf_Evaluation                                        */
 /*==============================================================*/
-create table ENF_Evaluation
+create table enf_evaluation
 (
    id                   bigint not null auto_increment,
-   project_id           bigint comment '¹éÊôÏîÄ¿id',
-   IRR                  double comment 'ÄÚ²¿ÊÕÒæÂÊ',
-   evaluation_result    varchar(10) comment 'ÆÀ¼Û½á¹û',
-   static_payback_time  double comment '¾²Ì¬Í¶×Ê»ØÊÕÄê',
-   dynamic_payback_time double comment '¶¯Ì¬Í¶×Ê»ØÊÕÆÚ',
-   LCOE                 double comment 'LCOE',
-   npv                  double comment '¾»ÏÖÖµ',
-   power_asset_current_value double comment 'µçÕ¾×Ê²úÀÛ¼ÆÏÖÖµ',
-   evaluation_content   varchar(600) comment 'ÆÀ¼ÛÄÚÈİ',
-   document_review      varchar(600) comment 'ÎÄ¼şÉó²é',
-   project_quality_situation varchar(600) comment '¹¤³Ì½¨ÉèÖÊÁ¿ºÍÏµÍ³ÔËĞĞÇé¿ö',
-   project_invest_situation varchar(600) comment 'ÏîÄ¿½¨ÉèÍ¶×ÊÇé¿ö',
-   project_earnings_situation varchar(600) comment 'ÏîÄ¿¾­¼ÃÊÕÒæÇé¿ö',
-   doc_mul              varchar(100) comment '¸½¼ş¼¯ºÏ',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   status               int not null default 0 comment '×´Ì¬ÀàĞÍ£º0Õı³£¡¢11ÏîÄ¿Î´Ìá½»¡¢12ÏîÄ¿ÒÑÌá½»£¨ÒÑÌá½»£©¡¢13ÒÑÌá½»ÒâÏòÊé£¨ÒÑÌá½»£©¡¢21ÒÑÇ©ÒâÏòºÏÍ¬£¨Î´¾¡Ö°µ÷²é£©¡¢22ÒÑÌá½»¾¡Ö°µ÷²é£¨Î´Ç©ÒâÏòºÏÍ¬£©¡¢23ÒÑÇ©ÒâÏòºÏÍ¬£¨ÒÑ¾¡Ö°µ÷²é£©¡¢31ÒÑÇ©ÈÚ×ÊºÏÍ¬¡¢41ÒÑÍÆËÍ¡¢42Î´ÍÆËÍ¡¢51¾¡Ö°µ÷²é±£´æ×´Ì¬£¨¾¡Ö°µ÷²é±£´æºóÏîÄ¿×´Ì¬£©¡¢52¾¡Ö°µ÷²éÌá½»×´Ì¬¡¢61ÒâÏòÊé±£´æ×´Ì¬',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   project_id           bigint comment 'å½’å±é¡¹ç›®id',
+   IRR                  double default null comment 'å†…éƒ¨æ”¶ç›Šç‡',
+   static_payback_time  double default null comment 'é™æ€æŠ•èµ„å›æ”¶å¹´',
+   dynamic_payback_time double default null comment 'åŠ¨æ€æŠ•èµ„å›æ”¶æœŸ',
+   LCOE                 double default null comment 'LCOE',
+   npv                  double default null comment 'å‡€ç°å€¼',
+   power_asset_current_value double default null comment 'ç”µç«™èµ„äº§ç´¯è®¡ç°å€¼',
+   evaluation_content   varchar(600) default null comment 'è¯„ä»·å†…å®¹',
+   document_review      varchar(600) default null comment 'æ–‡ä»¶å®¡æŸ¥',
+   project_quality_situation varchar(600) default null comment 'å·¥ç¨‹å»ºè®¾è´¨é‡å’Œç³»ç»Ÿè¿è¡Œæƒ…å†µ',
+   project_invest_situation varchar(600) default null comment 'é¡¹ç›®å»ºè®¾æŠ•èµ„æƒ…å†µ',
+   project_earnings_situation varchar(600) default null comment 'é¡¹ç›®ç»æµæ”¶ç›Šæƒ…å†µ',
+   evaluation_result    varchar(600) default null comment 'è¯„ä»·ç»“æœ',
+   doc_mul              varchar(100) default null comment 'é™„ä»¶é›†åˆ',
+   duty_person          varchar(20) default null comment 'è´£ä»»äºº',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   status               int not null default 0 comment 'çŠ¶æ€ç±»å‹ï¼š0æ­£å¸¸ã€11é¡¹ç›®æœªæäº¤ã€12é¡¹ç›®å·²æäº¤ï¼ˆå·²æäº¤ï¼‰ã€13å·²æäº¤æ„å‘ä¹¦ï¼ˆå·²æäº¤ï¼‰ã€21å·²ç­¾æ„å‘åˆåŒï¼ˆæœªå°½èŒè°ƒæŸ¥ï¼‰ã€22å·²æäº¤å°½èŒè°ƒæŸ¥ï¼ˆæœªç­¾æ„å‘åˆåŒï¼‰ã€23å·²ç­¾æ„å‘åˆåŒï¼ˆå·²å°½èŒè°ƒæŸ¥ï¼‰ã€31å·²ç­¾èèµ„åˆåŒã€41å·²æ¨é€ã€42æœªæ¨é€ã€51å°½èŒè°ƒæŸ¥ä¿å­˜çŠ¶æ€ï¼ˆå°½èŒè°ƒæŸ¥ä¿å­˜åé¡¹ç›®çŠ¶æ€ï¼‰ã€52å°½èŒè°ƒæŸ¥æäº¤çŠ¶æ€ã€61æ„å‘ä¹¦ä¿å­˜çŠ¶æ€',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `evaluation_project_id` (`project_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Evaluation comment '¾¡Ö°µ÷²é±í';
+alter table enf_evaluation comment 'å°½èŒè°ƒæŸ¥è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Ground                                            */
+/* Table: enf_Ground                                            */
 /*==============================================================*/
-create table ENF_Ground
+create table enf_ground
 (
    id                   bigint not null auto_increment,
-   project_id           bigint not null comment '¹éÊôÏîÄ¿id',
-   project_intent       text comment 'ÏîÄ¿ÒâÏòÊé',
-   project_area         varchar(10) comment 'ÏîÄ¿µØÇø',
-   project_address     	varchar(60) comment 'ÏîÄ¿ÏêÏ¸µØÖ·',
-   picture_full         varchar(100) comment 'µØÃæÈ«¾°',
-   picture_field        varchar(100) comment '³¡Æ½Í¼Æ¬',
-   picture_transformer  varchar(100) comment '±äµçÕ¾Í¼Æ¬',
-   picture_mul          varchar(100) comment '¶¯Ì¬Í¼Æ¬¼¯ºÏ', 
-   contract             varchar(20) comment 'ºÏÍ¬µÄdocID',
-   project_name			varchar(50) comment 'ÏîÄ¿Ãû³Æ',
-   project_finish_date	datetime comment 'ÏîÄ¿Íê¹¤Ê±¼ä',
-   project_electricity_price double comment 'ÏîÄ¿µç¼Û',
-   project_investment	double comment 'ÏîÄ¿×ÜÍ¶×Ê',
-   ground_property      int comment 'ÍÁµØĞÔÖÊ£¨0ÆäËû¡¢1Ò»°ãÅ©Ìï¡¢2ÁÖµØ¡¢3»ÄµØ¡¢4ÓãÌÁ¡¢5»ù±¾Å©Ìï£©',
-   ground_property_other varchar(20) comment 'ÆäÍÁµØĞÔÖÊĞÅÏ¢',
-   ground_area          double comment '×âÁŞÍÁµØÃæ»ı',
-   rent_time            double comment '×âÁŞÄêÏŞ',
-   rent_pay             double comment '×âÁŞ×â½ğ',
-   control_room_area    double comment 'ÖĞ¿ØÊÒ½¨ÖşÃæ»ı',
-   sell_sum				double comment '³öÈÃ½ğ¶î',
-   ground_condition     int comment 'ÍÁµØÆ½ÕûÇé¿ö£¨1Æ½µØ¡¢2É½ÆÂ¡¢3Ë®Ãæ£©',
-   has_shelter          varchar(8) comment '¸½½üÓĞÎŞÕÚµ²£¨1ÓĞ¡¢2ÎŞ£©',
-   has_pollute          varchar(8) comment 'ÓĞÎŞÎÛÈ¾Ô´£¨1ÓĞ¡¢2ÎŞ£©',
-   transformer_capacity double comment 'ÉÏ¼¶±äÑ¹Æ÷ÈİÁ¿',
-   voltage_level    	varchar(50) comment '²¢ÍøµçÑ¹µÈ¼¶',
-   electricity_distance double comment 'µçÍø½ÓÈëµã¾àÀë',
-   measure_point        int comment '¼ÆÁ¿µã£¨1Õ¾ÄÚ¡¢2±äµçÕ¾£©',
-   plan_build_volume    double comment 'Äâ½¨ÉèÈİÁ¿',
-   electricity_data     double comment 'ÀúÊ··¢µçÁ¿',
-   project_holder_type  int comment 'ÏîÄ¿Ö§¼ÜÀàĞÍ£¨1µØÃæ¹Ì¶¨Ê½¡¢2µ¥Öá¡¢3Ë«Öá£©',
-   ground_project_type  int comment 'ÏîÄ¿ÀàĞÍ£¨1µØÃæ¡¢2Å©¹â»¥²¹¡¢3Óã¹â»¥²¹£©',
-   cooperation_type     varchar(30) comment 'ÓëÄÜÈÚÍøºÏ×÷·½Ê½£¨1EPC¡¢2ÉêÇëÈÚ×Ê¡¢3ÍÆ½éÏîÄ¿¡¢4×ªÈÃ£©',
-   plan_financing       double comment 'ÄâÈÚ×Ê½ğ¶î',
-   financing_type       int comment 'ÈÚ×Ê·½Ê½£¨1ÈÚ×Ê×âÁŞ£¨Ö±×â£©¡¢2ÈÚ×Ê×âÁŞ£¨»Ø×â£©¡¢3¹ÉÈ¨ÈÚ×Ê£©',
-   company_invest       double comment 'µ¥Î»Í¶×Ê',
-   company_EPC          varchar(100) comment 'EPC³§¼Ò',
-   capacity_level       varchar(50) comment '×ÊÖÊµÈ¼¶',
-   synchronize_date     date comment '²¢ÍøÊ±¼ä£¨date£©',
-   project_backup       varchar(20) comment 'ÏîÄ¿±¸°¸£¨¸½¼şID£©',
-   electricity_backup   varchar(20) comment 'µçÍø½ÓÈë±¸°¸£¨¸½¼şID£©',
-   ground_rent_agreement varchar(20) comment 'ÍÁµØ×âÁŞĞ­Òé£¨¸½¼şID£©',
-   rent_time2           double comment '×âÁŞÄêÏŞ',
-   rent_pay2            double comment '×âÁŞ×â½ğ',
-   ground_opinion       varchar(20) comment 'ÍÁµØÔ¤ÉóÒâ¼û£¨¸½¼şID£©',
-   project_proposal     varchar(20) comment 'ÏîÄ¿½¨ÒéÊé£¨¸½¼şID£©',
-   project_report       varchar(20) comment 'ÏîÄ¿¿ÉÑĞ±¨¸æ£¨¸½¼şID£©',
-   environment_assessment varchar(20) comment '»·ÆÀ£¨¸½¼şID£©',
-   land_certificate     varchar(20) comment 'ÍÁµØÖ¤£¨¸½¼şID£©',
-   electricity_price_reply varchar(20) comment 'Îï¼Û¾Öµç¼ÛÅú¸´£¨¸½¼şID£©',
-   is_old_project       varchar(20) comment 'ÊÇ·ñ½øÈëµ±ÄêÊ¡¹â·üÏîÄ¿Ä¿Â¼£¨¸½¼şID£©',
-   completion_report    varchar(20) comment '¿¢¹¤ÑéÊÕ±¨¸æ£¨¸½¼şID£©',
-   completion_paper     varchar(20) comment '¿¢¹¤Í¼Ö½£¨¸½¼şID£©',
-   history_data         varchar(20) comment 'ÀúÊ··¢µçÁ¿Êı¾İ£¨¸½¼şID£©',
-   electricity_bill     varchar(20) comment 'µç·Ñ½áËãÆ±¾İ£¨¸½¼şID£©',
-   comment              varchar(500) comment '±¸×¢',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   status               int not null default 0 comment '×´Ì¬ÀàĞÍ£º0Õı³£¡¢11ÏîÄ¿Î´Ìá½»¡¢12ÏîÄ¿ÒÑÌá½»£¨ÒÑÌá½»£©¡¢13ÒÑÌá½»ÒâÏòÊé£¨ÒÑÌá½»£©¡¢21ÒÑÇ©ÒâÏòºÏÍ¬£¨Î´¾¡Ö°µ÷²é£©¡¢22ÒÑÌá½»¾¡Ö°µ÷²é£¨Î´Ç©ÒâÏòºÏÍ¬£©¡¢23ÒÑÇ©ÒâÏòºÏÍ¬£¨ÒÑ¾¡Ö°µ÷²é£©¡¢31ÒÑÇ©ÈÚ×ÊºÏÍ¬¡¢41ÒÑÍÆËÍ¡¢42Î´ÍÆËÍ¡¢51¾¡Ö°µ÷²é±£´æ×´Ì¬£¨¾¡Ö°µ÷²é±£´æºóÏîÄ¿×´Ì¬£©¡¢52¾¡Ö°µ÷²éÌá½»×´Ì¬¡¢61ÒâÏòÊé±£´æ×´Ì¬',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   project_id           bigint not null comment 'å½’å±é¡¹ç›®id',
+   project_intent       text comment 'é¡¹ç›®æ„å‘ä¹¦',
+   project_area         varchar(10) default null comment 'é¡¹ç›®åœ°åŒº',
+   project_address      varchar(60) default null comment 'é¡¹ç›®è¯¦ç»†åœ°å€',
+   picture_full         varchar(100) default null comment 'åœ°é¢å…¨æ™¯',
+   picture_field        varchar(100) default null comment 'åœºå¹³å›¾ç‰‡',
+   picture_transformer  varchar(100) default null comment 'å˜ç”µç«™å›¾ç‰‡',
+   picture_mul          varchar(100) default null comment 'åŠ¨æ€å›¾ç‰‡é›†åˆ', 
+   contract             varchar(20) default null comment 'åˆåŒçš„docID',
+   project_name   varchar(50) default null comment 'é¡¹ç›®åç§°',
+   contacts_name   varchar(20) default null comment 'è”ç³»äººåç§°',
+   contacts_phone   varchar(11) default null comment 'è”ç³»æ–¹å¼',
+   contacts_email   varchar(50) default null comment 'é‚®ä»¶åœ°å€',
+   project_finish_date datetime comment 'é¡¹ç›®å®Œå·¥æ—¶é—´',
+   project_electricity_price double default null comment 'é¡¹ç›®ç”µä»·',
+   project_investment double default null comment 'é¡¹ç›®æ€»æŠ•èµ„',
+   ground_property      int default 1 comment 'åœŸåœ°æ€§è´¨ï¼ˆ0å…¶ä»–ã€1ä¸€èˆ¬å†œç”°ã€2æ—åœ°ã€3è’åœ°ã€4é±¼å¡˜ã€5åŸºæœ¬å†œç”°ï¼‰',
+   ground_property_other varchar(20) default null comment 'å…¶åœŸåœ°æ€§è´¨ä¿¡æ¯',
+   ground_area          double default null comment 'ç§ŸèµåœŸåœ°é¢ç§¯',
+   rent_time            double default null comment 'ç§Ÿèµå¹´é™',
+   rent_pay             double default null comment 'ç§Ÿèµç§Ÿé‡‘',
+   control_room_area    double default null comment 'ä¸­æ§å®¤å»ºç­‘é¢ç§¯',
+   sell_sum    double default null comment 'å‡ºè®©é‡‘é¢',
+   ground_condition     int comment 'åœŸåœ°å¹³æ•´æƒ…å†µï¼ˆ1å¹³åœ°ã€2å±±å¡ã€3æ°´é¢ï¼‰',
+   has_shelter          varchar(8) comment 'é™„è¿‘æœ‰æ— é®æŒ¡ï¼ˆ1æœ‰ã€2æ— ï¼‰',
+   has_pollute          varchar(8) comment 'æœ‰æ— æ±¡æŸ“æºï¼ˆ1æœ‰ã€2æ— ï¼‰',
+   transformer_capacity double default null comment 'ä¸Šçº§å˜å‹å™¨å®¹é‡',
+   voltage_level     varchar(50) default null comment 'å¹¶ç½‘ç”µå‹ç­‰çº§',
+   electricity_distance double default null comment 'ç”µç½‘æ¥å…¥ç‚¹è·ç¦»',
+   measure_point        int comment 'è®¡é‡ç‚¹ï¼ˆ1ç«™å†…ã€2å˜ç”µç«™ï¼‰',
+   plan_build_volume    double default null comment 'æ‹Ÿå»ºè®¾å®¹é‡',
+   electricity_data     double default null comment 'å†å²å‘ç”µé‡',
+   project_holder_type  int comment 'é¡¹ç›®æ”¯æ¶ç±»å‹ï¼ˆ1åœ°é¢å›ºå®šå¼ã€2å•è½´ã€3åŒè½´ï¼‰',
+   ground_project_type  int comment 'é¡¹ç›®ç±»å‹ï¼ˆ1åœ°é¢ã€2å†œå…‰äº’è¡¥ã€3é±¼å…‰äº’è¡¥ï¼‰',
+   project_industry     varchar(10) default null comment 'è¡Œä¸šï¼ˆXå·¥ä¸šã€Cå•†ä¸šã€Aå†œä¸šï¼ŒRå±…æ°‘ï¼ŒFé±¼å…‰äº’è¡¥ï¼ŒXå…¶ä»–ï¼‰æˆ– è‡ªå‘è‡ªç”¨ç”¨ç”µåˆ†ç±»ï¼ˆIå¤§å·¥ä¸š,Cä¸€èˆ¬å·¥å•†ä¸š,Aå†œä¸š,Rå±…æ°‘,Xå…¶ä»–ï¼‰',
+   cooperation_type     varchar(30) default null comment 'ä¸èƒ½èç½‘åˆä½œæ–¹å¼ï¼ˆ1EPCã€2ç”³è¯·èèµ„ã€3æ¨ä»‹é¡¹ç›®ã€4è½¬è®©ï¼‰',
+   plan_financing       double default null comment 'æ‹Ÿèèµ„é‡‘é¢',
+   financing_type       int comment 'èèµ„æ–¹å¼ï¼ˆ0å…¶ä»–ã€1èèµ„ç§Ÿèµï¼ˆç›´ç§Ÿï¼‰ã€2èèµ„ç§Ÿèµï¼ˆå›ç§Ÿï¼‰ã€3è‚¡æƒèèµ„ï¼‰',
+   company_invest       double default null comment 'å•ä½æŠ•èµ„',
+   company_EPC          varchar(100) default null comment 'EPCå‚å®¶',
+   capacity_level       varchar(50) default null comment 'èµ„è´¨ç­‰çº§',
+   synchronize_date     date comment 'å¹¶ç½‘æ—¶é—´ï¼ˆdateï¼‰',
+   project_backup       varchar(20) comment 'é¡¹ç›®å¤‡æ¡ˆï¼ˆé™„ä»¶IDï¼‰',
+   electricity_backup   varchar(20) comment 'ç”µç½‘æ¥å…¥å¤‡æ¡ˆï¼ˆé™„ä»¶IDï¼‰',
+   ground_rent_agreement varchar(20) comment 'åœŸåœ°ç§Ÿèµåè®®ï¼ˆé™„ä»¶IDï¼‰',
+   rent_time2           double default null comment 'ç§Ÿèµå¹´é™',
+   rent_pay2            double default null comment 'ç§Ÿèµç§Ÿé‡‘',
+   ground_opinion       varchar(20) comment 'åœŸåœ°é¢„å®¡æ„è§ï¼ˆé™„ä»¶IDï¼‰',
+   project_proposal     varchar(20) comment 'é¡¹ç›®å»ºè®®ä¹¦ï¼ˆé™„ä»¶IDï¼‰',
+   project_report       varchar(20) comment 'é¡¹ç›®å¯ç ”æŠ¥å‘Šï¼ˆé™„ä»¶IDï¼‰',
+   environment_assessment varchar(20) comment 'ç¯è¯„ï¼ˆé™„ä»¶IDï¼‰',
+   land_certificate     varchar(20) comment 'åœŸåœ°è¯ï¼ˆé™„ä»¶IDï¼‰',
+   electricity_price_reply varchar(20) comment 'ç‰©ä»·å±€ç”µä»·æ‰¹å¤ï¼ˆé™„ä»¶IDï¼‰',
+   is_old_project       varchar(20) comment 'æ˜¯å¦è¿›å…¥å½“å¹´çœå…‰ä¼é¡¹ç›®ç›®å½•ï¼ˆé™„ä»¶IDï¼‰',
+   completion_report    varchar(20) comment 'ç«£å·¥éªŒæ”¶æŠ¥å‘Šï¼ˆé™„ä»¶IDï¼‰',
+   completion_paper     varchar(20) comment 'ç«£å·¥å›¾çº¸ï¼ˆé™„ä»¶IDï¼‰',
+   history_data         varchar(20) comment 'å†å²å‘ç”µé‡æ•°æ®ï¼ˆé™„ä»¶IDï¼‰',
+   electricity_bill     varchar(20) comment 'ç”µè´¹ç»“ç®—ç¥¨æ®ï¼ˆé™„ä»¶IDï¼‰',
+   comment              varchar(500) comment 'å¤‡æ³¨',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   status               int not null default 0 comment 'çŠ¶æ€ç±»å‹ï¼š0æ­£å¸¸ã€11é¡¹ç›®æœªæäº¤ã€12é¡¹ç›®å·²æäº¤ï¼ˆå·²æäº¤ï¼‰ã€13å·²æäº¤æ„å‘ä¹¦ï¼ˆå·²æäº¤ï¼‰ã€21å·²ç­¾æ„å‘åˆåŒï¼ˆæœªå°½èŒè°ƒæŸ¥ï¼‰ã€22å·²æäº¤å°½èŒè°ƒæŸ¥ï¼ˆæœªç­¾æ„å‘åˆåŒï¼‰ã€23å·²ç­¾æ„å‘åˆåŒï¼ˆå·²å°½èŒè°ƒæŸ¥ï¼‰ã€31å·²ç­¾èèµ„åˆåŒã€41å·²æ¨é€ã€42æœªæ¨é€ã€51å°½èŒè°ƒæŸ¥ä¿å­˜çŠ¶æ€ï¼ˆå°½èŒè°ƒæŸ¥ä¿å­˜åé¡¹ç›®çŠ¶æ€ï¼‰ã€52å°½èŒè°ƒæŸ¥æäº¤çŠ¶æ€ã€61æ„å‘ä¹¦ä¿å­˜çŠ¶æ€',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `ground_project_id` (`project_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Ground comment '´óĞÍµØÃæµçÕ¾/µØÃæ·Ö²¼Ê½';
+alter table enf_ground comment 'å¤§å‹åœ°é¢ç”µç«™/åœ°é¢åˆ†å¸ƒå¼';
 
 /*==============================================================*/
-/* Table: ENF_Housetop                                          */
+/* Table: enf_Housetop                                          */
 /*==============================================================*/
-create table ENF_Housetop
+create table enf_housetop
 (
    id                   bigint not null auto_increment,
-   project_id           bigint not null comment '¹éÊôÏîÄ¿id',
-   project_intent       text comment 'ÏîÄ¿ÒâÏòÊé',
-   project_area         varchar(10) comment 'ÏîÄ¿µØÇø',
-   project_address     	varchar(60) comment 'ÏîÄ¿ÏêÏ¸µØÖ·',
-   picture_full         varchar(100) comment 'Îİ¶¥È«¾°',
-   picture_south        varchar(100) comment 'Îİ¶¥ÕıÄÏÍ¼Æ¬',
-   picture_mul          varchar(100) comment '¶¯Ì¬Í¼Æ¬¼¯ºÏ', 
-   contract             varchar(20) comment 'ºÏÍ¬µÄdocID',
-   housetop_owner       varchar(50) comment 'Îİ¶¥ÒµÖ÷Ãû³Æ',
-   company_type         int comment 'ÆóÒµÀàĞÍ£¨1¹úÆó£¨ÉÏÊĞ¹«Ë¾£©¡¢2ÍâÆó£¨ÉÏÊĞ¹«Ë¾£©¡¢3Ë½Æó£¨ÉÏÊĞ¹«Ë¾£©¡¢4¹úÆó£¨·ÇÉÏÊĞ¹«Ë¾£©¡¢5ÍâÆó£¨·ÇÉÏÊĞ¹«Ë¾£©¡¢6Ë½Æó£¨·ÇÉÏÊĞ¹«Ë¾£©£©',
-   company_capital      double comment '×¢²á×Ê±¾½ğ',
-   housetop_property_prove varchar(20) comment 'Îİ¶¥²úÈ¨Ö¤Ã÷£¨¸½¼şID£©',
-   electricity_total    double comment 'ÄêÓÃµçÁ¿',
-   electricity_pay      double comment 'µç·Ñ',
-   electricity_pay_list varchar(20) comment '×î½üÒ»Äêµç·ÑÃ÷Ï¸£¨¸½¼şID£©',
-   housetop_type        int comment 'Îİ¶¥ÀàĞÍ£¨0ÆäËû¡¢1»ìÄıÍÁ¡¢2²Ê¸ÖÍß£©',
-   housetop_type_other  varchar(20) comment 'ÆäËû·¿ÎİÀàĞÍĞÅÏ¢',
-   housetop_area        double comment 'Îİ¶¥Ãæ»ı',
-   electricity_data     double comment 'ÀúÊ··¢µçÁ¿',
-   housetop_age         int comment 'Îİ¶¥Ê¹ÓÃÊÙÃü',
-   housetop_direction   int comment 'Îİ¶¥³¯Ïò£¨0ÆäËû£¬1ÕıÄÏ£¬2¶«Î÷Ïò£©',
-   housetop_direction_other varchar(20) comment 'ÆäËüÎİ¶¥³¯ÏòĞÅÏ¢',
-   housetop_waterproof_time double comment 'Îİ¶¥·ÀË®ÖÜÆÚ',
-   housetop_load        double comment 'Îİ¶¥»îÔØºÉ',
-   has_shelter          varchar(8) comment '¸½½üÓĞÎŞÕÚµ²£¨1ÓĞ¡¢2ÎŞ£©',
-   has_pollute        varchar(8) comment 'ÓĞÎŞÎÛÈ¾Ô´£¨1ÓĞ¡¢2ÎŞ£©',
-   transformer_capacity double comment 'ÉÏ¼¶±äÑ¹Æ÷ÈİÁ¿',
-   voltage_level        double comment '²¢ÍøµçÑ¹µÈ¼¶',
-   synchronize_type     int comment '²¢Íø·½Ê½£¨1×Ô·¢×ÔÓÃ¡¢2È«¶îÉÏÍø¡¢3×Ô·¢×ÔÓÃÈ«¶îÉÏÍø£©',
-   electricity_distance double comment 'µçÍø½ÓÈëµã¾àÀë',
-   plan_build_volume    double comment 'Äâ½¨ÉèÈİÁ¿',
-   cooperation_type     varchar(30) comment 'ÓëÄÜÈÚÍøºÏ×÷·½Ê½:1EPC¡¢2ÉêÇëÈÚ×Ê¡¢3ÍÆ½éÏîÄ¿¡¢4×ªÈÃ',
-   plan_financing       double comment 'ÄâÈÚ×Ê½ğ¶î',
-   financing_type       int comment 'ÈÚ×Ê·½Ê½£¨1ÈÚ×Ê×âÁŞ£¨Ö±×â£©¡¢2ÈÚ×Ê×âÁŞ£¨»Ø×â£©¡¢3¹ÉÈ¨ÈÚ×Ê£©',
-   company_invest       double comment 'µ¥Î»Í¶×Ê',
-   company_EPC          varchar(100) comment 'EPC³§¼Ò',
-   capacity_level       varchar(50) comment '×ÊÖÊµÈ¼¶',
-   synchronize_date     date comment '²¢ÍøÊ±¼ä',
-   project_backup       varchar(20) comment 'ÏîÄ¿±¸°¸£¨¸½¼şID£©',
-   electricity_backup   varchar(20) comment 'µçÍø½ÓÈë±¸°¸£¨¸½¼şID£©',
-   house_rent_agreement varchar(20) comment 'Îİ¶¥×âÁŞĞ­Òé£¨¸½¼şID£©',
-   rent_time            double comment '×âÁŞÄêÏŞ',
-   rent_pay             double comment '×âÁŞ×â½ğ',
-   power_manage_agreement varchar(20) comment 'ºÏÍ¬ÄÜÔ´¹ÜÀíĞ­Òé£¨¸½¼şID£©',
-   electricity_clear_type int comment 'µç¼Û½áËã·½Ê½£¨1·å¹ÈÆ½µç¼Û´òÕÛ¡¢2Æ½¾ùµç¼Û´òÕÛ¡¢3¹Ì¶¨µç¼Û£©',
-   electricity_clear    varchar(20) comment '½áËãµç¼Û',
-   project_proposal     varchar(20) comment 'ÏîÄ¿½¨ÒéÊé£¨¸½¼şID£©',
-   project_report       varchar(20) comment 'ÏîÄ¿¿ÉÑĞ±¨¸æ£¨¸½¼şID£©',
-   housetop_load_prove  varchar(20) comment 'Îİ¶¥ÔØºÉÖ¤Ã÷£¨¸½¼şID£©',
-   completion_report    varchar(20) comment '¿¢¹¤ÑéÊÕ±¨¸æ£¨¸½¼şID£©',
-   completion_paper     varchar(20) comment '¿¢¹¤Í¼Ö½£¨¸½¼şID£©',
-   history_data         varchar(20) comment 'ÀúÊ··¢µçÊı¾İ/·øÕÕÊı¾İ£¨¸½¼şID£©',
-   electricity_bill     varchar(20) comment 'µç·Ñ½áËãÆ±¾İ£¨¸½¼şID£©',
-   comment              varchar(500) comment '±¸×¢',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   status               int not null default 0 comment '×´Ì¬ÀàĞÍ£º0Õı³£¡¢11ÏîÄ¿Î´Ìá½»¡¢12ÏîÄ¿ÒÑÌá½»£¨ÒÑÌá½»£©¡¢13ÒÑÌá½»ÒâÏòÊé£¨ÒÑÌá½»£©¡¢21ÒÑÇ©ÒâÏòºÏÍ¬£¨Î´¾¡Ö°µ÷²é£©¡¢22ÒÑÌá½»¾¡Ö°µ÷²é£¨Î´Ç©ÒâÏòºÏÍ¬£©¡¢23ÒÑÇ©ÒâÏòºÏÍ¬£¨ÒÑ¾¡Ö°µ÷²é£©¡¢31ÒÑÇ©ÈÚ×ÊºÏÍ¬¡¢41ÒÑÍÆËÍ¡¢42Î´ÍÆËÍ¡¢51¾¡Ö°µ÷²é±£´æ×´Ì¬£¨¾¡Ö°µ÷²é±£´æºóÏîÄ¿×´Ì¬£©¡¢52¾¡Ö°µ÷²éÌá½»×´Ì¬¡¢61ÒâÏòÊé±£´æ×´Ì¬',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   project_id           bigint not null comment 'å½’å±é¡¹ç›®id',
+   project_intent       text comment 'é¡¹ç›®æ„å‘ä¹¦',
+   project_area         varchar(10) default null comment 'é¡¹ç›®åœ°åŒº',
+   project_address      varchar(60) default null comment 'é¡¹ç›®è¯¦ç»†åœ°å€',
+   picture_full         varchar(100) default null comment 'å±‹é¡¶å…¨æ™¯',
+   picture_south        varchar(100) default null comment 'å±‹é¡¶æ­£å—å›¾ç‰‡',
+   picture_mul          varchar(100) default null comment 'åŠ¨æ€å›¾ç‰‡é›†åˆ', 
+   contract             varchar(20) default null comment 'åˆåŒçš„docID',
+   project_name   varchar(50) default null comment 'é¡¹ç›®åç§°',
+   contacts_name   varchar(20) default null comment 'è”ç³»äººåç§°',
+   contacts_phone   varchar(11) default null comment 'è”ç³»æ–¹å¼',
+   contacts_email   varchar(50) default null comment 'é‚®ä»¶åœ°å€',
+   housetop_owner       varchar(50) default null comment 'å±‹é¡¶ä¸šä¸»åç§°',
+   company_type         int comment 'ä¼ä¸šç±»å‹ï¼ˆ1å›½ä¼ï¼ˆä¸Šå¸‚å…¬å¸ï¼‰ã€2å¤–ä¼ï¼ˆä¸Šå¸‚å…¬å¸ï¼‰ã€3ç§ä¼ï¼ˆä¸Šå¸‚å…¬å¸ï¼‰ã€4å›½ä¼ï¼ˆéä¸Šå¸‚å…¬å¸ï¼‰ã€5å¤–ä¼ï¼ˆéä¸Šå¸‚å…¬å¸ï¼‰ã€6ç§ä¼ï¼ˆéä¸Šå¸‚å…¬å¸ï¼‰ï¼‰',
+   company_capital      double default null comment 'æ³¨å†Œèµ„æœ¬é‡‘',
+   housetop_property_prove varchar(20) default null comment 'å±‹é¡¶äº§æƒè¯æ˜ï¼ˆé™„ä»¶IDï¼‰',
+   electricity_total    double default null comment 'å¹´ç”¨ç”µé‡',
+   electricity_pay      double default null comment 'ç”µè´¹',
+   electricity_pay_list varchar(20) default null comment 'æœ€è¿‘ä¸€å¹´ç”µè´¹æ˜ç»†ï¼ˆé™„ä»¶IDï¼‰',
+   housetop_type        int default 1 comment 'å±‹é¡¶ç±»å‹ï¼ˆ0å…¶ä»–ã€1æ··å‡åœŸã€2å½©é’¢ç“¦ï¼‰',
+   housetop_type_other  varchar(20) default null comment 'å…¶ä»–æˆ¿å±‹ç±»å‹ä¿¡æ¯',
+   housetop_area        double default null comment 'å±‹é¡¶é¢ç§¯',
+   electricity_data     double default null comment 'å†å²å‘ç”µé‡',
+   housetop_age         double default null comment 'å±‹é¡¶ä½¿ç”¨å¯¿å‘½',
+   housetop_direction   int default 1 comment 'å±‹é¡¶æœå‘ï¼ˆ0å…¶ä»–ï¼Œ1æ­£å—ï¼Œ2ä¸œè¥¿å‘ï¼‰',
+   housetop_direction_other varchar(20) default null comment 'å…¶å®ƒå±‹é¡¶æœå‘ä¿¡æ¯',
+   housetop_waterproof_time double default null comment 'å±‹é¡¶é˜²æ°´å‘¨æœŸ',
+   housetop_load        double default null comment 'å±‹é¡¶æ´»è½½è·',
+   has_shelter          varchar(8) default null comment 'é™„è¿‘æœ‰æ— é®æŒ¡ï¼ˆ1æœ‰ã€2æ— ï¼‰',
+   has_pollution        varchar(8) default null comment 'æœ‰æ— æ±¡æŸ“æºï¼ˆ1æœ‰ã€2æ— ï¼‰', 
+   transformer_capacity double default null comment 'ä¸Šçº§å˜å‹å™¨å®¹é‡',
+   voltage_level        double default null comment 'å¹¶ç½‘ç”µå‹ç­‰çº§',
+   synchronize_type     int comment 'å¹¶ç½‘æ–¹å¼ï¼ˆ1å…¨éƒ¨è‡ªå‘è‡ªç”¨ã€2å…¨é¢ä¸Šç½‘ã€3è‡ªå‘è‡ªç”¨ï¼Œä½™é¢ä¸Šç½‘ï¼‰',
+   project_industry     varchar(10) comment 'è¡Œä¸šï¼ˆXå·¥ä¸šã€Cå•†ä¸šã€Aå†œä¸šï¼ŒRå±…æ°‘ï¼ŒFé±¼å…‰äº’è¡¥ï¼ŒXå…¶ä»–ï¼‰æˆ– è‡ªå‘è‡ªç”¨ç”¨ç”µåˆ†ç±»ï¼ˆIå¤§å·¥ä¸š,Cä¸€èˆ¬å·¥å•†ä¸š,Aå†œä¸š,Rå±…æ°‘,Xå…¶ä»–ï¼‰',
+   electricity_distance double default null comment 'ç”µç½‘æ¥å…¥ç‚¹è·ç¦»',
+   plan_build_volume    double default null comment 'æ‹Ÿå»ºè®¾å®¹é‡',
+   cooperation_type     varchar(30) comment 'ä¸èƒ½èç½‘åˆä½œæ–¹å¼:1EPCã€2ç”³è¯·èèµ„ã€3æ¨ä»‹é¡¹ç›®ã€4è½¬è®©',
+   plan_financing       double default null comment 'æ‹Ÿèèµ„é‡‘é¢',
+   financing_type       int comment 'èèµ„æ–¹å¼ï¼ˆ0å…¶ä»–ã€1èèµ„ç§Ÿèµï¼ˆç›´ç§Ÿï¼‰ã€2èèµ„ç§Ÿèµï¼ˆå›ç§Ÿï¼‰ã€3è‚¡æƒèèµ„ï¼‰',
+   company_invest       double default null comment 'å•ä½æŠ•èµ„',
+   company_EPC          varchar(100) default null comment 'EPCå‚å®¶',
+   capacity_level       varchar(50) default null comment 'èµ„è´¨ç­‰çº§',
+   synchronize_date     date comment 'å¹¶ç½‘æ—¶é—´',
+   project_backup       varchar(20) comment 'é¡¹ç›®å¤‡æ¡ˆï¼ˆé™„ä»¶IDï¼‰',
+   electricity_backup   varchar(20) comment 'ç”µç½‘æ¥å…¥å¤‡æ¡ˆï¼ˆé™„ä»¶IDï¼‰',
+   house_rent_agreement varchar(20) comment 'å±‹é¡¶ç§Ÿèµåè®®ï¼ˆé™„ä»¶IDï¼‰',
+   rent_time            double default null comment 'ç§Ÿèµå¹´é™',
+   rent_pay             double default null comment 'ç§Ÿèµç§Ÿé‡‘',
+   power_manage_agreement varchar(20) comment 'åˆåŒèƒ½æºç®¡ç†åè®®ï¼ˆé™„ä»¶IDï¼‰',
+   electricity_clear_type int comment 'ç”µä»·ç»“ç®—æ–¹å¼ï¼ˆ1å³°è°·å¹³ç”µä»·æ‰“æŠ˜ã€2å¹³å‡ç”µä»·æ‰“æŠ˜ã€3å›ºå®šç”µä»·ï¼‰',
+   electricity_clear    varchar(20) comment 'ç»“ç®—ç”µä»·',
+   project_proposal     varchar(20) comment 'é¡¹ç›®å»ºè®®ä¹¦ï¼ˆé™„ä»¶IDï¼‰',
+   project_report       varchar(20) comment 'é¡¹ç›®å¯ç ”æŠ¥å‘Šï¼ˆé™„ä»¶IDï¼‰',
+   housetop_load_prove  varchar(20) comment 'å±‹é¡¶è½½è·è¯æ˜ï¼ˆé™„ä»¶IDï¼‰',
+   completion_report    varchar(20) comment 'ç«£å·¥éªŒæ”¶æŠ¥å‘Šï¼ˆé™„ä»¶IDï¼‰',
+   completion_paper     varchar(20) comment 'ç«£å·¥å›¾çº¸ï¼ˆé™„ä»¶IDï¼‰',
+   history_data         varchar(20) comment 'å†å²å‘ç”µæ•°æ®/è¾ç…§æ•°æ®ï¼ˆé™„ä»¶IDï¼‰',
+   electricity_bill     varchar(20) comment 'ç”µè´¹ç»“ç®—ç¥¨æ®ï¼ˆé™„ä»¶IDï¼‰',
+   comment              varchar(500) comment 'å¤‡æ³¨',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   status               int not null default 0 comment 'çŠ¶æ€ç±»å‹ï¼š0æ­£å¸¸ã€11é¡¹ç›®æœªæäº¤ã€12é¡¹ç›®å·²æäº¤ï¼ˆå·²æäº¤ï¼‰ã€13å·²æäº¤æ„å‘ä¹¦ï¼ˆå·²æäº¤ï¼‰ã€21å·²ç­¾æ„å‘åˆåŒï¼ˆæœªå°½èŒè°ƒæŸ¥ï¼‰ã€22å·²æäº¤å°½èŒè°ƒæŸ¥ï¼ˆæœªç­¾æ„å‘åˆåŒï¼‰ã€23å·²ç­¾æ„å‘åˆåŒï¼ˆå·²å°½èŒè°ƒæŸ¥ï¼‰ã€31å·²ç­¾èèµ„åˆåŒã€41å·²æ¨é€ã€42æœªæ¨é€ã€51å°½èŒè°ƒæŸ¥ä¿å­˜çŠ¶æ€ï¼ˆå°½èŒè°ƒæŸ¥ä¿å­˜åé¡¹ç›®çŠ¶æ€ï¼‰ã€52å°½èŒè°ƒæŸ¥æäº¤çŠ¶æ€ã€61æ„å‘ä¹¦ä¿å­˜çŠ¶æ€',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `housetop_project_id` (`project_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Housetop comment 'Îİ¶¥·Ö²¼ÏîÄ¿±í';
+alter table enf_housetop comment 'å±‹é¡¶åˆ†å¸ƒé¡¹ç›®è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Project                                           */
+/* Table: enf_Project                                           */
 /*==============================================================*/
-create table ENF_Project
+create table enf_project
 (
    id                   bigint not null auto_increment,
-   project_code         varchar(30) not null comment 'ÏîÄ¿±àºÅ',
-   project_type         int comment 'ÏîÄ¿ÀàĞÍ£º1Îİ¶¥·Ö²¼Ê½¡¢2µØÃæ·Ö²¼Ê½¡¢3´óĞÍµØÃæ',
-   build_state          int comment '½¨Éè×´Ì¬£º1Î´½¨¡¢2ÒÑ½¨',
-   provider_id			bigint comment 'ÏîÄ¿Ìá¹©·½id',
-   highlight_flag       int default 0 comment '¸ßÁÁ±ê¼Ç£¬0²»¸ßÁÁ£¬1¸ßÁÁ',
-   status               int not null default 0 comment '×´Ì¬ÀàĞÍ£º0Õı³£¡¢11ÏîÄ¿Î´Ìá½»¡¢12ÏîÄ¿ÒÑÌá½»£¨ÒÑÌá½»£©¡¢13ÒÑÌá½»ÒâÏòÊé£¨ÒÑÌá½»£©¡¢21ÒÑÇ©ÒâÏòºÏÍ¬£¨Î´¾¡Ö°µ÷²é£©¡¢22ÒÑÌá½»¾¡Ö°µ÷²é£¨Î´Ç©ÒâÏòºÏÍ¬£©¡¢23ÒÑÇ©ÒâÏòºÏÍ¬£¨ÒÑ¾¡Ö°µ÷²é£©¡¢31ÒÑÇ©ÈÚ×ÊºÏÍ¬¡¢41ÒÑÍÆËÍ¡¢42Î´ÍÆËÍ¡¢51¾¡Ö°µ÷²é±£´æ×´Ì¬£¨¾¡Ö°µ÷²é±£´æºóÏîÄ¿×´Ì¬£©¡¢52¾¡Ö°µ÷²éÌá½»×´Ì¬¡¢61ÒâÏòÊé±£´æ×´Ì¬',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
+   project_code         varchar(30) not null comment 'é¡¹ç›®ç¼–å·',
+   project_type         int comment 'é¡¹ç›®ç±»å‹ï¼š1å±‹é¡¶åˆ†å¸ƒå¼ã€2åœ°é¢åˆ†å¸ƒå¼ã€3å¤§å‹åœ°é¢',
+   build_state          int comment 'å»ºè®¾çŠ¶æ€ï¼š1æœªå»ºã€2å·²å»º',
+   provider_id   bigint comment 'é¡¹ç›®æä¾›æ–¹id',
+   highlight_flag       int default 0 comment 'é«˜äº®æ ‡è®°ï¼Œ0ä¸é«˜äº®ï¼Œ1é«˜äº®',
+   status               int not null default 0 comment 'çŠ¶æ€ç±»å‹ï¼š0æ­£å¸¸ã€11é¡¹ç›®æœªæäº¤ã€12é¡¹ç›®å·²æäº¤ï¼ˆå·²æäº¤ï¼‰ã€13å·²æäº¤æ„å‘ä¹¦ï¼ˆå·²æäº¤ï¼‰ã€21å·²ç­¾æ„å‘åˆåŒï¼ˆæœªå°½èŒè°ƒæŸ¥ï¼‰ã€22å·²æäº¤å°½èŒè°ƒæŸ¥ï¼ˆæœªç­¾æ„å‘åˆåŒï¼‰ã€23å·²ç­¾æ„å‘åˆåŒï¼ˆå·²å°½èŒè°ƒæŸ¥ï¼‰ã€31å·²ç­¾èèµ„åˆåŒã€41å·²æ¨é€ã€42æœªæ¨é€ã€51å°½èŒè°ƒæŸ¥ä¿å­˜çŠ¶æ€ï¼ˆå°½èŒè°ƒæŸ¥ä¿å­˜åé¡¹ç›®çŠ¶æ€ï¼‰ã€52å°½èŒè°ƒæŸ¥æäº¤çŠ¶æ€ã€61æ„å‘ä¹¦ä¿å­˜çŠ¶æ€',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
    primary key (id)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 /*==============================================================*/
-/* Table: ENF_PushProject                                       */
+/* Table: enf_PushProject                                       */
 /*==============================================================*/
-create table ENF_PushProject
+create table enf_pushproject
 (
    id                   bigint not null auto_increment,
-   investor_id          bigint comment 'Í¶×ÊÈËid',
-   project_code         varchar(100) comment 'ÏîÄ¿±àºÅ',
-   push_time            datetime comment 'ÍÆËÍÊ±¼ä',
-   highlight_flag       int default 0 comment '¸ßÁÁ±ê¼Ç£¬0²»¸ßÁÁ£¬1¸ßÁÁ',
-   status               int not null default 0 comment '×´Ì¬ÀàĞÍ£º0Õı³£¡¢11ÏîÄ¿Î´Ìá½»¡¢12ÏîÄ¿ÒÑÌá½»£¨ÒÑÌá½»£©¡¢13ÒÑÌá½»ÒâÏòÊé£¨ÒÑÌá½»£©¡¢21ÒÑÇ©ÒâÏòºÏÍ¬£¨Î´¾¡Ö°µ÷²é£©¡¢22ÒÑÌá½»¾¡Ö°µ÷²é£¨Î´Ç©ÒâÏòºÏÍ¬£©¡¢23ÒÑÇ©ÒâÏòºÏÍ¬£¨ÒÑ¾¡Ö°µ÷²é£©¡¢31ÒÑÇ©ÈÚ×ÊºÏÍ¬¡¢41ÒÑÍÆËÍ¡¢42Î´ÍÆËÍ¡¢51¾¡Ö°µ÷²é±£´æ×´Ì¬£¨¾¡Ö°µ÷²é±£´æºóÏîÄ¿×´Ì¬£©¡¢52¾¡Ö°µ÷²éÌá½»×´Ì¬¡¢61ÒâÏòÊé±£´æ×´Ì¬',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   investor_id          bigint comment 'æŠ•èµ„äººid',
+   project_code         varchar(100) default null comment 'é¡¹ç›®ç¼–å·',
+   push_time            datetime comment 'æ¨é€æ—¶é—´',
+   highlight_flag       int default 0 comment 'é«˜äº®æ ‡è®°ï¼Œ0ä¸é«˜äº®ï¼Œ1é«˜äº®',
+   status               int not null default 0 comment 'çŠ¶æ€ç±»å‹ï¼š0æ­£å¸¸ã€11é¡¹ç›®æœªæäº¤ã€12é¡¹ç›®å·²æäº¤ï¼ˆå·²æäº¤ï¼‰ã€13å·²æäº¤æ„å‘ä¹¦ï¼ˆå·²æäº¤ï¼‰ã€21å·²ç­¾æ„å‘åˆåŒï¼ˆæœªå°½èŒè°ƒæŸ¥ï¼‰ã€22å·²æäº¤å°½èŒè°ƒæŸ¥ï¼ˆæœªç­¾æ„å‘åˆåŒï¼‰ã€23å·²ç­¾æ„å‘åˆåŒï¼ˆå·²å°½èŒè°ƒæŸ¥ï¼‰ã€31å·²ç­¾èèµ„åˆåŒã€41å·²æ¨é€ã€42æœªæ¨é€ã€51å°½èŒè°ƒæŸ¥ä¿å­˜çŠ¶æ€ï¼ˆå°½èŒè°ƒæŸ¥ä¿å­˜åé¡¹ç›®çŠ¶æ€ï¼‰ã€52å°½èŒè°ƒæŸ¥æäº¤çŠ¶æ€ã€61æ„å‘ä¹¦ä¿å­˜çŠ¶æ€',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
-   INDEX `pushProject_investor` (`investor_id`)
+   INDEX `pushproject_investor` (`investor_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_PushProject comment 'ÍÆËÍµ½Í¶×Ê·½µÄÏîÄ¿±í';
+alter table enf_pushproject comment 'æ¨é€åˆ°æŠ•èµ„æ–¹çš„é¡¹ç›®è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_User                                              */
+/* Table: enf_User                                              */
 /*==============================================================*/
-create table ENF_User
+create table enf_user
 (
    id                   bigint not null auto_increment,
-   email                varchar(100) not null comment '×¢²áÓÊÏä',
-   password             varchar(100) not null comment 'ÃÜÂë',
-   user_type            int not null comment 'ÓÃ»§ÀàĞÍ£º1¹ÜÀíÔ±¡¢2ÒµÎñÔ±¡¢3ÏîÄ¿Ìá¹©·½¡¢4Í¶×ÊÈË',
-   code					varchar(100) comment 'ÒµÎñÔ±±àÂë',
-   name					varchar(20) comment 'ÒµÎñÔ±ĞÕÃû',
-   company_name         varchar(100) comment 'ÆóÒµÃû³Æ',
-   company_type         int comment 'ÆóÒµ×¢²á×Ê±¾/ÀàĞÍ£º1ÑëÆó¹úÆó¡¢2ÖĞÍâºÏ×Ê¡¢3ÍâÉÌ¶À×Ê¡¢4´óĞÍÃñÓª¡¢5Ğ¡ĞÍÃñÓª',
-   company_person       varchar(100) comment 'ÆóÒµ·¨ÈË',
-   company_capital      float comment 'ÆóÒµ×¢²á×Ê±¾',
-   company_fax          varchar(20) comment '¹«Ë¾´«Õæ',
-   company_phone        varchar(20) comment '×ù»ú',
-   company_telephone    varchar(11) comment 'ÆäËûÊÖ»ú',
-   company_area         varchar(10) comment 'ËùÔÚµØÇø',
-   company_address      varchar(100) comment 'ÏêÏ¸µØÖ·',
-   company_contacts     varchar(100) comment 'ÁªÏµÈË',
-   company_contacts_phone varchar(11) comment 'ÁªÏµÈËÊÖ»ú',
-   company_contacts_position varchar(100) comment 'ÁªÏµÈËÖ°Îñ',
-   business_license     varchar(100) comment '¹«Ë¾ÓªÒµÖ´ÕÕ-¸½¼şID',
-   organization_code    varchar(100) comment '×éÖ¯»ú¹¹´úÂëÖ¤-¸½¼şID',
-   national_tax_certificate varchar(100) comment '¹úË°µÇ¼ÇÖ¤-¸½¼şID',
-   local_tax_certificate varchar(100) comment 'µØË°µÇ¼ÇÖ¤-¸½¼şID',
-   identity_card_front  varchar(100) comment '·¨ÈËÉí·İÖ¤ÕıÃæ-¸½¼şID',
-   identity_card_back   varchar(100) comment '·¨ÈËÉí·İÖ¤·´Ãæ-¸½¼şID',
-   financial_audit      varchar(20) comment '²ÆÎñÉó¼Æ±¨¸æµÄdocID',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   status               int not null default 2 comment '×´Ì¬ÀàĞÍ£º1ÒÑ¼¤»î¡¢2Î´¼¤»î',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   email                varchar(100) not null comment 'æ³¨å†Œé‚®ç®±',
+   password             varchar(100) not null comment 'å¯†ç ',
+   user_type            int not null comment 'ç”¨æˆ·ç±»å‹ï¼š1ç®¡ç†å‘˜ã€2ä¸šåŠ¡å‘˜ã€3é¡¹ç›®æä¾›æ–¹ã€4æŠ•èµ„äºº',
+   code     varchar(100) comment 'ä¸šåŠ¡å‘˜ç¼–ç ',
+   name     varchar(20) comment 'ä¸šåŠ¡å‘˜å§“å',
+   company_name         varchar(100) comment 'ä¼ä¸šåç§°',
+   company_type         int default 1 comment 'ä¼ä¸šæ³¨å†Œèµ„æœ¬/ç±»å‹ï¼š0å…¶ä»–ã€1å›½æœ‰ä¼ä¸šã€2ä¸­å¤–åˆèµ„ã€3å¤–å•†ç‹¬èµ„ã€4é›†ä½“ä¼ä¸šã€5æ°‘è¥ä¼ä¸š',
+   company_person       varchar(100) comment 'ä¼ä¸šæ³•äºº',
+   company_capital      double default null comment 'ä¼ä¸šæ³¨å†Œèµ„æœ¬',
+   company_fax          varchar(20) comment 'å…¬å¸ä¼ çœŸ',
+   company_phone        varchar(20) comment 'åº§æœº',
+   company_telephone    varchar(11) comment 'å…¶ä»–æ‰‹æœº',
+   company_area         varchar(10) comment 'æ‰€åœ¨åœ°åŒº',
+   company_address      varchar(100) comment 'è¯¦ç»†åœ°å€',
+   company_contacts     varchar(100) comment 'è”ç³»äºº',
+   company_contacts_phone varchar(11) comment 'è”ç³»äººæ‰‹æœº',
+   company_contacts_position varchar(100) comment 'è”ç³»äººèŒåŠ¡',
+   business_license     varchar(100) comment 'å…¬å¸è¥ä¸šæ‰§ç…§-é™„ä»¶ID',
+   organization_code    varchar(100) comment 'ç»„ç»‡æœºæ„ä»£ç è¯-é™„ä»¶ID',
+   national_tax_certificate varchar(100) comment 'å›½ç¨ç™»è®°è¯-é™„ä»¶ID',
+   local_tax_certificate varchar(100) comment 'åœ°ç¨ç™»è®°è¯-é™„ä»¶ID',
+   identity_card_front  varchar(100) comment 'æ³•äººèº«ä»½è¯æ­£é¢-é™„ä»¶ID',
+   identity_card_back   varchar(100) comment 'æ³•äººèº«ä»½è¯åé¢-é™„ä»¶ID',
+   financial_audit      varchar(20) comment 'è´¢åŠ¡å®¡è®¡æŠ¥å‘Šçš„docID',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   status               int not null default 2 comment 'çŠ¶æ€ç±»å‹ï¼š1å·²æ¿€æ´»ã€2æœªæ¿€æ´»',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `user_email` (`email`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_User comment 'ÓÃ»§±í';
+alter table enf_user comment 'ç”¨æˆ·è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Admin                                           */
+/* Table: enf_Admin                                           */
 /*==============================================================*/
-create table ENF_Admin
+create table enf_admin
 (
    id                   bigint not null auto_increment,
-   user_name            varchar(100) not null unique comment 'ÓÃ»§Ãû',
-   password             varchar(100) not null comment 'ÃÜÂë',
+   user_name            varchar(100) not null unique comment 'ç”¨æˆ·å',
+   password             varchar(100) not null comment 'å¯†ç ',
    primary key (id)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Admin comment '¹ÜÀíÔ±±í';
-insert into ENF_Admin value(1,'admin','21232f297a57a5a743894a0e4a801fc3');/*ÃÜÂëadmin*/
+alter table enf_admin comment 'ç®¡ç†å‘˜è¡¨';
+insert into enf_admin value(1,'admin','21232f297a57a5a743894a0e4a801fc3');/*å¯†ç admin*/
 
 /*==============================================================*/
-/* Table: ENF_Component                                           */
+/* Table: enf_Component                                           */
 /*==============================================================*/
-create table ENF_Component
+create table enf_component
 (
    id                   bigint not null auto_increment,
-   project_id           bigint not null comment 'ÏîÄ¿id',
-   component_company    varchar(100) comment '×é¼ş³§¼Ò',
-   component_type       varchar(100) comment '×é¼ş¹æ¸ñĞÍºÅ',
-   component_count	    int comment '×é¼şÊıÁ¿',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   project_id           bigint not null comment 'é¡¹ç›®id',
+   component_company    varchar(100) comment 'ç»„ä»¶å‚å®¶',
+   component_type       varchar(100) comment 'ç»„ä»¶è§„æ ¼å‹å·',
+   component_count      int default 0 comment 'ç»„ä»¶æ•°é‡',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `component_project` (`project_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Component comment '×é¼ş±í';
+alter table enf_component comment 'ç»„ä»¶è¡¨';
 
 /*==============================================================*/
-/* Table: ENF_Inverter                                           */
+/* Table: enf_Inverter                                           */
 /*==============================================================*/
-create table ENF_Inverter
+create table enf_inverter
 (
    id                   bigint not null auto_increment,
-   project_id           bigint not null comment 'ÏîÄ¿id',
-   inverter_company     varchar(100) comment 'Äæ±äÆ÷³§¼Ò',
-   inverter_type        varchar(100) comment 'Äæ±äÆ÷¹æ¸ñĞÍºÅ',
-   inverter_count	    int comment 'Äæ±äÆ÷ÊıÁ¿',
-   create_date          datetime comment '´´½¨Ê±¼ä',
-   change_date          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   delete_flag int not null default 0 comment 'É¾³ı±ê¼Ç£º0Õı³£¡¢9999É¾³ı',
+   project_id           bigint not null comment 'é¡¹ç›®id',
+   inverter_company     varchar(100) comment 'é€†å˜å™¨å‚å®¶',
+   inverter_type        varchar(100) comment 'é€†å˜å™¨è§„æ ¼å‹å·',
+   inverter_count       int default 0 comment 'é€†å˜å™¨æ•°é‡',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   change_date          datetime comment 'ä¿®æ”¹æ—¶é—´',
+   delete_flag int not null default 0 comment 'åˆ é™¤æ ‡è®°ï¼š0æ­£å¸¸ã€9999åˆ é™¤',
    primary key (id),
    INDEX `inverter_project` (`project_id`)
 )ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-alter table ENF_Inverter comment 'Äæ±äÆ÷±í';
+alter table enf_inverter comment 'é€†å˜å™¨è¡¨';
 
+/*==============================================================*/
+/* Table: enf_log                                           */
+/*==============================================================*/
+create table enf_log
+(
+   id                   bigint not null auto_increment,
+   project_id           bigint not null comment 'é¡¹ç›®id',
+   user_id              bigint not null comment 'ç”¨æˆ·id',
+   user_name            varchar(20) comment 'æ“ä½œå‘˜åç§°',
+   log_text             varchar(200) comment 'æ“ä½œå†…å®¹',
+   create_date          datetime comment 'åˆ›å»ºæ—¶é—´',
+   primary key (id),
+   INDEX `log_project` (`project_id`)
+)ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+alter table enf_log comment 'æ—¥å¿—è¡¨,è®°å½•ä¸šåŠ¡å‘˜æ“ä½œå†…å®¹';

@@ -60,14 +60,10 @@ class AdminController extends Controller
         if($_POST['rtype'] == 1 || $_GET['rtype'] == 1){
             isAdminLogin($_COOKIE['adminName'],$_COOKIE['mAdminName']);
 
-            $userName = $_COOKIE['userName'];
+            $userName = $_COOKIE['adminName'];
             $pwd = $_POST['password'];
             $newPwd = $_POST['newPwd'];
             $confirmNewPwd = $_POST['confirmNewPwd'];
-            // $userName = "admin1";
-            // $pwd = "admin1";
-            // $newPwd = "admin1";
-            // $confirmNewPwd = "admin1";
             if (empty($pwd) || empty($newPwd) || empty($confirmNewPwd)) {
                 echo '{"code":"-1","msg":"新旧密码为空"}';
                 exit;
@@ -198,6 +194,35 @@ class AdminController extends Controller
 
     /**
     **@auth qianqiang
+    **@breif 投资方管理->添加项目提供方
+    **@date 2016.2.1
+    **/
+    public function addProjectProvider(){
+        isAdminLogin($_COOKIE['adminName'],$_COOKIE['mAdminName']);
+
+        $email = $_POST['email'];
+        // $companyName = $_POST['companyName'];
+        $password = "123456";
+        $userType = 3;
+        if (empty($email)) {
+            echo '{"code":"-1","msg":"邮箱为空！"}';
+            exit;
+        }
+
+        $user = D('User','Service');
+        $users = $user->registerService($email, $password, $userType);
+        // $objUser = $user->changeProjectInvestorByManager($users['id'], $email, $companyName);
+
+        $display = $_GET['display'];
+        if ($display == 'json') {
+            dump($objUser);
+            exit;
+        }
+        echo '{"code":"0","msg":"add user success"}';
+    }
+
+    /**
+    **@auth qianqiang
     **@breif 项目提供方管理->编辑
     **@date 2015.12.12
     **/
@@ -297,7 +322,7 @@ class AdminController extends Controller
             dump($users);
             exit;
         }    
-        $this->display("admin:admin_provider");
+        $this->display("Admin:admin_provider");
     }
 
     /**
@@ -431,15 +456,6 @@ class AdminController extends Controller
         $project->recoveryProjectService($id);
         
         echo '{"code":"0","msg":"recovery project success"}';
-    }
-
-
-    public function addAdmin(){
-        $manager = M('Admin');
-        $data['user_name'] = 'admin';
-        $data['password'] = MD5("admin");
-        $manager->add($data);
-        echo '{"code":"0","msg":"添加管理员"}';
     }
 
 }

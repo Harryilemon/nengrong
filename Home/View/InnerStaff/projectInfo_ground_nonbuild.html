@@ -39,11 +39,20 @@
 		<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/InnerStaff/InnerStaff_left.html';</php>
 		<!-- 右侧布局 -->
 		<div class="r-content">
-			<div class="remark"> 
-				<textarea id="commenttex">{$data['projectInfo']['comment']}</textarea>
-				<button id="commentbtn" type="submit">保存</button>
+			<div class="remarkall">
+				<div class="remark">
+					<textarea id="commenttex">{$data['projectInfo']['comment']}</textarea>
+					<button id="commentbtn" type="submit">保存</button>
+				</div>
+				<div class="remarkbutton">
+					<button id="remarkbtn" type="submit">备注</button>
+				</div>
 			</div>
 			<ul class="detail part1">
+				<li class="clrfix">
+					<span class="lb">项目名称：</span>
+					<span class="lbw">{$data['projectInfo']['project_name']}</span>
+				</li>
 				<li class="clrfix">
 					<span class="lb">项目类型：</span>
 					<span class="lbw">{$data['projectInfo']['typeStr']}</span>
@@ -81,11 +90,28 @@
 				</li>
 			</ul>
 
+			<p class="title">联系人信息</p>
+			<ul class="detail part2">
+				<li>
+					<span class="lb">联系人</span>
+					<span class="lbw">{$data['projectInfo']['contacts_name']}</span>
+				</li>
+				<li>
+					<span class="lb">联系方式</span>
+					<span class="lbw">{$data['projectInfo']['contacts_phone']}</span>
+				</li>
+				<li>
+					<span class="lb">邮件地址</span>
+					<span class="lbw">{$data['projectInfo']['contacts_email']}</span>
+				</li>
+			</ul>
+			
 			<p class="title">土地情况</p>
 			<ul class="detail part2">
 				<li>
 					<span class="lb">土地性质</span>
-					<span class="lbw">{$data['projectInfo']['groundProperty']}</span>
+					<span class="lbw"><if condition="$data['projectInfo']['ground_property'] eq 0"> {$data['projectInfo']['ground_property_other']}
+<else />{$data['projectInfo']['groundProperty']}</if></span>
 				</li>
 				<li>
 					<span class="lb">租赁土地面积</span>

@@ -72,11 +72,10 @@ class UserService extends Model{
 		$userAdd = M('user');
         $data['email'] = $email;
         $data['password'] = md5($password);
-        if(empty($userType) ) {
+        if(empty($userType) ) {//注册时$userType为空
             $data['user_type'] = 3;
             $data['status'] = 2;
-        }
-        else{
+        }else{//管理员添加时$userType不为空
             $data['user_type'] = $userType;
             $data['status'] = 1;
         }
@@ -103,16 +102,16 @@ class UserService extends Model{
 		if($flag == 0){
 			$key = $email.",".md5(addToken($email)).",".time();
 	        $encryptKey = base64_encode($key); 
-	        $url = "http://www.enetf.com/?c=User&a=activeUser&key=".urlencode($encryptKey);
+	        $url = "http://www.enetf.com?c=User&a=activeUser&key=".urlencode($encryptKey);
 	        $name = "能融网用户";
-	        $subject = "验证您的电子邮箱地址";
+	        $subject = "[能融网]注册账号激活邮件";
 	        $text = '欢迎使用能融网账号激活功能<br><br>请点击链接激活账号：<br><a target="_blank" href="'.$url.'">'.$url.'</a><br><br>（该链接在24小时内有效）<br>如果上面不是链接形式，请将地址复制到您的浏览器的地址栏再访问';
 		}elseif($flag == 1){
 			$key = $email.",".md5(addToken($email)).",".time();
 	        $encryptKey = base64_encode($key); 
-	        $url = "http://www.enetf.com/?c=User&a=forgetPassword&key=".urlencode($encryptKey)."&r=1";
+	        $url = "http://www.enetf.com?c=User&a=forgetPassword&key=".urlencode($encryptKey)."&r=1";
 	        $name = "能融网用户";
-	        $subject = "修改密码邮件";
+	        $subject = "[能融网]修改密码邮件";
 	        $text = '欢迎使用能融网修改密码功能<br><br>请点击链接修改密码：<br><a target="_blank" href="'.$url.'">'.$url.'</a><br><br>（该链接在24小时内有效）<br>如果上面不是链接形式，请将地址复制到您的浏览器的地址栏再访问';
 		}
         $res = think_send_mail($email, $name, $subject, $text, null);
@@ -392,12 +391,12 @@ class UserService extends Model{
 
 	/**
     **@auth qianqiang
-    **@breif 得到所有用户的公司名称
+    **@breif 得到所有项目提供方的公司名称
     **@date 2016.1.10
     **/
 	public function getAllCompanyName(){
 		$userObj = M('User');
-		$sql = "select distinct company_name from enf_user where company_name is not null and company_name != '';";
+		$sql = "select distinct company_name from enf_user where company_name is not null and company_name != '' and user_type=3 and delete_flag=0;";
 		$companyName = $userObj->query($sql);
 		return $companyName;
 	}

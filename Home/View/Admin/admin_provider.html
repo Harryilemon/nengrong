@@ -12,11 +12,11 @@
 
 <link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/bootstrap.min.css">
 <link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/bootstrap-responsive.min.css">
-<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/uniform@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/styles/Admin/uniform.css.ver';</php>.css">
-<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/select2<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/styles/Admin/select2.css.ver';</php>.css">
-<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/matrix-style<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/styles/Admin/matrix-style.css.ver';</php>.css">
-<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/matrix-media<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/styles/Admin/matrix-media.css.ver';</php>.css">
-<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/css/font-awesome<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/styles/Admin/css/font-awesome.css.ver';</php>.css">
+<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/uniform.css">
+<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/select2.css">
+<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/matrix-style.css">
+<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/matrix-media.css">
+<link rel="stylesheet" href="/EnergyFe/prd/styles/Admin/css/font-awesome.css">
 
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
@@ -49,11 +49,11 @@
 
       <ul class="dropdown-menu">
 
-        <li><a href="http://www.enetf.com/?c=Admin&a=changePassword"><i class="icon-lock"></i> Change Password</a></li>
+        <li><a href="?c=Admin&a=changePassword"><i class="icon-lock"></i> Change Password</a></li>
 
         <li class="divider"></li>
 
-        <li><a href="http://www.enetf.com/?c=Admin&a=logout"><i class="icon-key"></i> Log Out</a></li>
+        <li><a href="?c=Admin&a=logout"><i class="icon-key"></i> Log Out</a></li>
 
       </ul>
 
@@ -73,10 +73,10 @@
 
   <ul>
 
-    <li><a href="http://www.enetf.com/?c=Admin&a=getAllInnerStaffInfo"><i class="icon icon-group"></i> <span>业务员管理</span></a></li>
-	<li><a href="http://www.enetf.com/?c=Admin&a=getAllProjectInvestorInfo"><i class="icon icon-briefcase"></i> <span>项目投资方管理</span></a></li>
-	<li class="active"><a href="http://www.enetf.com/?c=Admin&a=getAllProjectProviderInfo"><i class="icon icon-fire"></i> <span>项目提供方管理</span></a></li>
-	<li><a href="http://www.enetf.com/?c=Admin&a=getAllProjectInfo"><i class="icon icon-tasks"></i> <span>项目管理</span></a></li>
+    <li><a href="?c=Admin&a=getAllInnerStaffInfo"><i class="icon icon-group"></i> <span>业务员管理</span></a></li>
+	<li><a href="?c=Admin&a=getAllProjectInvestorInfo"><i class="icon icon-briefcase"></i> <span>项目投资方管理</span></a></li>
+	<li class="active"><a href="?c=Admin&a=getAllProjectProviderInfo"><i class="icon icon-fire"></i> <span>项目提供方管理</span></a></li>
+	<li><a href="?c=Admin&a=getAllProjectInfo"><i class="icon icon-tasks"></i> <span>项目管理</span></a></li>
   </ul>
 
 </div>
@@ -110,6 +110,25 @@
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
 
             <h5>项目提供方列表</h5>
+
+			<div class="buttons"> 
+				<a id="add-event" data-toggle="modal" href="#modal-add-event" class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i>添加项目提供方</a>
+              <div aria-hidden="true" style="display: none;" class="modal hide" id="modal-add-event">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">×</button>
+                  <h3>添加项目提供方</h3>
+                </div>
+				<div class="modal-body">
+
+				  <p>项目提供方邮箱:</p>
+                  <p>
+                    <input id="add_mail" type="text">
+                  </p>
+
+                </div>
+                <div class="modal-footer"> <a href="#" class="btn" data-dismiss="modal">取消</a> <a href="#" id="add_provider" class="btn btn-primary">添加</a> </div>
+              </div>
+			  </div>
 				
           </div>
 
@@ -140,7 +159,7 @@
 					<tr data-id="{$provider[id]}" class="gradeX">
 						<td>{$provider[email]}</td>
 						<td>{$provider[company_phone]}</td>
-						<td>{$provider[company_telephone]}</td>
+						<td>{$provider[company_contacts_phone]}</td>
 						<td>{$provider[create_date]}</td>
 						<td class="action-td">
 								<button class="btn btn-info edit_id">编辑</button>
@@ -241,6 +260,30 @@
 				<a data-dismiss="modal" class="btn myAlert_delete_failed_closed" href="#">关闭</a> 
 			  </div>
 </div>
+<div id="myAlert_add_success" class="modal hide"  style="display: none;">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close myAlert_add_success_closed" type="button">×</button>
+                <h3>提示</h3>
+              </div>
+              <div class="modal-body">
+                <p>添加项目提供方成功！</p>
+              </div>
+              <div class="modal-footer"> 
+				<a data-dismiss="modal" class="btn myAlert_add_success_closed" href="#">关闭</a> 
+			  </div>
+</div>
+<div id="myAlert_add_failed" class="modal hide"  style="display: none;">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close myAlert_add_failed_closed" type="button">×</button>
+                <h3>提示</h3>
+              </div>
+              <div class="modal-body">
+                <p>添加项目提供方失败！</p>
+              </div>
+              <div class="modal-footer"> 
+				<a data-dismiss="modal" class="btn myAlert_add_failed_closed" href="#">关闭</a> 
+			  </div>
+</div>
 <!--Footer-part-->
 
 <div class="row-fluid">
@@ -257,16 +300,16 @@
 <script src="/EnergyFe/prd/scripts/Admin/jquery.dataTables.min.js"></script>
 <script src="/EnergyFe/prd/scripts/Admin/jquery.gritter.min.js"></script>
 <script src="/EnergyFe/prd/scripts/Admin/jquery.peity.min.js"></script>
-<script src="/EnergyFe/prd/scripts/Admin/jquery.ui.custom@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/jquery.ui.custom.js.ver';</php>.js"></script>
-<script src="/EnergyFe/prd/scripts/Admin/jquery.uniform@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/jquery.uniform.js.ver';</php>.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/jquery.ui.custom.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/jquery.uniform.js"></script>
 
-<script src="/EnergyFe/prd/scripts/Admin/matrix@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/matrix.js.ver';</php>.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/matrix.js"></script>
 
-<script src="/EnergyFe/prd/scripts/Admin/matrix.tables@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/matrix.tables.js.ver';</php>.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/matrix.tables.js"></script>
 
-<script src="/EnergyFe/prd/scripts/Admin/matrix.popover@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/matrix.popover.js.ver';</php>.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/matrix.popover.js"></script>
 
-<script src="/EnergyFe/prd/scripts/Admin/admin/admin_provider@<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/ver/scripts/Admin/admin/admin_provider.js.ver';</php>.js"></script>
+<script src="/EnergyFe/prd/scripts/Admin/admin/admin_provider.js"></script>
 
 </body>
 

@@ -12,10 +12,11 @@ $(function() {
 	   	// target: '#output',          //把服务器返回的内容放入id为output的元素中      
 	   	beforeSubmit: beforeSubmit, //提交前的回调函数  
 	   	success: successCallback,  	//提交后的回调函数
+	   	error: failCallback,		//服务器出错的回调函数
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
-	   	timeout: 6000               //限制请求的时间，当请求大于3秒后，跳出请求
+	   	timeout: 121000             //限制请求的时间，当请求大于121秒后，跳出请求
 	};
 	  
 	function beforeSubmit(formData, jqForm, options) {
@@ -31,27 +32,39 @@ $(function() {
 		}
 	}
 
+	function failCallback(xhr, status, error, $form) {
+		alert("保存失败！");
+	}
+
 	$form = $("#infoForm");
 	$form.validate({
 		ignore: ':hidden',
 		rules: {
+			"company_name": "required",
 			"company_contacts": "required",
 			"company_contacts_phone": {
 				"required": true,
 				"mobile": true
+			},
+			"company_phone": {
+				"phone": true
 			}
 		},
 		messages: {
+			"company_name": "请填写企业名称",
 			"company_contacts": "请填写联系人",
 			"company_contacts_phone": {
 				"required": "请填写联系人手机",
 				"mobile": "手机号格式不对"
-			}
+			},
+			"company_phone": {
+				"phone": "座机格式不对"
+   			}
 		},
 		errorClass: 'validate-error',
-		focusInvalid: false,
+		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			$form.ajaxSubmit(options);

@@ -62,7 +62,7 @@
 						
 							<if condition="$project[push_flag] eq 已推送"> 
 								<div class="div_grey" data-id="{$project[id]}"
-								data-cn="{$project[company_name]}" >
+								data-cn="{$project[company_name]}" data-flag="{$project[push_flag]}" >
 									<p class="c3"><input name="checkbox" type="checkbox" value="checkbox" disabled="false"><span style="visibility:hidden">&nbsp&nbsp全选</span></p>
 									<p class="c5">{$project[company_name]}</p>
 									<p class="c6">{$project[push_flag]}</p>
@@ -70,7 +70,7 @@
 									<p class="c5">{$project[company_contacts_phone]}</p>
 								</div>
 							<else /> 
-								<div data-id="{$project[id]}" data-cn="{$project[company_name]}">
+								<div data-id="{$project[id]}" data-cn="{$project[company_name]}"  data-flag="{$project[push_flag]}">
 									<p class="c3"><input name="checkbox" type="checkbox" value="checkbox" ><span style="visibility:hidden">&nbsp&nbsp全选</span></p>
 									<p class="c5">{$project[company_name]}</p>
 									<p class="c6">{$project[push_flag]}</p>
@@ -79,21 +79,9 @@
 								</div>	
 							</if>
 					</foreach>
-					<?php if($arrData['endPage'] > 1){ ?>
-					<div class="pager">
-						<span data-page-index="1" href="#">首页</span>
-		                    <for start="1" end="$arrData.totalPage">
-		                        <if condition="$arrData.page eq $i">
-									<span data-page-index="{$i}" class="active">{$i}</span>
-		                        <else/>
-									<span data-page-index="{$i}">{$i}</span>
-		                        </if>
-		                    </for>
-						<span data-page-index="{$arrData.endPage}" href="#">尾页</span>
-					</div>
-					<?php } ?>
 				</div>
 			</div>
+			<div class="pagination" data-total="{$arrData[count]}"></div>
 		</div>
 	</div>
 

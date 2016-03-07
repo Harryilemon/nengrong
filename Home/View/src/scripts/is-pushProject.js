@@ -4,6 +4,8 @@ $(function() {
 
 	$(".l-nav").find(".pushProject").addClass("active")
 		.children("a").attr("href", "javascript:;");
+
+	require("common/erqi/pager.js");
 	  
 	var all_select=0;
 
@@ -29,9 +31,13 @@ $(function() {
 		var arr = new Array(); 
 		var i=0;
 		$("[name='checkbox']:checked").each(function(){
-			item_id+=$(this).parent().parent().data("id")+",";
-			arr[i]=$(this).parent().parent().data("cn"); 
-			i++;
+			var flag=$(this).parent().parent().data("flag");
+			if(flag!='已推送')
+			{
+				item_id+=$(this).parent().parent().data("id")+",";
+				arr[i]=$(this).parent().parent().data("cn"); 
+				i++;
+			}
 		})
 		var str='';
 		for (var i=0;i<arr.length;i++)
@@ -57,12 +63,15 @@ $(function() {
 					if (data.code== 0)
 						{window.location.reload();}
 					else 
-						{alert('推送失败！');}
+						{alert(data.msg);}
 				});
 				
 			}).fail(function() {
 			});
+		} else {
+			alert("请选择要推送的项目");
 		}
+		return false;
     });
 
 	
@@ -92,21 +101,12 @@ $(function() {
 					if (data.code== 0)
 						{window.location.reload();}
 					else 
-						{alert('推送失败！');}
+						{alert(data.msg);}
 				});
 				
 			}).fail(function() {
 			});
 
-		}
-	});
-
-
-	/* 分页 */
-	$(".pager span").click(function() {
-		var $this = $(this);
-		if(!$this.hasClass("active")) {
-			location.href = "?c=InnerStaff&a=pushProject&page="+$this.data("page-index");
 		}
 		return false;
 	});

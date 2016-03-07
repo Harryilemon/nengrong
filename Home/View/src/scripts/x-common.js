@@ -1,4 +1,5 @@
 require("lib/jquery.min.js");
+require("lib/jquery.pagination.js");
 require("lib/jquery-validation-1.14.0/core.js");
 require("lib/jquery-validation-1.14.0/localization/messages_zh.js");
 require("lib/jquery-validation-1.14.0/additional/mobile.js");
@@ -7,3 +8,4 @@ require("common/addFavorite.js");
 require("common/erqi/header.js"); // 登出，设置公司名称等
 require("common/erqi/utils.js"); // 工具类
 require("common/erqi/l-nav.js");
+require("common/erqi/acceptType.js");

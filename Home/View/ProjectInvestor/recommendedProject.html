@@ -44,7 +44,7 @@
 				<div class="hd">
 					<p class="c0">项目编号</p>
 					<p class="c1">项目类型</p>
-					<p class="c2">位置</p>
+					<p class="c2">项目名称</p>
 					<p class="c3">推荐日期</p>
 				</div>
 				<div class="bd">
@@ -52,25 +52,13 @@
 						<div class="<if condition="$project[highlight_flag] eq 1">new</if>">
 							<p class="c0"><a data-id="{$project[project_code]}" data-idm="{$project[m_project_code]}" href="javascript:;">{$project[project_code]}</a></p>
 							<p class="c1">{$project[type]}</p>
-							<p class="c2">{$project[area]}</p>
+							<p class="c2">{$project[project_name]}</p>
 							<p class="c3">{$project[push_time]}</p>
 						</div>
 					</foreach>
 				</div>
 			</div>
-			<?php if($arrData['endPage'] > 1){ ?>
-			<div class="pager">
-				<span data-page-index="1" href="#">首页</span>
-	                <for start="1" end="$arrData.totalPage">
-	                    <if condition="$arrData.page eq $i">
-							<span data-page-index="{$i}" class="active">{$i}</span>
-	                    <else/>
-							<span data-page-index="{$i}">{$i}</span>
-	                    </if>
-	                </for>
-				<span data-page-index="{$arrData.endPage}" href="#">尾页</span>
-			</div>
-			<?php } ?>
+			<div class="pagination" data-total="{$arrData[count]}"></div>
 		</div>
 	</div>
 

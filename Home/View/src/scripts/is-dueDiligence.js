@@ -62,11 +62,7 @@ $(function() {
 <div class="progress"><div class="progress-bar"></div></div>\
 </div>',
 
-        'fileType' : 'image/*,\
-application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,\
-.docx,xlsx,pptx,\
-text/plain,application/pdf,\
-application/zip,application/x-zip-compressed',
+        'fileType' : acceptType.all,
 
         overrideEvents: ['onUploadComplete'],
 
@@ -116,7 +112,7 @@ application/zip,application/x-zip-compressed',
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
-	   	timeout: 6000               //限制请求的时间，当请求大于3秒后，跳出请求
+	   	timeout: 121000             //限制请求的时间，当请求大于121秒后，跳出请求
 	};
 	  
 	function beforeSubmit(formData, jqForm, options) {
@@ -164,8 +160,7 @@ application/zip,application/x-zip-compressed',
 			"IRR": {
 				"required": true,
    				"number": true,
-   				"min": 0,
-   				"max": 100
+   				"min": 0
 			},
 			"static_payback_time": {
 				"required": true,
@@ -179,9 +174,9 @@ application/zip,application/x-zip-compressed',
 			},
 			"LCOE": {
 				"required": true,
-   				"number": true,
-   				"min": 0,
-   				"max": 1
+   				"number": true
+   				// "min": 0,
+   				// "max": 1
 			},
 			"npv": {
 				"required": true,
@@ -198,7 +193,7 @@ application/zip,application/x-zip-compressed',
 			"plan_build_volume": "required",
 			"province": "required",
 			"city": "required",
-			"county": "required",
+			// "county": "required",
 			"project_address": "required",
 			"housetop_type_other": {
    				"required": function() {
@@ -245,14 +240,14 @@ application/zip,application/x-zip-compressed',
    			"document_review": "required",
    			"project_quality_situation": "required",
    			"project_invest_situation": "required",
-   			"project_earnings_situation": "required"
+   			"project_earnings_situation": "required",
+   			"duty_person": "required"
 		},
 		messages: {
 			"IRR": {
 				"required": "请填写内部收益率",
-				"number": "内部收益率应为[0,100]之间的数字",
-				"min": "内部收益率应为[0,100]之间的数字",
-				"max": "内部收益率应为[0,100]之间的数字"
+				"number": "内部收益率应为大于0的数字",
+				"min": "内部收益率应为大于0的数字"
 			},
 			"static_payback_time": {
 				"required": "请填写静态投资回收年",
@@ -266,9 +261,10 @@ application/zip,application/x-zip-compressed',
 			},
 			"LCOE": {
 				"required": "请填写LCOE",
-   				"number": "LCOE应为[0,1]之间的数字",
-   				"min": "LCOE应为[0,1]之间的数字",
-   				"max": "LCOE应为[0,1]之间的数字"
+   				"number": "LCOE应为数字",
+   				// "number": "LCOE应为[0,1]之间的数字",
+   				// "min": "LCOE应为[0,1]之间的数字",
+   				// "max": "LCOE应为[0,1]之间的数字"
 			},
 			"npv": {
 				"required": "请填写净现值npv",
@@ -285,7 +281,7 @@ application/zip,application/x-zip-compressed',
 			"plan_build_volume": "请填写建设容量",
 			"province": "请选择省份",
 			"city": "请选择市",
-			"county": "请选择区",
+			// "county": "请选择区",
 			"project_address": "请填写详细地址",
 			"housetop_type_other": "请填写屋顶类型",
 			"plan_financing": {
@@ -318,12 +314,13 @@ application/zip,application/x-zip-compressed',
    			"document_review": "请填写文件审查",
    			"project_quality_situation": "请填写工程建设可行性",
    			"project_invest_situation": "请填写项目建设投资情况",
-   			"project_earnings_situation": "请填写项目经济收益情况"
+   			"project_earnings_situation": "请填写项目经济收益情况",
+   			"duty_person": "请填写项目责任人"
 		},
 		errorClass: 'validate-error',
-   		focusInvalid: false,
+   		focusInvalid: true,
    		errorPlacement: function(error, element) {
-   			element.focus();
+   			// element.focus();
    		},
    		submitHandler: function(form) {
    			// 二次拦截校验

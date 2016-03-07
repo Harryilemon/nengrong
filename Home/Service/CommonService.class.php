@@ -15,15 +15,15 @@ class CommonService{
 			return null;
 		}
 		if(1 == $no){
-			$companyTypeStr = '央企国企';
+			$companyTypeStr = '国有企业';
 		}elseif(2 == $no){
 			$companyTypeStr = '中外合资';
 		}elseif(3 == $no){
 			$companyTypeStr = '外商独资';
 		}elseif(4 == $no){
-			$companyTypeStr = '大型民营';
+			$companyTypeStr = '集体企业';
 		}elseif(5 == $no){
-			$companyTypeStr = '小型民营';
+			$companyTypeStr = '民营企业';
 		}else{
 			$companyTypeStr = '其他';
 		}
@@ -67,11 +67,11 @@ class CommonService{
 			return null;
 		}
 		if(1 == $no){
-			$synchronizeTypeStr = '自发自用';
+			$synchronizeTypeStr = '全部自发自用';
 		}elseif(2 == $no){
 			$synchronizeTypeStr = '全额上网';
 		}elseif(3 == $no){
-			$synchronizeTypeStr = '自发自用全额上网';
+			$synchronizeTypeStr = '自发自用，余额上网';
 		}else{
 			$synchronizeTypeStr = '其他';
 		}
@@ -329,5 +329,28 @@ class CommonService{
 			$str = '无';
 		}
 		return $str;
+	}
+
+	/**
+    **@auth qianqiang
+    **@breif 获取项目状态
+    **@date 2016.2.20
+	**/
+	public function getStatusStr($no){
+		if($no == null){
+			return null;
+		}
+		if(11 == $no){
+			$statusStr = '未提交';
+		}elseif(12 == $no){
+			$statusStr = '已提交';
+		}elseif(22 == $no){
+			$statusStr = '已尽职调查';
+		}elseif(23 == $no){
+			$statusStr = '已签意向书';
+		}elseif(31 == $no){
+			$statusStr = '已签融资合同';
+		}
+		return $statusStr;
 	}
 }

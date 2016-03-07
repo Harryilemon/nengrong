@@ -20,7 +20,7 @@ $(function(){
 
 		$.ajax({
 		    type: "post",
-		    url: "?c=InnerStaffMyInfo&a=securityCenter" ,
+		    url: "?c=InnerStaff&a=securityCenter" ,
 		    data: {
 		    	password:oldpassval,
 		    	newPassword: newpassval,
