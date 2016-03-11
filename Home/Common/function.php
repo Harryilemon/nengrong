@@ -124,22 +124,15 @@ function uploadFileOne($file, $savePath = ''){
     // 设置附件上传大小30M
     $upload->maxSize   =     3145728 * 10 + 100 ;
     // 设置附件上传类型doc .docx .xls .xlsx .ppt .pptx .txt .pdf
-    $allType      =     array('ico','pdf', 'doc', 'excel', 'txt', 'docx', 'xlsx', 'xls', 'ppt', 'pptx','jpg', 'gif', 'png', 'jpeg', 'bmp', 'psd',"rar","zip","tar","7-zip","gzip","bz2");
+    $allType      =     array('ico','pdf', 'doc', 'txt', 'docx', 'xlsx', 'xls', 'ppt', 'pptx','jpg', 'gif', 'png', 'jpeg', 'bmp', 'psd', "rar", "zip", "7z", "tar", "gz", "z", "bz2", "xz");
     $upload->exts      =    $allType;
     // 设置附件上传根目录
-<<<<<<< HEAD
     $dirNengrongUserDataDoc = dirname(dirname(dirname(__FILE__))).'/userdata/doc/'; 
     if(!is_dir($dirNengrongUserDataDoc)) 
     {
          mkdir($dirNengrongUserDataDoc, 0777, true);
     }
-=======
-    $dirNengrongUserDataDoc = dirname(dirname(dirname(__FILE__))).'/userdata/doc/';
-    if(!is_dir($dirNengrongUserDataDoc)) 
-    {
-         mkdir($dirNengrongUserDataDoc, 0777, true);
-    } 
->>>>>>> 52a441db86d9f1df60e83fafe2c62248a4d3b520
+
     $upload->rootPath  =      $dirNengrongUserDataDoc; 
     //doc的文件不变
     $fileName = $file["name"];
