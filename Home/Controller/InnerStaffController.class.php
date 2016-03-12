@@ -143,10 +143,19 @@ class InnerStaffController extends Controller {
             $obpe->getActiveSheet()->getStyle('A3')->getFont()->getColor()->setARGB('D94600');
             $obpe->getactivesheet()->setcellvalue('A3', $tips);            
             import("Org.Util.PHPExcel.IOFactory");  
-            //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            /*header('Content-Disposition: attachment;filename="'.$projectCode.'_项目意向书.xls"');
-            header('Cache-Control: max-age=0');*/
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="'.$projectCode.'_项目意向书.xls"');
+            header('Cache-Control: max-age=0');
+            $objWriter = \PHPExcel_IOFactory::CreateWriter($obpe,"Excel2007");
+            $objWriter->save('php://output');
+
+
+            //$objWriter = \PHPExcel_IOFactory::CreateWriter($obpe,"PDF");
+            //$objWriter =new \PHPExcel_Writer_PDF($obpe);
+
             //Vendor('\PhpExcel.PHPExcel.Writer.PDF.DomPDF');
+            //注销掉之前用的doc
+            /*
             header("Pragma: public");
             header("Expires: 0");
             header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
@@ -157,10 +166,6 @@ class InnerStaffController extends Controller {
             $fileName  = $projectCode.'_项目意向书.pdf';
             header("Content-Disposition:attachment;filename=".$fileName);
             header("Content-Transfer-Encoding:binary");
-
-            //$objWriter = \PHPExcel_IOFactory::CreateWriter($obpe,"PDF");
-            //$objWriter =new \PHPExcel_Writer_PDF($obpe);
-
             //$objWriter->save('php://output');
             $html2 ='数字'; 
             $intent= $intent."\n".$tips;
@@ -171,7 +176,7 @@ class InnerStaffController extends Controller {
             header('Content-Disposition: attachment;filename="'.$projectCode.'_项目意向书.doc"'); 
             header("Pragma:no-cache"); 
             header("Expires:0"); 
-            echo $intent;
+            echo $intent;*/
             //-----------------------------------------导出---意向书导出结束------------------------------------------//
         }
 

@@ -4,7 +4,7 @@ namespace Home\Controller;
 use Think\Controller;
 
 class ProjectInvestorMyProController extends Controller {
-	
+    
     /**
     **@auth qiujinhan
     **@breif 在客服中导出一个项目的信息
@@ -74,6 +74,9 @@ class ProjectInvestorMyProController extends Controller {
             $objActSheet = $obpe->setactivesheetindex(0);
             //设置SHEET的名字
             $obpe->getActiveSheet()->setTitle('项目信息');   
+            
+            //项目名称
+            $strProjectName = $data['projectInfo']['project_name'];
 
             //设置列宽
             $obpe->getActiveSheet()->getColumnDimension('B')->setWidth(50);
@@ -871,7 +874,7 @@ class ProjectInvestorMyProController extends Controller {
 
             import("Org.Util.PHPExcel.IOFactory");  
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="'.$projectCode.'_尽职调查信息.xls"');
+            header('Content-Disposition: attachment;filename="'.$projectCode.'_'.$strProjectName.'.xls"');
             header('Cache-Control: max-age=0');
             $objWriter = \PHPExcel_IOFactory::CreateWriter($obpe,"Excel2007");
             $objWriter->save('php://output');
@@ -886,17 +889,17 @@ class ProjectInvestorMyProController extends Controller {
     **@breif 项目投资方->项目管理->推荐项目
     **@date 2016.1.5
     **/
-	public function recommendedProject(){
-		isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
+    public function recommendedProject(){
+        isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
         authentication($_COOKIE['email'], 4);
-		$email = $_COOKIE['email'];
-		// $email = 'qianqiang@qq.com';
+        $email = $_COOKIE['email'];
+        // $email = 'qianqiang@qq.com';
         $loginFlag = $_GET['r'];//登录后调用标记
         isDataComplete($email, $loginFlag);
         $page = $_GET['page'];
         if(empty($page)) $page=1;
         $pageSize = 6;
-		$objProject = D("Project", "Service");
+        $objProject = D("Project", "Service");
         $listProject = $objProject->getPushProject($email, $page);
         $listTotal = $objProject->getPushProject($email, -1);
         $data = array();
@@ -912,21 +915,21 @@ class ProjectInvestorMyProController extends Controller {
         }
         $this->assign('arrData', $data);
         $this->display("ProjectInvestor:recommendedProject");
-	}
+    }
 
-	/**
+    /**
     **@auth qianqiang
     **@breif 项目投资方->项目管理->已投资项目
     **@date 2016.1.5
     **/
-	public function investmentProject(){
-		isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
+    public function investmentProject(){
+        isLogin($_COOKIE['email'], $_COOKIE['mEmail']);
         authentication($_COOKIE['email'], 4);
-		$email = $_COOKIE['email'];
+        $email = $_COOKIE['email'];
         isDataComplete($email);
-		//是否需要做？需要建立项目投资表还是加一个字段
-		$this->display("ProjectInvestor:investmentProject");
-	}
+        //是否需要做？需要建立项目投资表还是加一个字段
+        $this->display("ProjectInvestor:investmentProject");
+    }
 /**
     **@auth qiujinhan
     **@breif 项目投资方->查看项目信息进度
@@ -1022,6 +1025,17 @@ class ProjectInvestorMyProController extends Controller {
         $bigArr['intent'] = $projectInfoForIntent['project_intent'];
         //$picture,$docListInfo,$projectDetail,$areaArray,$evaluationInfo
 
+        //获取项目提供方信息
+        $getJsonFlag = 1;
+        $obj   = new InnerStaffController();
+        $innerToken = "InternalCall";
+        list($userInfo,$areaStr,$docData) = $obj->getProjectProviderInfo($projectCode, null, $getJsonFlag,$innerToken);
+        $bigArr['providerInfo'] = array();
+        $bigArr['providerInfo']["userInfo"] = $userInfo;
+        $bigArr['providerInfo']["areaStr"] = $areaStr;
+        $bigArr['providerInfo']["docData"] = $docData;
+
+
         $bigArr['dueDiligence'] = array();
         $bigArr['dueDiligence']['picture'] = $picture;
         $bigArr['dueDiligence']['docListInfo'] = $docListInfo;
@@ -1029,6 +1043,8 @@ class ProjectInvestorMyProController extends Controller {
         $bigArr['dueDiligence']['projectDetail'] = $projectDetail;
         $bigArr['dueDiligence']['evaluationInfo'] = $evaluationInfo;
         //echo json_encode($bigArr);exit;
+
+
 
 
         //判断显示哪个前端页面
