@@ -39,9 +39,14 @@
 		<php>$baseDir=dirname(dirname(dirname(dirname(__FILE__))));include $baseDir.'/Home/View/InnerStaff/InnerStaff_left.html';</php>
 		<!-- 右侧布局 -->
 		<div class="r-content">
-			<div class="remark"> 
-				<textarea id="commenttex">{$data['projectInfo']['comment']}</textarea>
-				<button id="commentbtn" type="submit">保存</button>
+			<div class="remarkall">
+				<div class="remark">
+					<textarea id="commenttex">{$data['projectInfo']['comment']}</textarea>
+					<button id="commentbtn" type="submit">保存</button>
+				</div>
+				<div class="remarkbutton">
+					<button id="remarkbtn" type="submit">备注</button>
+				</div>
 			</div>
 			<ul class="detail part1">
 				<li class="clrfix">
@@ -222,7 +227,7 @@
 				</li>
 				<li>
 					<span class="lb">结算电价</span>
-					<span class="lbw">{$data['projectInfo']['electricity_clear']}</span>
+					<span class="lbw">{$data['projectInfo']['electricity_clear']}元/kWh</span>
 				</li>
 				<li>
 					<span class="lb">项目建议书</span>

@@ -15,16 +15,24 @@ $(function() {
 	$(".detail.part2 .item input[type=file]").customUpload({
 		bg_url: "upload.png",
 		uploadType: "image",
+		accept: acceptType.myinfo,
 		width: "120px",
-		height: "120px"
+		height: "120px",
+		fileSizeLimit: {
+			size: 10*1024*1024
+		}
 	});
 
 	// 上传文件
 	$(".detail.part2 .finance input[type=file]").customUpload({
 		content: "+",
 		uploadType: "file",
+		accept: acceptType.all,
 		width: "20px",
-		height: "38px"
+		height: "38px",
+		fileSizeLimit: {
+			size: 10*1024*1024
+		}
 	});
 
 	// 保存资料
@@ -35,6 +43,7 @@ $(function() {
 	   	// target: '#output',          //把服务器返回的内容放入id为output的元素中      
 	   	beforeSubmit: beforeSubmit, //提交前的回调函数  
 	   	success: successCallback,  	//提交后的回调函数
+	   	error: failCallback,		//服务器出错的回调函数
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
@@ -59,6 +68,18 @@ $(function() {
 		}, takeTime > 1000 ? 0 : 1000 - takeTime);
 	}
 
+	function failCallback(xhr, status, error, $form) {
+		var takeTime = new Date().getTime() - $._loadingDialog.timeStamp;
+		setTimeout(function() {
+			$.closeLoading();
+			if(xhr.status === 413) {
+				alert("本次提交的附件太大，请尽量上传小附件，或者分批保存再提交！");
+			} else {
+				alert("操作失败,请稍后再试！");
+			}
+		}, takeTime > 1000 ? 0 : 1000 - takeTime);
+	}
+
 	$form = $("#infoForm");
 	$form.validate({
 		ignore: ':hidden',
@@ -68,6 +89,19 @@ $(function() {
 			"company_contacts_phone": {
 				"required": true,
 				"mobile": true
+			},
+			"company_capital": {
+   				"number": true,
+   				"min": 0
+   			},
+   			"company_fax": {
+				"phone": true
+   			},
+   			"company_telephone": {
+				"mobile": true
+			},
+			"company_phone": {
+				"phone": true
 			}
 		},
 		messages: {
@@ -76,7 +110,20 @@ $(function() {
 			"company_contacts_phone": {
 				"required": "请填写联系人手机",
 				"mobile": "手机号格式不对"
-			}
+			},
+			"company_capital": {
+				"number": "企业注册资本应为非负数字",
+				"min": "企业注册资本应为非负数字"
+			},
+			"company_fax": {
+				"phone": "公司传真格式不对"
+   			},
+   			"company_telephone": {
+				"mobile": "其他手机格式不对"
+			},
+			"company_phone": {
+				"phone": "座机格式不对"
+   			}
 		},
 		errorClass: 'validate-error',
 		focusInvalid: true,

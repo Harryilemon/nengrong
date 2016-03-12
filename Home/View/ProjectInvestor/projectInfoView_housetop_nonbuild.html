@@ -233,7 +233,7 @@
 						</li>
 						<li>
 							<span class="lb">结算电价</span>
-							<span class="lbw">{$data['projectInfo']['electricity_clear']}</span>
+							<span class="lbw">{$data['projectInfo']['electricity_clear']}元/kWh</span>
 						</li>
 						<li>
 							<span class="lb">项目建议书</span>
@@ -246,6 +246,62 @@
 						</li>				
 					</ul>
 				</form>
+
+				<!-- 投资方查看 项目提供方信息 -->		
+				<div id="infoDiv" class="pp-ct">
+					<p class="title">项目提供方信息</p>
+					<div class="detail part1 clrfix">
+						<ul>
+							<li><span class="lb">E-mail</span>{$data['providerInfo']['userInfo']['email']}</li>
+							<li><span class="lb">联系人</span>{$data['providerInfo']['userInfo']['company_contacts']}</li>
+							<li><span class="lb">联系人手机</span>{$data['providerInfo']['userInfo']['company_contacts_phone']}</li>
+							<li class="area"><span class="lb">所在地区</span>{$data['providerInfo']['areaStr']}</li>
+							<li><span class="lb">详细地址</span>{$data['providerInfo']['userInfo']['company_address']}</li>
+							<li><span class="lb">企业注册资本</span>{$data['providerInfo']['userInfo']['company_capital']}&nbsp;万</li>
+						</ul>
+						<ul>
+							<li><span class="lb">企业名称</span>{$data['providerInfo']['userInfo']['company_name']}</li>
+							<li><span class="lb">企业类型</span>
+								{$data['providerInfo']['userInfo']['companyType']}
+							</li>
+							<li><span class="lb">公司传真</span>{$data['providerInfo']['userInfo']['company_fax']}</li>
+							<li><span class="lb">其他手机</span>{$data['providerInfo']['userInfo']['company_telephone']}</li>
+							<li><span class="lb">座机</span>{$data['providerInfo']['userInfo']['company_phone']}</li>
+							<li><span class="lb">企业法人</span>{$data['providerInfo']['userInfo']['company_person']}</li>
+						</ul>
+					</div>
+					<p class="title">上传的图片资料</p>
+					<div class="detail part2 clrfix">
+						<div class="item">
+							<p>公司营业执照</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['business_license']['file_rename'] ? $data['providerInfo']['docData']['business_license']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['business_license']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="item">
+							<p>组织机构代码证</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['organization_code']['file_rename'] ? $data['providerInfo']['docData']['organization_code']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['organization_code']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="item">
+							<p>国税登记证</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['national_tax_certificate']['file_rename'] ? $data['providerInfo']['docData']['national_tax_certificate']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['national_tax_certificate']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="item">
+							<p>地税登记证</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['local_tax_certificate']['file_rename'] ? $data['providerInfo']['docData']['local_tax_certificate']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['local_tax_certificate']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="item">
+							<p>法人身份证正面</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['identity_card_front']['file_rename'] ? $data['providerInfo']['docData']['identity_card_front']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['identity_card_front']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="item">
+							<p>法人身份证反面</p>
+							<div class="preview" style="width: 120px; height: 120px;"><a target="_blank" href="{$data['providerInfo']['docData']['identity_card_back']['file_rename'] ? $data['providerInfo']['docData']['identity_card_back']['file_rename'] : 'javascript:;'}"><img src="{$data['providerInfo']['docData']['identity_card_back']['img_file_rename']}" style="width: 120px;height:120px"></a></div>
+						</div>
+						<div class="finance clrfix"><p>财务审计报告:&nbsp;&nbsp;&nbsp</p>
+						<a target="_blank" href="{$data['providerInfo']['docData']['financial_audit']['file_rename']}">{$data['providerInfo']['docData']['financial_audit']['file_name']}</a>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 			<!-- 尽职调查 -->

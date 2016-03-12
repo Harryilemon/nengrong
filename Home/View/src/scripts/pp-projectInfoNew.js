@@ -1,4 +1,5 @@
 $(function() {
+	var p = $.parseQueryParam();
 
 	$(".l-nav").find(".awaitingAssessment").addClass("active");
 
@@ -53,6 +54,9 @@ $(function() {
 						uploadType: "image",
 						width: "120px",
 						height: "120px",
+						fileSizeLimit: {
+							size: 10*1024*1024
+						},
 						callback: uploadCallback
 					});
 				}
@@ -70,6 +74,9 @@ $(function() {
 						uploadType: "image",
 						width: "120px",
 						height: "120px",
+						fileSizeLimit: {
+							size: 10*1024*1024
+						},
 						callback: uploadCallback
 					});
 				}
@@ -92,6 +99,7 @@ $(function() {
 		img_url: "attachment.png",
 		content: "上传附件",
 		uploadType: "file",
+		accept: acceptType.all,
 		width: "80px",
 		height: "20px",
 		fileSizeLimit: {
@@ -168,7 +176,7 @@ $(function() {
 	   	dataType: "json",           //html(默认), xml, script, json...接受服务端返回的类型  
 	   	// clearForm: true,         //成功提交后，清除所有表单元素的值  
 	   	// resetForm: true,         //成功提交后，重置所有表单元素的值  
-	   	timeout: 121000             //限制请求的时间，当请求大于121秒后，跳出请求
+	   	timeout: 1210000             //限制请求的时间，当请求大于121秒后，跳出请求
 	};
 	  
 	$form = $("#infoForm");
@@ -668,9 +676,23 @@ $(function() {
 			if(data.code == "0") {
 				var optype = $form.find("[name=optype]").val();
 				if(optype === "save") {
-					location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&no=" + data.id + "&token=" + data.idm;
+					location.href = "?c=ProjectProviderMyPro&a=projectInfoEdit&uid=" + (data.uid || p.uid || "") + "&no=" + data.id + "&token=" + data.idm + "&from=save";
+					// 通知父页面刷新
+					window.opener && window.opener.postMessage && window.opener.postMessage({
+						"type": "refreshProjectCode",
+						"data": {
+							"oldInfo": {
+								uid: p.uid || "",
+								id: p.no
+							},
+							"newInfo": {
+								id: data.id,
+								idm: data.idm
+							}
+						}
+					}, location.origin);
 				} else {
-					location.href = "?c=ProjectProviderMyPro&a=awaitingAssessment";
+					location.href = "?c=ProjectProviderMyPro&a=awaitingAssessment&filter=committed";
 				}
 			} else {
 				// $form.find('[data-type="mul"]').each(function() {
@@ -734,5 +756,9 @@ $(function() {
 	});
 
 	// $form.ajaxForm(options);
+
+	if(p.from === "save") {
+		$(window).scrollTop($(document).height());
+	}
 
 });

@@ -43,12 +43,22 @@
 			<div class="condition">
 				<div class="item">
 					<span>公司名称</span>
-					<select name="company_name">
+					<select name="company_name" data-with-other="true" class="short">
 						<option value="all">全部</option>
+						<option value="0" <if condition='$arrData[searchInfo][companyName] eq "0"'>selected="selected"</if>>其他</option>
 						<foreach name="arrData.campanyName" item="campany">
 							<option value="{$campany[company_name]}" <if condition='$arrData[searchInfo][companyName] eq $campany[company_name]'>selected="selected"</if>>{$campany[company_name]}</option>
 						</foreach>
 					</select>
+					<input name="company_name_other" class="other medium" value="{$arrData[searchInfo][company_name_other]}" />
+				</div>
+				<div class="item">
+					<span>项目名称</span>
+					<input name="project_name" value="{$arrData[searchInfo][project_name]}" /> 
+				</div>
+				<div class="item">
+					<span>项目编号</span>
+					<input name="project_code" value="{$arrData[searchInfo][project_code]}" /> 
 				</div>
 				<div class="item">
 					<span>项目类型</span>
@@ -63,14 +73,40 @@
 			        </select>
 				</div>
 				<div class="item">
-					<span>位置</span>
-					<select name="province" data-code="{$arrData['searchInfo']['province']}">
-						<option value="all">全部</option>
+					<span class="medium">自发自用用电分类</span>
+        			<select class="medium" name="project_industry">
+        				<option value="all">全部</option>
+						<option value="I" <if condition='$arrData[searchInfo][project_industry] eq "I"'>selected="selected"</if>>大工业</option>
+						<option value="C" <if condition='$arrData[searchInfo][project_industry] eq "C"'>selected="selected"</if>>一般工商业</option>
+						<option value="A" <if condition='$arrData[searchInfo][project_industry] eq "A"'>selected="selected"</if>>农业</option>
+						<option value="R" <if condition='$arrData[searchInfo][project_industry] eq "R"'>selected="selected"</if>>居民</option>
+						<option value="X" <if condition='$arrData[searchInfo][project_industry] eq "X"'>selected="selected"</if>>其他</option>
 					</select>
 				</div>
 				<div class="item">
+					<span>位置</span>
+					<select name="province" data-with-other="true" class="short" data-code="{$arrData['searchInfo']['province']}">
+						<option value="all">全部</option>
+						<option value="0" <if condition='$arrData[searchInfo][province] eq "0"'>selected="selected"</if>>其他</option>
+					</select>
+					<input name="province_other" class="other medium" value="{$arrData[searchInfo][province_other]}" />
+				</div>
+				<div class="item">
+					<span>项目规模</span>
+					<input class="min-short" name="minVolume" value="{$arrData[searchInfo][minVolume]}" />kW 至 <input class="min-short" name="maxVolume" value="{$arrData[searchInfo][maxVolume]}" />kW
+				</div>
+				<div class="item">
 					<span>提交时间</span>
-					<input data-type="date" readonly name="startDate" value="{$arrData[searchInfo][startDate]}" /> 至 <input data-type="date" readonly name="endDate" value="{$arrData[searchInfo][endDate]}" />
+					<input class="short" data-type="date" readonly name="startDate" value="{$arrData[searchInfo][startDate]}" /> 至 <input class="short" data-type="date" readonly name="endDate" value="{$arrData[searchInfo][endDate]}" />
+				</div>
+				<div class="item">
+					<span>融资方式</span>
+					<select name="financing_type">
+						<option value="all" >全部</option>
+						<option value="3" <if condition='$arrData[searchInfo][financing_type] eq 3'>selected="selected"</if>>股权</option>
+						<option value="1" <if condition='$arrData[searchInfo][financing_type] eq 1'>selected="selected"</if>>直租</option>
+						<option value="2" <if condition='$arrData[searchInfo][financing_type] eq 2'>selected="selected"</if>>回租</option>
+					</select>
 				</div>
 				<div class="item">
 					<span>项目状态</span>
@@ -84,8 +120,8 @@
 			        </select>
 				</div>
 				<div class="item">
-					<span class="op">与能融网合作方式</span>
-					<select class="op" name="cooperation_type">
+					<span class="medium">与能融网合作方式</span>
+					<select class="medium" name="cooperation_type">
 			          	<option value="all">全部</option>
 			          	<option value="1" <if condition='$arrData[searchInfo][cooperationType] eq 1'>selected="selected"</if>>EPC</option>
 			          	<option value="2" <if condition='$arrData[searchInfo][cooperationType] eq 2'>selected="selected"</if>>申请融资</option>

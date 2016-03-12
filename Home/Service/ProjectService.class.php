@@ -710,7 +710,7 @@ class ProjectService extends Model{
     **@breif 推送项目
     **@date 2015.12.30
     **/ 
-    public function pushProject($projectCode, $investorList){
+    public function pushProject($projectCode, $investorList, $email=null){
         if($this->isPushProject($projectCode) == false){
             echo '{"code":"-1","msg":"请先完成意向书签署"}';
             exit;
@@ -727,6 +727,13 @@ class ProjectService extends Model{
                 $data['investor_id'] = $investorList[$i];
                 $res = $pushProject->add($data);
                 if($res === false) return false;
+                //记录推送日志
+                $objUser = M("User");
+                $condition["id"] = $investorList[$i];
+                $userInfo = $objUser->where($condition)->find();
+                $objLog = D("Log","Service");
+                $logText = '推送该项目给"'.$userInfo['company_name'].'"';
+                $objLog->addLog($projectCode, $email, $logText);
             }
             $i += 1;
         }
@@ -936,26 +943,26 @@ class ProjectService extends Model{
         $projectSql = "";
         //项目类型
         if($companyType == null || $companyType == 'all'){
-            $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11";
-            $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11";
+            $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and p.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11";
+            $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and p.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11";
         }else{
             if($companyType == "1"){//屋顶分布式－未建
-                $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11 and p.project_type=1";
+                $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and p.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11 and p.project_type=1";
                 $housetopSql = $housetopSql." and p.build_state=1";
             }elseif($companyType == "2"){//地面分布式－未建
-                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=2";
+                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and p.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=2";
                 $groundSql = $groundSql." and p.build_state=1";
             }elseif($companyType == "3"){//大型地面－未建
-                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=3";
+                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and p.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=3";
                 $groundSql = $groundSql." and p.build_state=1";
             }elseif($companyType == "4"){//屋顶分布式－已建
-                $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11 and p.project_type=1";
+                $housetopSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,h.id as h_id,h.project_id,h.project_name,h.project_area,h.project_address,h.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_housetop h on p.id=h.project_id join enf_user u on p.provider_id=u.id where h.delete_flag!=9999 and p.delete_flag!=9999 and h.status!=51 and h.status!=61 and h.status!=11 and p.project_type=1";
                 $housetopSql = $housetopSql." and p.build_state=2";
             }elseif($companyType == "5"){//地面分布式－已建
-                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=2";
+                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and p.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=2";
                 $groundSql = $groundSql." and p.build_state=2";
             }elseif($companyType == "6"){//大型地面－已建
-                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=3";
+                $groundSql = "select p.id,p.project_code,p.project_type,p.build_state,p.provider_id,p.highlight_flag,p.create_date,g.id as g_id,g.project_id,g.project_name,g.project_area,g.project_address,g.status,u.id as u_id,u.email,u.user_type,u.company_name from enf_project p join enf_ground g on p.id=g.project_id join enf_user u on p.provider_id=u.id where g.delete_flag!=9999 and p.delete_flag!=9999 and g.status!=51 and g.status!=61 and g.status!=11 and p.project_type=3";
                 $groundSql = $groundSql." and p.build_state=2";
             }else{
                 echo '{"code":"-1","msg":"project type error!"}';
@@ -964,13 +971,13 @@ class ProjectService extends Model{
         }
         //公司名称
         if(!($companyName == null || $companyName == 'all')){
-            if($companyName == 'other'){
+            if($companyName == "0"){
                 if($companyNameOther != null && $companyNameOther != ""){
                     if($housetopSql != ""){
-                        $housetopSql = $housetopSql." and u.company_name='".$companyNameOther."'";
+                        $housetopSql = $housetopSql." and u.company_name like '%".$companyNameOther."%'";
                     }
                     if($groundSql != ""){
-                        $groundSql = $groundSql." and u.company_name='".$companyNameOther."'";
+                        $groundSql = $groundSql." and u.company_name like '%".$companyNameOther."%'";
                     }
                 }
             }else{
@@ -985,19 +992,19 @@ class ProjectService extends Model{
         //项目名称
         if(!($projectName == null || $projectName == 'all')){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.project_name='".$projectName."'";
+                $housetopSql = $housetopSql." and h.project_name like '%".$projectName."%'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.project_name='".$projectName."'";
+                $groundSql = $groundSql." and g.project_name like '%".$projectName."%'";
             }
         }
         //项目编码
         if(!($projectCode == null || $projectCode == 'all')){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and p.project_code='".$projectCode."'";
+                $housetopSql = $housetopSql." and p.project_code like '%".$projectCode."%'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and p.project_code='".$projectCode."'";
+                $groundSql = $groundSql." and p.project_code like '%".$projectCode."%'";
             }
         }
         //自发自用用电分类
@@ -1011,23 +1018,48 @@ class ProjectService extends Model{
         }
         //位置
         if(!($situation == null || $situation == 'all')){
-            if($situation == "other"){
+            if($situation == "0"){
                 if($situationOther != null && $situationOther != ""){
+                    //1.模糊查询项目地区
                     $areaObj = D('Area', 'Service');
-                    $areaList = $areaObj->getAreaArrayByHighLevelId($situationOther);
+                    $map['area'] = array('like','%'.$situationOther.'%');
+                    $areaTextList = $areaObj->where($map)->select();
                     $areaStr = "";
-                    $i = 0;
-                    while($areaList[$i]){
-                        $areaStr = $areaStr."'".$areaList[$i]."',";
-                        $i += 1;
+                    $j = 0;
+                    while($areaTextList[$j]){
+                        $areaList = $areaObj->getAreaArrayByHighLevelId($areaTextList[$j]['id']);
+                        $i = 0;
+                        while($areaList[$i]){
+                            $areaStr = $areaStr."'".$areaList[$i]."',";
+                            $i += 1;
+                        }
+                        $j += 1;
                     }
-                    $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                    if($areaStr != ""){
+                        $areaStr = substr($areaStr, 0, strlen($areaStr)-1);
+                        if($housetopSql != ""){
+                            $housetopSql = $housetopSql." and ( h.project_area in (".$areaStr.")";
+                        }
+                        if($groundSql != ""){
+                            $groundSql = $groundSql." and ( g.project_area in (".$areaStr.")";
+                        }
+                    }
+                    //2.模糊查询项目详细地址
                     if($housetopSql != ""){
-                        $housetopSql = $housetopSql." and h.project_area in (".$areaStr.")";
+                        if($areaStr != ""){
+                            $housetopSql = $housetopSql." or h.project_address like '%".$situationOther."%')";
+                        }else{
+                            $housetopSql = $housetopSql." and h.project_address like '%".$situationOther."%'";
+                        }
                     }
                     if($groundSql != ""){
-                        $groundSql = $groundSql." and g.project_area in (".$areaStr.")";
+                        if($areaStr != ""){
+                            $groundSql = $groundSql." or g.project_address like '%".$situationOther."%')";
+                        }else{
+                            $groundSql = $groundSql." and g.project_address like '%".$situationOther."%'";
+                        }
                     }
+
                 }
             }else{
                 $areaObj = D('Area', 'Service');
@@ -1047,13 +1079,22 @@ class ProjectService extends Model{
                 }
             }
         }
-        //项目规模
-        if($minVolume != null && $minVolume != "" && $maxVolume != null && $maxVolume != ""){
+        //项目规模（下限）
+        if($minVolume != null && $minVolume != ""){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.plan_build_volume>'".$minVolume."' and h.plan_build_volume<'".$maxVolume."'";
+                $housetopSql = $housetopSql." and h.plan_build_volume>='".$minVolume."'";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.plan_build_volume>'".$minVolume."' and g.plan_build_volume<'".$maxVolume."'";
+                $groundSql = $groundSql." and g.plan_build_volume>='".$minVolume."'";
+            }
+        }
+        //项目规模（上限）
+        if($maxVolume != null && $maxVolume != ""){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.plan_build_volume<='".$maxVolume."'";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.plan_build_volume<='".$maxVolume."'";
             }
         }
         //融资模式
@@ -1086,13 +1127,13 @@ class ProjectService extends Model{
             if($housetopSql != ""){
                 if($status == "11"){
                     $housetopSql = $housetopSql." and p.status=11";
-                }elseif($status == "12"){
-                    $housetopSql = $housetopSql." and (p.status>=12 and p.status<=13)";
-                }elseif($status == "20"){
-                    $housetopSql = $housetopSql." and (p.status>=21 and p.status<=22)";
-                }elseif($status == "50"){
-                    $housetopSql = $housetopSql." and p.status=22";
-                }elseif($status == "30"){
+                }elseif($status == "12"){//已提交
+                    $housetopSql = $housetopSql." and p.status=12";
+                }elseif($status == "20"){//已签意向书
+                    $housetopSql = $housetopSql." and p.status=23";
+                }elseif($status == "50"){//已尽职调查
+                    $housetopSql = $housetopSql." and (p.status=22 or p.status=13)";
+                }elseif($status == "30"){//已签融资合同
                     $housetopSql = $housetopSql." and p.status=31";
                 }
             }
@@ -1100,11 +1141,11 @@ class ProjectService extends Model{
                 if($status == "11"){
                     $groundSql = $groundSql." and p.status=11";
                 }elseif($status == "12"){
-                    $groundSql = $groundSql." and (p.status>=12 and p.status<=13)";
+                    $groundSql = $groundSql." and p.status=12";
                 }elseif($status == "20"){
-                    $groundSql = $groundSql." and (p.status>=21 and p.status<=22)";
+                    $groundSql = $groundSql." and p.status=23";
                 }elseif($status == "50"){
-                    $groundSql = $groundSql." and p.status=22";
+                    $groundSql = $groundSql." and (p.status=22 or p.status=13)";
                 }elseif($status == "30"){
                     $groundSql = $groundSql." and p.status=31";
                 }
@@ -1119,13 +1160,22 @@ class ProjectService extends Model{
                 $groundSql = $groundSql." and g.cooperation_type like '%".$cooperationType."%'";
             }
         }
-        //起止时间
-        if($startDate != null && $endDate != null){
+        //起始时间
+        if($startDate != null){
             if($housetopSql != ""){
-                $housetopSql = $housetopSql." and h.create_date>=date('".$startDate."') and h.create_date<=date('".$endDate."')";
+                $housetopSql = $housetopSql." and h.create_date>=date('".$startDate."')";
             }
             if($groundSql != ""){
-                $groundSql = $groundSql." and g.create_date>=date('".$startDate."') and g.create_date<=date('".$endDate."')";
+                $groundSql = $groundSql." and g.create_date>=date('".$startDate."')";
+            }
+        }
+        //终止时间
+        if($endDate != null){
+            if($housetopSql != ""){
+                $housetopSql = $housetopSql." and h.create_date<date('".$endDate."')";
+            }
+            if($groundSql != ""){
+                $groundSql = $groundSql." and g.create_date<date('".$endDate."')";
             }
         }
         if($housetopSql != "" && $groundSql != ""){
@@ -1146,7 +1196,7 @@ class ProjectService extends Model{
         }
         
         // header('Content-Type: text/html; charset=utf-8');
-        // dump($projectSql);
+        // dump($groundSql);
         // echo jj ;
         // exit;
 
@@ -1319,6 +1369,7 @@ class ProjectService extends Model{
         $data['delete_flag'] = 9999;
         $data['change_date'] = date("Y-m-d H:i:s",time());
         $res = $project->where("id='".$id."'")->save($data);
+
         if(!$res){
             echo '{"code":"-1","msg":"project delete error!"}';
             exit;
@@ -1386,7 +1437,7 @@ class ProjectService extends Model{
 
     /**
     **@auth qianqiang
-    **@breif 真删除项目，删除project、housetop、ground、evaluation、component、inverter、pushProject
+    **@breif 真删除项目，删除project、housetop、ground、evaluation、component、inverter、pushProject、log
     **@param id:项目id
     **@date 2016.1.16
     **/
@@ -1460,13 +1511,22 @@ class ProjectService extends Model{
                 exit;
             }
         }
+        $logObj = M('Log');
+        $logInfo = $logObj->where("project_id='".$id."'")->select();
+        if(!empty($logInfo)){
+            $res = $logObj->where("project_id='".$id."'")->delete();
+            if(!$res){
+                echo '{"code":"-1","msg":"log drop error!"}';
+                exit;
+            }
+        }
 
         return true;
     }
 
     /**
     **@auth qianqiang
-    **@breif 还原项目，还原project、housetop、ground、evaluation、component、inverter、pushProject
+    **@breif 还原项目，还原project、housetop、ground、evaluation、component、inverter、pushProject,如果该项目的提供方被删掉了，恢复该项目提供方
     **@param id:项目id
     **@date 2016.1.18
     **/
@@ -1477,8 +1537,15 @@ class ProjectService extends Model{
             echo '{"code":"-1","msg":"项目不可进行恢复操作"}';
             exit;
         }
+
         $data['delete_flag'] = 0;
         $data['change_date'] = date("Y-m-d H:i:s",time());
+        //如果项目提供方被删掉了，恢复项目提供方
+        $user = M('User');
+        $objUser = $user->where("id='".$objProject['provider_id']."' and delete_flag=9999")->find();
+        if(!empty($objUser)){
+            $user->where("id='".$objProject['provider_id']."' and delete_flag=9999")->save($data);
+        }
         $res = $project->where("id='".$id."'")->save($data);
         if(!$res){
             echo '{"code":"-1","msg":"project recovery error!"}';

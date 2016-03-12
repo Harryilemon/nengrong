@@ -10,20 +10,65 @@ $(function() {
 	require("lib/jquery-ui");
 	$.datepicker.regional["zh-CN"] = { closeText: "关闭", prevText: "上月", nextText: "下月", currentText: "今天", monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"], dayNames: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"], dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"], dayNamesMin: ["日", "一", "二", "三", "四", "五", "六"], weekHeader: "周", dateFormat: "yy-mm-dd", firstDay: 1, isRTL: !1, showMonthAfterYear: !0, yearSuffix: "年" };
 	$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
-	$("input[data-type=date]").datepicker({
+	
+	var startDateInput;
+	$('input[name="startDate"]').datepicker({
+		showButtonPanel: true,
 		changeMonth: true,
-      	changeYear: true
+      	changeYear: true,
+      	closeText: '清除',
+      	beforeShow: function (input, inst) {
+      		startDateInput = input;
+      		endDateInput = null;
+      	},
+      	onSelect: function(selectedDate) {//选择日期后执行的操作  
+      		// alert(selectedDate);
+       	} 
 	});
+
+	var endDateInput;
+	$('input[name="endDate"]').datepicker({
+		showButtonPanel: true,
+		changeMonth: true,
+      	changeYear: true,
+      	closeText: '清除',
+      	// minDate: new Date(),
+      	// minDate: "2016-02-27",
+      	beforeShow: function (input, inst) {
+      		startDateInput = null;
+      		endDateInput = input;
+      	}
+	});
+
+	$(document.body).on("click", ".ui-datepicker-close", function () {
+		startDateInput && (startDateInput.value = "");
+        startDateInput = null;
+
+        endDateInput && (endDateInput.value = "");
+        endDateInput = null;
+    });
 
 	$("#searchForm input[type=reset]").click(function() {
 		location.href = "?c=InnerStaff&a=search";
 		return false;
 	});
 
+	// 其他（可填写）
+	$("select").filter(function(){
+		return $(this).data("withOther");
+	}).change(function(e) {
+		var value = this.value;
+		if(value === "0") { // 其他
+			$(this).siblings(".other").prop("disabled", false).removeClass("disabled");
+		} else {
+			$(this).siblings(".other").prop("disabled", true).val("").addClass("disabled");
+		}
+	}).change();
+
 	// 默认跳转到项目信息页
 	$(".list .bd a").click(function(e) {
 		var data = $(this).parent().parent().data();
-		location.href = "?c=InnerStaff&a=projectInfo&no=" + data.id + "&token=" + data.idm;
+		window.open("?c=InnerStaff&a=projectInfo&no=" + data.id + "&token=" + data.idm);
 		return false;
 	});
 

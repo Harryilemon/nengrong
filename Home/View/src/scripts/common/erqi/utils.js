@@ -30,5 +30,18 @@ $.extend($, {
 		}
 
 		return $._param;
+	},
+
+	toDateObj: function(dateStr) {
+		var date = dateStr;
+		if(date instanceof String) {
+			var match = date.split(/[\/-]/);
+			var year = match && parseInt(match[0]),
+				month = match && (parseInt(match[1]) - 1),
+				day = match && parseInt(match[2]);
+			date = new Date(year, month, day);
+		}
+
+		return date;
 	}
 });

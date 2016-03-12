@@ -35,6 +35,9 @@ $(function($) {
 			if(!$this.is("input[type=file]")) {
 				return ;
 			}
+			if(option.accept && !$(this).attr("accept")) {
+				$(this).attr("accept", option.accept);
+			}
 
 			var uploadType = option.uploadType,
 				$wrap, $inputWrap, $preview;

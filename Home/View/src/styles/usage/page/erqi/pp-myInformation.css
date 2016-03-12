@@ -99,6 +99,7 @@
 	background-color: #FD7940;
 	color: #fff;
 	border: 0;
+	outline: 0;
 }
 
 .r-content form input[type="submit"]:hover {

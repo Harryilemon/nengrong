@@ -124,14 +124,15 @@ function uploadFileOne($file, $savePath = ''){
     // 设置附件上传大小30M
     $upload->maxSize   =     3145728 * 10 + 100 ;
     // 设置附件上传类型doc .docx .xls .xlsx .ppt .pptx .txt .pdf
-    $allType      =     array('ico','pdf', 'doc', 'excel', 'txt', 'docx', 'xlsx', 'xls', 'ppt', 'pptx','jpg', 'gif', 'png', 'jpeg', 'bmp', 'psd',"rar","zip","tar","7-zip","gzip","bz2");
+    $allType      =     array('ico','pdf', 'doc', 'txt', 'docx', 'xlsx', 'xls', 'ppt', 'pptx','jpg', 'gif', 'png', 'jpeg', 'bmp', 'psd', "rar", "zip", "7z", "tar", "gz", "z", "bz2", "xz");
     $upload->exts      =    $allType;
     // 设置附件上传根目录
-    $dirNengrongUserDataDoc = dirname(dirname(dirname(__FILE__))).'/userdata/doc/';
+    $dirNengrongUserDataDoc = dirname(dirname(dirname(__FILE__))).'/userdata/doc/'; 
     if(!is_dir($dirNengrongUserDataDoc)) 
     {
          mkdir($dirNengrongUserDataDoc, 0777, true);
-    } 
+    }
+
     $upload->rootPath  =      $dirNengrongUserDataDoc; 
     //doc的文件不变
     $fileName = $file["name"];
@@ -178,7 +179,7 @@ function getProjectCode($projectType, $financingType, $area, $projectIndustry,$p
     {
         $proType = "R";
     }
-    elseif($projectType == 2) //地面
+    elseif($projectType ==2) //地面
     {
         $proType = "G";
     }
@@ -230,7 +231,7 @@ function getProjectCode($projectType, $financingType, $area, $projectIndustry,$p
     else
     {
         $planBuildVolume = floor($planBuildVolume/1);
-        $planBuildVolume = '0000'.strval($planBuildVolume);
+        $planBuildVolume = '0000'.strval($planBuildVolume).'0';
         $planBuildVolume = substr($planBuildVolume,-4).'K';
     }
     $projectScale = $planBuildVolume;
@@ -359,14 +360,14 @@ function isProjectCodeRight($pc, $mpc){
     // return true;
     if(empty($pc) || empty($mpc)){
         header('Content-Type: text/html; charset=utf-8');
-        echo '{"code":"-1","msg":"项目信息验证错误"}';
-        // echo "<script type='text/javascript'>alert('项目错误，重新登录');location.href='?c=User&a=login'</script>";
+        // echo '{"code":"-1","msg":"项目信息验证错误"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误');location.href='?c=User&a=login'</script>";
         exit;
     }
     if(!($mpc == MD5(addToken($pc)))){
         header('Content-Type: text/html; charset=utf-8');
-        echo '{"code":"-1","msg":"项目信息验证错误"}';
-        // echo "<script type='text/javascript'>alert('项目错误，重新登录');location.href='?c=User&a=login'</script>";
+        // echo '{"code":"-1","msg":"项目信息验证错误"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误');location.href='?c=User&a=login'</script>";
         exit;
     }
     $projectObj = M('Project');
@@ -374,7 +375,10 @@ function isProjectCodeRight($pc, $mpc){
     $condition['delete_flag'] = 0;
     $res = $projectObj->where($condition)->select();
     if(empty($res)){
-        echo "<script type='text/javascript'>location.href='?c=User&a=login'</script>";
+        header('Content-Type: text/html; charset=utf-8');
+        // echo '{"code":"-1","msg":"项目信息验证错误,项目编号未查询到"}';
+        echo "<script type='text/javascript'>alert('项目信息验证错误,项目编号未查询到');location.href='?c=User&a=login'</script>";
+        exit;
     }
     return true;
 }

@@ -1,68 +1,68 @@
-.r-content .state, .r-content .title {
+.r-content .pp-ct .state, .r-content .pp-ct .title {
 	line-height: 40px;
 	color: #666;
 	padding-left: 10px;
 }
 
-.r-content div .title {
+.r-content .pp-ct .title {
  	padding-bottom: 12px;
 	border-bottom: 1px solid #ccc;
 }
 
-.r-content div .detail {
+.r-content .pp-ct .detail {
 	padding: 30px 0 20px 20px;
 }
 
-.r-content div .part1 ul {
+.r-content .pp-ct .part1 ul {
 	float: left;
 	width: 48%;
 }
 
-.r-content div .part1 ul li {
+.r-content .pp-ct .part1 ul li {
 	line-height: 40px;
 }
 
-.r-content div .part1 ul .lb {
+.r-content .pp-ct .part1 ul .lb {
 	display: inline-block;
 	width: 120px;
 }
 
-.r-content div .part1 ul input, .r-content div .part1 ul select {
+.r-content .pp-ct .part1 ul input, .r-content .pp-ct .part1 ul select {
 	font-size: 14px;
 	padding-left: 2px;
 	width: 240px;
 	height: 24px;
 }
 
-.r-content div .part1 ul .area select {
+.r-content .pp-ct .part1 ul .area select {
 	width: 64px;
 }
 
-.r-content div .part1 > div {
+.r-content .pp-ct .part1 > div {
 	float: left;
 	width: 16%;
 }
 
-.r-content div .part2 .item {
+.r-content .pp-ct .part2 .item {
 	float: left;
 	margin-right: 20px;
 	text-align: center;
 }
 
-.r-content div .part2 .item > p {
+.r-content .pp-ct .part2 .item > p {
 	margin-bottom: 10px;
 }
 
-.r-content div .part2 .finance {
+.r-content .pp-ct .part2 .finance {
 	margin-top: 160px;
 	line-height: 38px;
 }
 
-.r-content div .part2 .finance > p {
+.r-content .pp-ct .part2 .finance > p {
 	float: left;
 }
 
-.r-content div .part2 .finance > .input-wrap {
+.r-content .pp-ct .part2 .finance > .input-wrap {
 	float: left;
 	color: #FD7940;
 	margin: 0 50px 0 30px;
@@ -70,30 +70,13 @@
 	font-weight: bold;
 }
 
-.r-content div .part2 .finance > .preview {
+.r-content .pp-ct .part2 .finance > .preview {
 	float: left;
 	line-height: 30px;
 	padding: 3px 25px 3px 10px;
 	border: 1px solid #eee;
 }
 
-.r-content div .part2 .finance > .preview a:hover {
+.r-content .pp-ct .part2 .finance > .preview a:hover {
 	color: #FD7940;
-}
-
-.r-content input[type="submit"] {
-	width: 100px;
-	height: 30px;
-	border-radius: 5px;
-	background-color: #FD7940;
-	color: #fff;
-	border: 0;
-}
-
-.r-content div input[type="submit"]:hover {
-	background: #F1920C;
-}
-
-.r-content div input[type="submit"].disabled {
-	background-color: #ccc;
 }
