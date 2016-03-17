@@ -21,8 +21,8 @@ $(function() {
       		startDateInput = input;
       		endDateInput = null;
       	},
-      	onSelect: function(selectedDate) {//选择日期后执行的操作  
-      		// alert(selectedDate);
+      	onSelect: function(selectedDate) {//选择日期后执行的操作
+			$('input[name="endDate"]').datepicker('option', 'minDate', selectedDate);
        	} 
 	});
 
@@ -32,8 +32,6 @@ $(function() {
 		changeMonth: true,
       	changeYear: true,
       	closeText: '清除',
-      	// minDate: new Date(),
-      	// minDate: "2016-02-27",
       	beforeShow: function (input, inst) {
       		startDateInput = null;
       		endDateInput = input;
