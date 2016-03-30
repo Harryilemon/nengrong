@@ -202,6 +202,23 @@
 						</select>
 					</li>
 					<li>
+						<span class="lb not-empty">行业地位</span>
+						<select name="industry_state">
+							<option value="1" {$data['industry_state'] == 1?'selected':''>世界2000强</option>
+							<option value="2" {$data['industry_state'] == 2?'selected':''>全国500强</option>
+							<option value="3" {$data['industry_state'] == 3?'selected':''>细分行业龙头</option>
+							<option value="4" {$data['industry_state'] == 4?'selected':''>其他</option>
+						</select>
+					</li>
+					<li>
+						<span class="lb not-empty">主营业务</span>
+						<input name="main_service" value="{$data['main_service']}">
+					</li>
+					<li>
+						<span class="lb not-empty">企业存续经营时间</span>
+						<input name="company_run_year" value="{$data['company_run_year']}"><span class="gray">年</span>
+					</li>
+					<li>
 						<span class="lb not-empty">注册资本金</span>
 						<input name="company_capital" value="{$data['company_capital']}"><span class="gray">万</span>
 					</li>
