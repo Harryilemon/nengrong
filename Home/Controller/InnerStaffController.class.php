@@ -363,6 +363,9 @@ class InnerStaffController extends Controller {
                     "屋顶业主信息" => 'color',
                     "屋顶业主名称" => $data['projectInfo']['housetop_owner'],
                     "企业类型" => $data['projectInfo']['companyType'],
+                    "行业地位" => $data['projectInfo']['industry_state'],
+                    "主营业务" => $data['projectInfo']['main_service'],
+                    "企业存续经营时间" => $data['projectInfo']['company_run_time'].'年'，
                     "注册资本金" => $data['projectInfo']['company_capital'].'万元',
                     "年用电量" => $data['projectInfo']['electricity_total'].'万度',
                     "电费" => $data['projectInfo']['electricity_total'].'万度',
