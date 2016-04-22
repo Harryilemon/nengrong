@@ -113,6 +113,23 @@
 					<span class="lbw">{$data['projectInfo']['companyType']}</span>
 				</li>
 				<li>
+					<span class="lb">行业地位</span>
+					<span class="lbw">
+						{$data['projectInfo']['industry_state']==1?"世界2000强":""}
+						{$data['projectInfo']['industry_state']==2?"全国500强":""}
+						{$data['projectInfo']['industry_state']==3?"细分行业龙头":""}
+						{$data['projectInfo']['industry_state']==4?"其他":""}
+					</span>
+				</li>
+				<li>
+					<span class="lb">主营业务</span>
+					<span class="lbw">{$data['projectInfo']['main_service']}</span>
+				</li>
+				<li>
+					<span class="lb">企业存续经营时间</span>
+					<span class="lbw">{$data['projectInfo']['company_run_time']}</span>
+				</li>
+				<li>
 					<span class="lb">注册资本金</span>
 					<span class="lbw">{$data['projectInfo']['company_capital']}万元</span>
 				</li>

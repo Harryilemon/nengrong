@@ -185,6 +185,9 @@ class ProjectProviderMyProController extends Controller {
 
                 $arrInfor['housetop_owner'] = $_POST['housetop_owner']; //屋顶业主名称
                 $arrInfor['company_type'] = $_POST['company_type']; //企业类型
+                $arrInfor['main_service'] = $_POST['main_service']; //主营业务
+                $arrInfor['company_run_time'] = $_POST['company_run_time'];  //企业存续经营时间
+                $arrInfor['industry_state'] = $_POST['industry_state']; //行业地位
                 $arrInfor['company_capital'] = $_POST['company_capital']==""?null:$_POST['company_capital']; //注册资本金
                 $arrInfor['electricity_total'] = $_POST['electricity_total']==""?null:$_POST['electricity_total']; //年用电量
                 $arrInfor['electricity_pay'] = $_POST['electricity_pay']==""?null:$_POST['electricity_pay']; //电费
